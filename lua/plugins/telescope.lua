@@ -24,6 +24,12 @@ return {
       defaults = {
         sorter = sorters.get_fzy_sorter(),
         path_display = { "smart" }, -- 경로 축약 및 최적화
+        layout_config = {
+          -- 검색창을 상단에 배치
+          prompt_position = "top",
+        },
+        -- 검색 방향을 위에서 아래로
+        sorting_strategy = "ascending",
         preview = {
           treesitter = false, -- Treesitter 비활성화로 미리보기 가볍게
           file_size_limit = 1,

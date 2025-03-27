@@ -16,7 +16,6 @@ return {
       },
       update_focused_file = {
         enable = true, -- 현재 파일에 따라 트리를 자동으로 업데이트
-        update_cwd = true, -- 현재 작업 디렉토리도 함께 업데이트 (선택사항)
         ignore_list = {}, -- 무시할 파일 타입 목록
       },
       filters = {
