@@ -6,7 +6,7 @@ return {
 
     conform.setup({
       formatters_by_ft = {
-        -- eslint_d 를 추가해야 린트 결과를 포맷팅
+        -- "eslint_d" 를 추가해야 린트 결과를 포맷팅
         javascript = { "prettier", "eslint_d" },
         typescript = { "prettier", "eslint_d" },
         javascriptreact = { "prettier", "eslint_d" },

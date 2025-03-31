@@ -14,7 +14,7 @@ return {
       local border = "#547998"
       local string_color = "#ffc2c2"
       local comment_color = "#bdfcc9"
-      
+
       require("tokyonight").setup({
         style = "night",
         on_colors = function(colors)
@@ -38,29 +38,29 @@ return {
         on_highlights = function(hl, c)
           -- 문자열 색상 설정
           hl.String = {
-            fg = string_color
+            fg = string_color,
           }
-          
+
           -- 관련 문자열 요소들도 함께 변경할 수 있습니다
           hl.Character = {
-            fg = string_color
+            fg = string_color,
           }
 
           -- 주석 색상 설정
           hl.Comment = {
             fg = comment_color,
             -- 필요하다면 italic 스타일 추가 가능
-            italic = true
+            italic = true,
           }
-          
+
           -- 문서 주석 (DocComment)도 같은 색상으로 설정
           hl.DocComment = {
             fg = comment_color,
-            italic = true
+            italic = true,
           }
         end,
       })
-      
+
       -- load the colorscheme here
       vim.cmd([[colorscheme tokyonight]])
     end,

@@ -10,11 +10,12 @@ return {
     notify.setup({
       merge_duplicates = false,
       fps = 60,
+      max_width = 80,
+      timeout = 3000,
 
       -- default, minimal, simple, compact, wrapped-compact
       render = "default",
 
-      -- 배경 투명도 (0-100)
       background_colour = "#000000",
 
       -- 알림 표시 위치 ('top_right', 'top', 'top_left', 'bottom_left', 'bottom', 'bottom_right')
@@ -22,11 +23,6 @@ return {
 
       -- 알림 애니메이션 스타일 ('fade', 'slide', 'fade_in_slide_out', 'static')
       stages = "fade_in_slide_out",
-
-      -- 알림 지속 시간 (ms)
-      timeout = 3000,
-
-      max_width = 80,
 
       icons = {
         ERROR = "󰅙",
@@ -39,6 +35,6 @@ return {
 
     vim.keymap.set("n", "<leader>nc", function()
       notify.dismiss({ silent = true, pending = false })
-    end, { noremap = true, silent = true, desc = "Dismiss all notifications" })
+    end, { noremap = true, silent = true, desc = "Clear all notifications" })
   end,
 }

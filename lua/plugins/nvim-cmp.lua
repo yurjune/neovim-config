@@ -1,3 +1,4 @@
+-- cmp stands for completion
 return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
