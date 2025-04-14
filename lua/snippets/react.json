@@ -1,0 +1,7 @@
+{
+  "_custom": {
+    "prefix": "_custom",
+    "body": ["const [$1, set$2] = useState($3);"],
+    "description": "custom snippets"
+  }
+}
