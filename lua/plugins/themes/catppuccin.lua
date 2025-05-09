@@ -13,8 +13,9 @@ return {
       },
       integrations = {
         alpha = true,
-        cmp = true,
+        cmp = true, -- nvim-cmp
         copilot_vim = true,
+        dap = true, -- nvim-dap
         diffview = true,
         gitsigns = true,
         indent_blankline = {
@@ -22,7 +23,7 @@ return {
           scope_color = "yellow", -- catppuccin color (eg. `lavender`) Default: text
           colored_indent_levels = false,
         },
-        lsp_trouble = true,
+        lsp_trouble = true, -- trouble.nvim
         mason = true,
         native_lsp = {
           enabled = true,
@@ -44,12 +45,12 @@ return {
         neogit = true,
         neotest = true,
         noice = true,
-        notify = true,
+        notify = true, -- nvim-notify
         nvim_surround = true,
         nvimtree = true,
         render_markdown = true,
         telescope = { style = nil },
-        treesitter = true,
+        treesitter = true, -- nvim-treesitter
         treesitter_context = true,
         which_key = true,
       },
@@ -77,6 +78,11 @@ return {
           FloatTitle = {
             fg = colors.lavender,
             bg = colors.none,
+          },
+
+          -- for leetcode.nvim
+          NormalSB = {
+            bg = "#282c34",
           },
 
           -- DiagnosticVirtualTextError = { fg = colors.red, bg = "#2a0000" },
