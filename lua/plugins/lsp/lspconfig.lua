@@ -71,14 +71,14 @@ return {
     -- Change the Diagnostic symbols in the sign column (gutter)
     local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
     vim.diagnostic.config({
+      underline = true,
+      update_in_insert = true,
+      severity_sort = true,
       virtual_text = {
         prefix = "■",
         spacing = 4,
         source = "if_many",
       },
-      underline = true,
-      update_in_insert = true,
-      severity_sort = true,
       signs = {
         text = {
           [vim.diagnostic.severity.ERROR] = signs.Error,
@@ -101,32 +101,47 @@ return {
       },
     })
 
-    local function remove_unused()
-      local params = {
-        context = {
-          diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
-          only = { "source.removeUnused" },
-        },
-        apply = true,
-      }
-      vim.lsp.buf.code_action(params)
-      vim.notify("Remove unused triggered", vim.log.levels.INFO, { title = "LSP" })
-    end
+    vim.api.nvim_create_autocmd("LspAttach", {
+      callback = function(ev)
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        if not (client and client.name == "ts_ls") then
+          return
+        end
 
-    -- how can i execute this asynchonously?
-    local function organize_imports()
-      vim.lsp.buf.execute_command({
-        command = "_typescript.organizeImports",
-        title = "",
-        arguments = { vim.api.nvim_buf_get_name(0) },
-      })
-      vim.notify("Organize Imports triggered", vim.log.levels.INFO, { title = "LSP" })
-    end
+        local function organize_imports()
+          local params = {
+            context = {
+              diagnostics = vim.diagnostic.get(ev.buf, {
+                lnum = vim.api.nvim_win_get_cursor(0)[1] - 1,
+              }),
+              only = { "source.organizeImports.ts" },
+            },
+            apply = true,
+          }
 
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-      callback = function()
-        -- keymap.set("n", "<leader>oi", organize_imports, { desc = "Organize Imports", buffer = true })
+          vim.lsp.buf.code_action(params)
+          vim.notify("Organize imports triggered", vim.log.levels.INFO, { title = "LSP" })
+        end
+
+        local function remove_unused()
+          local params = {
+            context = {
+              diagnostics = vim.diagnostic.get(ev.buf, {
+                lnum = vim.api.nvim_win_get_cursor(0)[1] - 1,
+              }),
+              only = { "source.removeUnused" },
+            },
+            apply = true,
+          }
+
+          vim.lsp.buf.code_action(params)
+          vim.notify("Remove unused triggered", vim.log.levels.INFO, { title = "LSP" })
+        end
+
+        vim.api.nvim_create_user_command("OrganizeImports", organize_imports, {})
+        vim.api.nvim_create_user_command("RemoveUnused", remove_unused, {})
+
+        keymap.set("n", "<leader>oi", organize_imports, { desc = "Organize Imports", buffer = true })
         keymap.set("n", "<leader>ru", remove_unused, { desc = "Remove unused", buffer = true })
       end,
     })
@@ -149,16 +164,6 @@ return {
               -- prevent using alias when execute smart rename
               -- useAliasesForRenames = false option doesn't work... but this works.
               providePrefixAndSuffixTextForRename = false,
-            },
-          },
-          commands = {
-            OrganizeImports = {
-              organize_imports,
-              description = "Organize Imports",
-            },
-            RemoveUnused = {
-              remove_unused,
-              description = "Remove Unused",
             },
           },
         })

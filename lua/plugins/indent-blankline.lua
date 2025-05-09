@@ -28,6 +28,7 @@ return {
 
     ibl.setup({
       indent = {
+        -- char = "¦",
         char = "│",
         -- highlight = highlight,
       },
