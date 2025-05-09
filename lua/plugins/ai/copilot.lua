@@ -1,14 +1,39 @@
--- one you install, execute :Copilot setup
 return {
-  "github/copilot.vim",
+  "zbirenbaum/copilot.lua",
+  cmd = "Copilot",
+  event = "InsertEnter",
   config = function()
-    vim.g.copilot_no_tab_map = true
-    vim.keymap.set("i", "<S-CR>", function()
-      return vim.fn["copilot#Accept"]("")
-    end, {
-      expr = true,
-      silent = true,
-      replace_keycodes = false,
+    require("copilot").setup({
+      -- if you use copilot-cmp, disabled panel and suggestion for better use
+      panel = {
+        enabled = false,
+      },
+      suggestion = {
+        enabled = false,
+        auto_trigger = false,
+        hide_during_completion = true,
+        debounce = 50,
+        trigger_on_accept = true,
+        keymap = {
+          accept = "<S-Enter>",
+          accept_word = false,
+          accept_line = false,
+          next = "<M-]>",
+          prev = "<M-[>",
+          dismiss = "<C-]>",
+        },
+        filetypes = {
+          yaml = false,
+          markdown = true,
+          help = false,
+          gitcommit = false,
+          gitrebase = false,
+          hgcommit = false,
+          svn = false,
+          cvs = false,
+          ["."] = false,
+        },
+      },
     })
   end,
 }

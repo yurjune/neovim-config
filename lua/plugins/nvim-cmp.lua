@@ -64,18 +64,36 @@ return {
         { name = "buffer" }, -- text within current buffer
         { name = "luasnip" }, -- snippets
         { name = "path" }, -- file system paths
+        { name = "copilot" }, -- integrate with copilot.cmp
         -- { name = "render-markdown" },
         per_filetype = {
           codecompanion = { "codecompanion" },
         },
       }),
 
-      -- configure lspkind for vs-code like pictograms in completion menu
       formatting = {
-        format = lspkind.cmp_format({
-          maxwidth = 100,
-          ellipsis_char = "...",
-        }),
+        format = function(entry, item)
+          -- integrate nvim-highlight-colors to nvim-cmp
+          local color_item = require("nvim-highlight-colors").format(entry, {
+            kind = item.kind,
+          })
+
+          -- configure lspkind for vs-code like pictograms in completion menu
+          item = lspkind.cmp_format({
+            maxwidth = 100,
+            ellipsis_char = "...",
+            symbol_map = {
+              Copilot = "", -- integrate with copilot.cmp
+            },
+          })(entry, item)
+
+          if color_item.abbr_hl_group then
+            item.kind_hl_group = color_item.abbr_hl_group
+            item.kind = color_item.abbr
+          end
+
+          return item
+        end,
       },
     })
 
