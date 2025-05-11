@@ -13,6 +13,11 @@ return {
         mode = "tabs", -- "tabs" | "buffers"
         separator_style = "thin", -- "slant" | "slope" | "thick" | "thin"
         max_name_length = 30,
+        diagnostics = "nvim_lsp",
+        -- indcate error status on bufferline
+        diagnostics_indicator = function(count)
+          return "" .. count
+        end,
       },
       highlights = require("catppuccin.groups.integrations.bufferline").get(),
     })
