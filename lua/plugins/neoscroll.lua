@@ -1,0 +1,34 @@
+-- A plugin for scroll animation
+return {}
+-- return {
+--   "karb94/neoscroll.nvim",
+--   opts = {
+--     mappings = {
+--       "<C-u>",
+--       "<C-d>",
+--       "<C-b>",
+--       "<C-f>",
+--       "<C-y>",
+--       "<C-e>",
+--       "zt",
+--       "zz",
+--       "zb",
+--     },
+--     time = 0, -- 스크롤 애니메이션의 기본 시간(ms), 낮을수록 빠른 스크롤
+--     duration_multiplier = 0, -- 스크롤 거리에 따라 애니메이션 시간을 조정하는 승수, 낮을수록 더 빠른 스크롤
+--
+--     hide_cursor = true, -- 스크롤 중 커서 숨김 여부
+--     stop_eof = true, -- 파일 끝에서 스크롤 중지 여부
+--     respect_scrolloff = false, -- scrolloff 설정 존중 여부(false면 무시)
+--     cursor_scrolls_alone = true, -- true일 경우 커서가 먼저 이동 후 화면이 따라감
+--     easing = "linear", -- 애니메이션 이징 함수(linear는 일정한 속도로 스크롤)
+--     pre_hook = nil, -- 스크롤 전에 실행할 함수
+--     post_hook = nil, -- 스크롤 후에 실행할 함수
+--     performance_mode = false, -- 성능 모드 비활성화
+--
+--     ignored_events = { -- 무시할 이벤트
+--       "WinScrolled", -- 창이 스크롤될 때 발생하는 이벤트
+--       "CursorMoved", -- 커서가 이동할 때 발생하는 이벤트
+--     },
+--   },
+-- }
