@@ -27,7 +27,7 @@ return {
     end)
     ibl.setup({
       enabled = true,
-      debounce = 0,
+      debounce = 100,
       indent = {
         -- char = "¦",
         char = "│",
