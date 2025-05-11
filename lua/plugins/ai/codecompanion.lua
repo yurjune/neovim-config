@@ -106,7 +106,7 @@ return {
           show_references = true, -- Show references (from slash commands and variables) in the chat buffer?
           show_settings = true, -- Show LLM settings at the top of the chat buffer?
           show_token_count = true, -- Show the token count for each response?
-          start_in_insert_mode = true, -- Open the chat buffer in insert mode?
+          start_in_insert_mode = false, -- Open the chat buffer in insert mode?
         },
         inline = {
           layout = "vertical", -- vertical|horizontal|buffer
@@ -162,8 +162,8 @@ return {
 
     local keymap = vim.keymap
 
-    keymap.set("n", "<Leader>cc", "<cmd>CodeCompanionChat<CR>", { desc = "CodeCompanion chat" })
-    keymap.set("n", "<Leader>ct", "<cmd>CodeCompanionToggle<CR>", { desc = "CodeCompanion toggle" })
+    keymap.set("n", "<Leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
+    keymap.set("n", "<Leader>cn", "<cmd>CodeCompanionChat<CR>", { desc = "CodeCompanion new chat" })
     keymap.set("n", "<Leader>ca", "<cmd>CodeCompanionActions<CR>", { desc = "CodeCompanion actions" })
 
     keymap.set("v", "<Leader>ci", ":CodeCompanion ", { desc = "CodeCompanion inline" })
