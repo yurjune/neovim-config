@@ -36,5 +36,18 @@ return {
         },
       },
     })
+
+    local copilot_enabled = vim.g.copilot_enabled
+    vim.keymap.set("n", "<leader>ct", function()
+      if copilot_enabled == 0 then
+        vim.cmd("Copilot enable")
+        copilot_enabled = 1
+        vim.notify("Copilot enabled", vim.log.levels.info, { title = "Copilot" })
+      else
+        vim.cmd("Copilot disable")
+        copilot_enabled = 0
+        vim.notify("Copilot disabled", vim.log.levels.info, { title = "Copilot" })
+      end
+    end, { desc = "Toggle Copliot" })
   end,
 }
