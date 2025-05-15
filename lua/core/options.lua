@@ -40,6 +40,7 @@ vim.opt.backspace = "indent,eol,start" -- allow backspace condition
 vim.opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 
 vim.opt.swapfile = false -- 편집 중인 파일의 swap file 을 생성할지를 결정
+vim.opt.autoread = true -- automatically read file when it is changed outside of vim
 
 vim.opt.scrolloff = 4 -- number of lines to keep above and below the cursor
 
