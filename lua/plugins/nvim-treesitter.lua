@@ -36,6 +36,7 @@ return {
         "query",
         "vimdoc",
         "c",
+        "rust",
       },
       auto_install = true,
       sync_install = false,

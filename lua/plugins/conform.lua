@@ -22,6 +22,7 @@ return {
         graphql = { "prettier" },
         lua = { "stylua" },
         python = { "isort", "black" },
+        rust = { "rustfmt" },
       },
       formatters = {
         prettier = {

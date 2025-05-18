@@ -194,6 +194,33 @@ return {
           end,
         })
       end,
+      ["rust_analyzer"] = function()
+        lspconfig["rust_analyzer"].setup({
+          capabilities = capabilities,
+          settings = {
+            ["rust-analyzer"] = {
+              checkOnSave = {
+                command = "clippy", -- clippy is a linter for Rust
+              },
+              imports = {
+                -- auto import 시 사용되는 그룹화 방식
+                granularity = {
+                  group = "module", -- module | crate
+                },
+                prefix = "self", -- plain | self
+              },
+              completion = {
+                postfix = {
+                  enable = true, -- ex) .if, .match, ..
+                },
+                autoimport = {
+                  enable = true,
+                },
+              },
+            },
+          },
+        })
+      end,
     })
   end,
 }
