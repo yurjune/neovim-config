@@ -20,6 +20,7 @@ require("lazy").setup({
   { import = "plugins.lsp" },
   { import = "plugins.ai" },
   { import = "plugins.git" },
+  { import = "plugins.debug" },
   { import = "plugins.markdown" },
   { import = themesource },
 }, {
