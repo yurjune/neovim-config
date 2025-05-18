@@ -31,7 +31,7 @@ return {
         keymap.set("n", "gr", tele_builtin.lsp_references, opts)
 
         -- opts.desc = "Show LSP type definitions"
-        -- keymap.set("n", "", tele_builtin.lsp_type_definitions, opts)
+        -- keymap.set("n", "gD", tele_builtin.lsp_type_definitions, opts)
 
         opts.desc = "Show LSP implementations"
         keymap.set("n", "gi", tele_builtin.lsp_implementations, opts)

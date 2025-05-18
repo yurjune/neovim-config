@@ -18,22 +18,23 @@ return {
         html = { "prettier" },
         json = { "prettier" },
         yaml = { "prettier" },
-        markdown = { "prettier" },
+        -- markdown = { "prettier" },
         graphql = { "prettier" },
         lua = { "stylua" },
         python = { "isort", "black" },
         rust = { "rustfmt" },
       },
-      formatters = {
-        prettier = {
-          prepend_args = function(_, ctx)
-            if vim.bo[ctx.buf].filetype == "markdown" then
-              return { "--tab-width", "4" }
-            end
-            return {}
-          end,
-        },
-      },
+      -- formatters = {
+      --   prettier = {
+      --     prepend_args = function(_, ctx)
+      --       if vim.bo[ctx.buf].filetype == "markdown" then
+      --         return { "--tab-width", "4" }
+      --       end
+      --       return {}
+      --     end,
+      --   },
+      -- },
+
       -- prefer format_after_save then format_on_save since save with formatting always blocks UI
       -- process: save -> format -> resave
       -- ref. https://github.com/stevearc/conform.nvim/issues/401#issuecomment-2108453243

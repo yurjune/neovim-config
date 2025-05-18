@@ -22,7 +22,7 @@ return {
     end
 
     local adapters = require("codecompanion.adapters")
-    local current_adapter = "llama3"
+    local current_adapter = "openai"
 
     require("codecompanion").setup({
       strategies = {
@@ -110,7 +110,7 @@ return {
           show_references = true, -- Show references (from slash commands and variables) in the chat buffer?
           show_settings = true, -- Show LLM settings at the top of the chat buffer?
           show_token_count = true, -- Show the token count for each response?
-          start_in_insert_mode = false, -- Open the chat buffer in insert mode?
+          start_in_insert_mode = true, -- Open the chat buffer in insert mode?
         },
         inline = {
           layout = "vertical", -- vertical|horizontal|buffer
@@ -118,7 +118,7 @@ return {
         -- Options to customize the UI of the chat buffer
         window = {
           layout = "vertical", -- float|vertical|horizontal|buffer
-          position = nil, -- left|right|top|bottom (nil will default depending on vim.opt.plitright|vim.opt.splitbelow)
+          position = "right", -- left|right|top|bottom (nil will default depending on vim.opt.plitright|vim.opt.splitbelow)
           border = "single",
           height = 0.8,
           width = 0.45,
