@@ -18,6 +18,10 @@ return {
         dap = true, -- nvim-dap
         diffview = true,
         gitsigns = true,
+        illuminate = { -- vim-illuminate
+          enabled = true,
+          lsp = false,
+        },
         indent_blankline = {
           enabled = true,
           scope_color = "yellow", -- catppuccin color (eg. `lavender`) Default: text
