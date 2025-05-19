@@ -97,6 +97,17 @@ return {
           return item
         end,
       },
+
+      window = {
+        completion = {
+          border = "rounded",
+          winhighlight = "Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
+        },
+        documentation = {
+          border = "rounded",
+          winhighlight = "Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
+        },
+      },
     })
 
     cmp.setup.cmdline("/", {

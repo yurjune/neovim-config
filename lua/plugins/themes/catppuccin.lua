@@ -85,6 +85,8 @@ return {
             bg = "#282c34",
           },
 
+          CmpBorder = { fg = colors.yellow },
+
           -- DiagnosticVirtualTextError = { fg = colors.red, bg = "#2a0000" },
 
           -- NvimTreeFolderName = { fg = colors.pink },
