@@ -98,6 +98,12 @@ return {
           [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
         },
       },
+      vim.diagnostic.config({
+        float = {
+          border = "rounded",
+          winhighlight = "Normal:DiagnosticFloat,FloatBorder:DiagnosticBorder",
+        },
+      }),
     })
 
     vim.api.nvim_create_autocmd("LspAttach", {
