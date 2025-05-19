@@ -84,6 +84,10 @@ return {
             bg = colors.none,
           },
 
+          PmenuThumb = {
+            bg = colors.yellow,
+          },
+
           -- for leetcode.nvim
           NormalSB = {
             bg = "#282c34",
