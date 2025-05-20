@@ -1,6 +1,4 @@
 -- A plugin to persist and toggle multiple terminals during an editing session
--- terminal mode -> normal mode => <C-\><C-n>
--- normal mode -> terminal mode => i or a
 return {
   {
     "akinsho/toggleterm.nvim",

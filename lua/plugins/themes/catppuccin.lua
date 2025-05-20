@@ -97,9 +97,9 @@ return {
 
           -- DiagnosticVirtualTextError = { fg = colors.red, bg = "#2a0000" },
 
-          -- NvimTreeFolderName = { fg = colors.pink },
-          -- NvimTreeOpenedFolderName = { fg = colors.pink },
-          -- NvimTreeEmptyFolderName = { fg = colors.pink },
+          NvimTreeFolderName = { fg = colors.lavender },
+          NvimTreeOpenedFolderName = { fg = colors.lavender },
+          NvimTreeEmptyFolderName = { fg = colors.lavender },
 
           -- lazy.nvim
           LazyH1 = {

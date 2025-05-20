@@ -64,7 +64,7 @@ return {
         { name = "buffer" }, -- text within current buffer
         { name = "luasnip" }, -- snippets
         { name = "path" }, -- file system paths
-        { name = "copilot" }, -- integrate with copilot.cmp
+        -- { name = "copilot" }, -- integrate with copilot.cmp
         -- { name = "supermaven" }, -- integrate with supermaven.nvim
         -- { name = "render-markdown" },
         per_filetype = {
@@ -85,7 +85,7 @@ return {
             ellipsis_char = "...",
             symbol_map = {
               Copilot = "", -- integrate with copilot.cmp
-              Supermaven = "", -- integrate with supremaven.nvim
+              Supermaven = "", -- integrate with supermaven.nvim
             },
           })(entry, item)
 

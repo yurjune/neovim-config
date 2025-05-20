@@ -2,11 +2,7 @@
 return {
   "folke/noice.nvim",
   dependencies = {
-    -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
     "MunifTanjim/nui.nvim",
-    -- OPTIONAL:
-    --   `nvim-notify` is only needed, if you want to use the notification view.
-    --   If not available, we use `mini` as the fallback
     "rcarriga/nvim-notify",
   },
   -- presets > lsp_doc_border 가 빈번하게 적용되지 않는 경우가 있어 priority 를 높여 우선적으로 로드.
