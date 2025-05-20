@@ -9,7 +9,8 @@ return {
     --   If not available, we use `mini` as the fallback
     "rcarriga/nvim-notify",
   },
-  event = "VeryLazy",
+  -- presets > lsp_doc_border 가 빈번하게 적용되지 않는 경우가 있어 priority 를 높여 우선적으로 로드.
+  priority = 900,
   opts = {
     cmdline = {
       enabled = true,
@@ -49,6 +50,9 @@ return {
           height = 1, -- line numbers
         },
       },
+    },
+    presets = {
+      lsp_doc_border = true, -- add a border to hover docs and signature help
     },
   },
 }
