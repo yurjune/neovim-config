@@ -84,6 +84,12 @@ return {
           { "filetype" },
         },
       },
+      extensions = {
+        "toggleterm",
+        "nvim-tree",
+        "quickfix",
+        "avante",
+      },
     })
   end,
 }
