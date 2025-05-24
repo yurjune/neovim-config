@@ -45,6 +45,24 @@ return {
         enable_cursor_planning_mode = false, -- Whether to enable Cursor Planning Mode. Default to false.
         enable_claude_text_editor_tool_mode = false, -- Whether to enable Claude Text Editor Tool Mode.
       },
+      -- if you start neovim, avante-rag-service container will be started automatically
+      -- rag_service = { -- rag service for ollama
+      --   enabled = true,
+      --   host_mount = vim.fn.expand("~/github/manage-grades"),
+      --   provider = "ollama",
+      --   llm_model = "llama3.2:3b",
+      --   embed_model = "nomic-embed-text",
+      --   -- 같은 docker network 내에서 컨테이너 이름(ollama) 로 통신
+      --   endpoint = "http://ollama:11434",
+      -- },
+      -- rag_service = { -- rag service for openai
+      --   enabled = true,
+      --   host_mount = vim.fn.expand("~/github/manage-grades"),
+      --   provider = "openai",
+      --   llm_model = "gpt-4o-2024-11-20",
+      --   embed_model = "text-embedding-3-large",
+      --   endpoint = "https://api.openai.com/v1",
+      -- },
       mappings = {
         diff = {
           ours = "co",
