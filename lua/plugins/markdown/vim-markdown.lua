@@ -3,6 +3,7 @@ return {
   dependencies = { "godlygeek/tabular" },
   ft = { "markdown" },
   init = function()
+    vim.g.vim_markdown_auto_insert_bullets = 1 -- 줄바꿈 시 bullet 자동 삽입
     vim.g.vim_markdown_folding_disabled = 1
     vim.g.vim_markdown_conceal = 2 -- 마크다운 구문 숨김 수준 (0=없음, 1=일부, 2=전체)
     vim.g.vim_markdown_conceal_code_blocks = 0

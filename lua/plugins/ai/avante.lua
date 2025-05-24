@@ -1,6 +1,6 @@
 return {
   "yetone/avante.nvim",
-  enabled = false,
+  enabled = true,
   event = "VeryLazy",
   version = false, -- Never set this value to "*"! Never!
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
@@ -27,12 +27,16 @@ return {
   },
   config = function()
     require("avante").setup({
-      -- provider = "copilot",
-      provider = "ollama",
+      -- provider = "openai",
+      provider = "copilot",
+      -- provider = "ollama",
       ollama = {
         endpoint = "http://localhost:11434",
-        -- model: Qwen3, Gemma3, llama3
-        model = "llama3",
+        -- model: qwen3, gemma3, llama3
+        model = "llama3.2:3b",
+      },
+      copilot = {
+        model = "gpt-4.1-2025-04-14",
       },
       behaviour = {
         auto_suggestions = false, -- Experimental stage
