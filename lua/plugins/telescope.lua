@@ -19,6 +19,7 @@ return {
     local actions = require("telescope.actions")
     local layout = require("telescope.actions.layout")
     local builtin = require("telescope.builtin")
+    local sorters = require("telescope.sorters")
     local keymap = vim.keymap
 
     telescope.setup({
@@ -88,6 +89,14 @@ return {
         lsp_references = {
           show_line = false, -- 코드 라인 미리보기 비활성화
           fname_width = 60, -- 파일명 폭 조정
+        },
+        buffers = {
+          sorter = sorters.new({
+            scoring_function = function(_, _, line, _)
+              local bufnr = tonumber(line:match("^%s*(%d+)"))
+              return bufnr and -bufnr or 0 -- 음수로 만들어서 버퍼 번호 역순 정렬
+            end,
+          }),
         },
         -- find_files = {
         --   previewer = false,
