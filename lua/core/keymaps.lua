@@ -14,3 +14,13 @@ vim.keymap.set("n", "gh", function()
     end
   end
 end, { desc = "Focus on floating window" })
+
+vim.keymap.set("n", "<leader>mc", function()
+  vim.cmd("delmarks!")
+  vim.notify("a-z marks in current buffer cleared", vim.log.levels.INFO)
+end, { desc = "Clear a-z marks in current buffer" })
+
+vim.keymap.set("n", "<leader>mC", function()
+  vim.cmd("delmarks A-Z")
+  vim.notify("A-Z marks cleared", vim.log.levels.INFO)
+end, { desc = "Clear A-Z marks" })

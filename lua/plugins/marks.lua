@@ -24,10 +24,5 @@ return {
       -- dm=             Delete the bookmark under the cursor.
       default_mappings = true,
     })
-
-    vim.keymap.set("n", "<leader>mc", function()
-      vim.cmd("delmarks a-zA-Z0-9")
-      vim.notify("All marks in current buffer cleared", vim.log.levels.INFO, { title = "Marks.nvim" })
-    end, { desc = "Clear all marks in current buffer" })
   end,
 }
