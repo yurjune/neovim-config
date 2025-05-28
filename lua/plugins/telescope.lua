@@ -13,6 +13,7 @@ return {
       dependencies = { "kkharji/sqlite.lua" },
       version = "^0.9.0",
     },
+    "nvim-telescope/telescope-file-browser.nvim",
   },
   config = function()
     local telescope = require("telescope")
@@ -112,12 +113,22 @@ return {
         frecency = {
           show_scores = true, -- not working now
         },
+        file_browser = {
+          theme = "ivy",
+          -- disables netrw and use telescope-file-browser in its place
+          hijack_netrw = true,
+          mappings = {
+            ["i"] = {},
+            ["n"] = {},
+          },
+        },
       },
     })
 
     -- load extensions
     telescope.load_extension("fzf") -- 검색 성능 최적화
     telescope.load_extension("frecency")
+    telescope.load_extension("file_browser")
 
     keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
     keymap.set("n", "<leader>fr", builtin.resume, { desc = "Telescope resume last picker" })
@@ -147,6 +158,10 @@ return {
 
     keymap.set("n", "<leader>ft", "<cmd>TodoTelescope keywords=TODO<CR>", { desc = "Telescope TODOs only" })
     keymap.set("n", "<leader>fT", "<cmd>TodoTelescope<CR>", { desc = "Telescope all todos" })
+
+    keymap.set("n", "<space>fe", function()
+      telescope.extensions.file_browser.file_browser()
+    end, { desc = "Telescope file browser" })
 
     keymap.set("n", "<leader>fn", "<cmd>Telescope notify<CR>", { desc = "Telescope notifications" })
   end,
