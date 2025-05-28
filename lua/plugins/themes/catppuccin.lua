@@ -56,6 +56,7 @@ return {
         telescope = { style = nil },
         treesitter = true, -- nvim-treesitter
         treesitter_context = true,
+        ufo = true, -- nvim-ufo
         which_key = true,
       },
       color_overrides = {
