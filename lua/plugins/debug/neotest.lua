@@ -7,6 +7,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "nvim-neotest/neotest-jest",
   },
+  event = "VeryLazy",
   config = function()
     local neotest = require("neotest")
 

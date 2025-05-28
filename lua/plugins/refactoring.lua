@@ -4,7 +4,7 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
   },
-  lazy = false,
+  event = "VeryLazy",
   config = function()
     local rf = require("refactoring")
 

@@ -5,6 +5,7 @@ return {
     "sindrets/diffview.nvim", -- optional - Diff integration
     "nvim-telescope/telescope.nvim", -- optional
   },
+  event = "VeryLazy",
   config = function()
     local neogit = require("neogit")
     local keymap = vim.keymap

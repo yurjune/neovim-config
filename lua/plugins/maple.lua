@@ -1,6 +1,7 @@
 -- A plugin for quick memo
 return {
   "forest-nvim/maple.nvim",
+  event = "VeryLazy",
   config = function()
     require("maple").setup({
       -- Appearance
