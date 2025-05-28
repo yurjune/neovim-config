@@ -21,11 +21,24 @@ vim.opt.smartcase = false
 
 -- fold
 vim.opt.foldenable = true
-vim.opt.foldmethod = "expr" -- indent, expr, syntax, manual, diff, marker
-vim.opt.foldlevel = 99 -- make all unfolded in default
--- 각 라인의 폴딩 레벨을 결정하는 표현식을 지정
--- works on only foldmethod = expr
+-- initial fold level when opening a file
+-- level 0 means everything folded, 99 means everything unfolded
+vim.opt.foldlevelstart = 99
+-- fold level of the current window
+vim.opt.foldlevel = 99
+-- foldmethod means how to determine the folds and its level, ex) indent, expr, syntax, manual, diff, marker
+vim.opt.foldmethod = "expr"
+-- 각 라인의 폴딩 레벨을 결정하는 표현식을 지정, works on only foldmethod = expr
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- 항상 N칸 폭의 foldcolumn 을 표시, auto:N 이면 최대 N칸 폭의 foldcolumn 을 표시
+vim.opt.foldcolumn = "0"
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    -- remove auto fold open condition: horizontal move
+    -- vim.opt.foldopen:remove("hor")
+  end,
+})
+
 -- vim.opt.foldtext = ""
 
 -- cursor
