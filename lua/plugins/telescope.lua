@@ -99,6 +99,23 @@ return {
             end,
           }),
         },
+        marks = {
+          sorter = sorters.new({
+            scoring_function = function(_, _, line, _)
+              local mark = line:match("^%s*([%w'`])")
+              if not mark then
+                return nil
+              end
+              if mark:match("[A-Z]") then
+                return -200 + mark:byte()
+              end
+              if mark:match("[a-z]") then
+                return -100 + mark:byte()
+              end
+              return mark:byte()
+            end,
+          }),
+        },
         -- find_files = {
         --   previewer = false,
         -- },
