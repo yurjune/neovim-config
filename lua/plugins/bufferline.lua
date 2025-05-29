@@ -22,7 +22,18 @@ return {
       highlights = require("catppuccin.groups.integrations.bufferline").get(),
     })
 
-    vim.keymap.set("n", "<leader>bc", "<cmd>%bd|e#|bd#<CR>", { desc = "Clear buffers except current buffer" })
+    vim.keymap.set("n", "<leader>bc", function()
+      local current_buf = vim.api.nvim_get_current_buf()
+      local buffers = vim.api.nvim_list_bufs()
+
+      for _, buf in ipairs(buffers) do
+        if buf ~= current_buf and vim.api.nvim_buf_get_option(buf, "filetype") ~= "NvimTree" then
+          vim.api.nvim_buf_delete(buf, { force = false })
+        end
+      end
+      vim.notify("Cleared all buffers.", vim.log.levels.INFO)
+    end, { desc = "Clear buffers except current buffer and nvim-tree" })
+
     vim.keymap.set("n", "<leader>bp", "<cmd>bp<CR>", { desc = "Go prev buffer" })
     vim.keymap.set("n", "<leader>bn", "<cmd>bn<CR>", { desc = "Go next buffer" })
 
