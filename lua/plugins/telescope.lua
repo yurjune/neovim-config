@@ -21,6 +21,7 @@ return {
     local layout = require("telescope.actions.layout")
     local builtin = require("telescope.builtin")
     local sorters = require("telescope.sorters")
+    local fb_actions = require("telescope._extensions.file_browser.actions")
     local keymap = vim.keymap
 
     telescope.setup({
@@ -136,7 +137,9 @@ return {
           hijack_netrw = true,
           mappings = {
             ["i"] = {},
-            ["n"] = {},
+            ["n"] = {
+              ["h"] = fb_actions.toggle_hidden,
+            },
           },
         },
       },
