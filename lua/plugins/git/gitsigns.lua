@@ -74,20 +74,12 @@ return {
 
       map("n", "<leader>hu", gs.undo_stage_hunk, "Undo stage hunk")
 
-      map("n", "<leader>ht", gs.toggle_current_line_blame, "Toggle blame")
       map("n", "<leader>hp", gs.preview_hunk, "Preview hunk")
 
       map("n", "<leader>hb", function()
         gs.blame_line({ full = true })
       end, "Blame line")
-
-      map("n", "<leader>hd", function()
-        gs.diffthis() -- 현재 커밋과 비교
-      end, "Diff current commit")
-
-      map("n", "<leader>hD", function()
-        gs.diffthis("~") -- 이전 커밋과 비교
-      end, "Diff previous commit")
+      map("n", "<leader>ht", gs.toggle_current_line_blame, "Toggle blame")
 
       -- Text object
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "Gitsigns select hunk")
