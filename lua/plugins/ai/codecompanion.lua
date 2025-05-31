@@ -23,7 +23,9 @@ return {
     end
 
     local adapters = require("codecompanion.adapters")
-    local current_adapter = "openai"
+
+    -- NOTE: Change adapter here
+    local current_adapter = "copilot"
 
     require("codecompanion").setup({
       strategies = {
@@ -96,10 +98,13 @@ return {
         end,
       },
       opts = {
-        language = "Korean", -- check if it works
+        language = "Korean", -- default system prompt includes this
+        send_code = true, -- If false, the code will not be sent to the LLM
         system_prompt = function()
-          return ""
-          -- return "I'm frontend dev using typescript and react. I prefer short and concise answers."
+          return [[
+1. Use Korean
+2. I'm frontend dev using typescript and react.
+]]
         end,
       },
       display = {
@@ -112,9 +117,43 @@ return {
           show_settings = true, -- Show LLM settings at the top of the chat buffer?
           show_token_count = true, -- Show the token count for each response?
           start_in_insert_mode = true, -- Open the chat buffer in insert mode?
+          keymaps = {
+            send = {
+              modes = { n = "<C-s>", i = "<C-s>" },
+            },
+            close = {
+              modes = { n = "<C-c>", i = "<C-c>" },
+            },
+          },
+          variables = {
+            ["my_var"] = {
+              ---Ensure the file matches the CodeCompanion.Variable class
+              ---@return string|fun(): nil
+              callback = "/Users/Jerry/Code/test.py",
+              description = "Explain what my_var does",
+              opts = {
+                contains_code = true,
+              },
+            },
+          },
+
+          -- Chat buffer commands:
+          -- `Variables`, accessed via `#`, contain data about the present state of Neovim:
+          -- `Slash commands`, accessed via `/`, run commands to insert additional context into the chat buffer:
+          -- `Tools`, accessed via `@`, allow the LLM to function as an agent and carry out actions:
         },
         inline = {
           layout = "vertical", -- vertical|horizontal|buffer
+          keymaps = {
+            accept_change = {
+              modes = { n = "ga" },
+              description = "Accept the suggested change",
+            },
+            reject_change = {
+              modes = { n = "gr" },
+              description = "Reject the suggested change",
+            },
+          },
         },
         -- Options to customize the UI of the chat buffer
         window = {
@@ -149,8 +188,8 @@ return {
           },
         },
         diff = {
-          enabled = false,
-          provider = "mini_diff", -- default|mini_diff
+          enabled = true,
+          provider = "default", -- default|mini_diff
           close_chat_at = 240, -- Close an open chat buffer if the total columns of your display are less than...
           layout = "vertical", -- vertical|horizontal split for default provider
           opts = {
@@ -163,6 +202,25 @@ return {
           },
         },
       },
+      prompt_library = {
+        ["Prompt example"] = {
+          strategy = "chat",
+          description = "Prompt example",
+          opts = {
+            short_name = "example",
+          },
+          prompts = {
+            {
+              role = "system",
+              content = [[Write your custom prompt here.]],
+            },
+            {
+              role = "user",
+              content = [[Write your custom prompt here.]],
+            },
+          },
+        },
+      },
     })
 
     local keymap = vim.keymap
@@ -170,10 +228,12 @@ return {
     keymap.set("n", "<Leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
     keymap.set("n", "<Leader>cn", "<cmd>CodeCompanionChat<CR>", { desc = "CodeCompanion new chat" })
     keymap.set("n", "<Leader>ca", "<cmd>CodeCompanionActions<CR>", { desc = "CodeCompanion actions" })
+    keymap.set("n", "<Leader>cp", function()
+      vim.ui.input({ prompt = "Prompt short name" }, function(short_name)
+        vim.cmd("CodeCompanion /" .. short_name)
+      end)
+    end, { desc = "CodeCompanion custom prompt" })
 
     keymap.set("v", "<Leader>ci", ":CodeCompanion ", { desc = "CodeCompanion inline" })
-    keymap.set("v", "<Leader>cr", "<cmd>CodeCompanion refactor<CR>", { desc = "CodeCompanion refactor" })
-    keymap.set("v", "<Leader>ce", "<cmd>CodeCompanion /explain<CR>", { desc = "CodeCompanion explain" })
-    keymap.set("v", "<Leader>cf", "<cmd>CodeCompanion /fix<CR>", { desc = "CodeCompanion fix" })
   end,
 }
