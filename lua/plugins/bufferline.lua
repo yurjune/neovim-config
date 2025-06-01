@@ -10,7 +10,7 @@ return {
 
     bufferline.setup({
       options = {
-        mode = "tabs", -- "tabs" | "buffers"
+        mode = "buffers", -- "tabs" | "buffers"
         separator_style = "thin", -- "slant" | "slope" | "thick" | "thin"
         max_name_length = 30,
         diagnostics = "nvim_lsp",
@@ -21,6 +21,19 @@ return {
       },
       highlights = require("catppuccin.groups.integrations.bufferline").get(),
     })
+
+    vim.keymap.set("n", "<leader>bp", "<cmd>bp<CR>", { desc = "Go prev buffer" })
+    vim.keymap.set("n", "<leader>bn", "<cmd>bn<CR>", { desc = "Go next buffer" })
+
+    vim.keymap.set("n", "<leader>bd", function()
+      local current_buf = vim.api.nvim_get_current_buf()
+      vim.cmd("bprevious")
+      vim.api.nvim_buf_delete(current_buf, { force = false })
+    end, { desc = "Delete current buffer and move to prev buffer" })
+
+    vim.keymap.set("n", "<leader>bs", function()
+      bufferline.close_with_pick()
+    end, { desc = "Pick a buffer to close" })
 
     vim.keymap.set("n", "<leader>bc", function()
       local current_buf = vim.api.nvim_get_current_buf()
@@ -34,15 +47,8 @@ return {
       vim.notify("Cleared all buffers.", vim.log.levels.INFO)
     end, { desc = "Clear buffers except current buffer and nvim-tree" })
 
-    vim.keymap.set("n", "<leader>bp", "<cmd>bp<CR>", { desc = "Go prev buffer" })
-    vim.keymap.set("n", "<leader>bn", "<cmd>bn<CR>", { desc = "Go next buffer" })
-
-    vim.keymap.set("n", "<leader>bd", function()
-      bufferline.close_with_pick()
-    end, { desc = "Pick a buffer to close" })
-
     for i = 1, 9 do
-      vim.keymap.set("n", "<leader>b" .. i, function()
+      vim.keymap.set("n", "<C-" .. i .. ">", function()
         bufferline.go_to(i, true)
       end, { desc = "Go to buffer " .. i })
     end
