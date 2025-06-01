@@ -19,6 +19,7 @@ return {
     local telescope = require("telescope")
     local actions = require("telescope.actions")
     local layout = require("telescope.actions.layout")
+    local action_state = require("telescope.actions.state")
     local builtin = require("telescope.builtin")
     local sorters = require("telescope.sorters")
     local fb_actions = require("telescope._extensions.file_browser.actions")
@@ -67,7 +68,6 @@ return {
             ["<C-f>"] = actions.results_scrolling_down,
             ["<C-u>"] = actions.preview_scrolling_up,
             ["<C-d>"] = actions.preview_scrolling_down,
-
             ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
             ["<C-o>"] = layout.toggle_preview,
           },
@@ -76,12 +76,18 @@ return {
             ["H"] = actions.move_to_top,
             ["M"] = actions.move_to_middle,
             ["L"] = actions.move_to_bottom,
+            ["X"] = function(prompt_bufnr)
+              local entry = action_state.get_selected_entry()
+              -- entry에 bufnr이 있는지 확인 (buffer picker에서만 존재)
+              if entry and entry.bufnr then
+                actions.delete_buffer(prompt_bufnr)
+              end
+            end,
 
             ["<C-b>"] = actions.results_scrolling_up,
             ["<C-f>"] = actions.results_scrolling_down,
             ["<C-u>"] = actions.preview_scrolling_up,
             ["<C-d>"] = actions.preview_scrolling_down,
-
             ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
             ["<C-o>"] = layout.toggle_preview,
           },
