@@ -27,16 +27,18 @@ return {
   },
   config = function()
     require("avante").setup({
-      -- provider = "openai",
+      -- NOTE: Change provider here
       provider = "copilot",
       -- provider = "ollama",
-      ollama = {
-        endpoint = "http://localhost:11434",
-        -- model: qwen3, gemma3, llama3
-        model = "llama3.2:3b",
-      },
-      copilot = {
-        model = "gpt-4.1-2025-04-14",
+      providers = {
+        ollama = {
+          endpoint = "http://localhost:11434",
+          -- model: qwen3, gemma3, llama3
+          model = "llama3.2:3b",
+        },
+        copilot = {
+          model = "gpt-4.1-2025-04-14",
+        },
       },
       behaviour = {
         auto_suggestions = false, -- Experimental stage
