@@ -43,7 +43,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 -- cursor
 vim.opt.cursorline = true -- highlight the current cursor line
-vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait530-blinkoff530-blinkon530" -- blink cursor
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait480-blinkoff480-blinkon480" -- blink cursor
 
 vim.opt.termguicolors = true -- 터미널에서 24bit true color 를 사용할지를 결정
 vim.opt.background = "dark" -- 현재 사용중인 컬러 스키마가 dark or light 에 최적화되도록 조정
