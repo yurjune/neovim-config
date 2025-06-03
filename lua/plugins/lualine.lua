@@ -25,7 +25,7 @@ return {
         lualine_c = {
           {
             "filename",
-            path = 2, -- 경로를 2뎁스까지 표시
+            path = 1, -- If 1, relative path is shown
             shorting_target = 40, -- 경로가 길 경우 줄이는 기준 길이
           },
         },
