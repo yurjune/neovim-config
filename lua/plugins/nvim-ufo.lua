@@ -25,7 +25,7 @@ return {
 
       provider_selector = function()
         -- indent provider is more similar to vscode folding
-        return { "indent", "treesitter" }
+        return { "treesitter", "indent" }
       end,
 
       -- show folded line count with virtual text

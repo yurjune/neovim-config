@@ -12,8 +12,10 @@ return {
       options = {
         mode = "buffers", -- "tabs" | "buffers"
         separator_style = "thin", -- "slant" | "slope" | "thick" | "thin"
+        sort_by = "insert_after_current",
         max_name_length = 30,
         diagnostics = "nvim_lsp",
+        diagnostics_update_on_event = true,
         -- indcate error status on bufferline
         diagnostics_indicator = function(count)
           return "" .. count
@@ -42,6 +44,8 @@ return {
     vim.keymap.set("n", "<leader>bd", function()
       bufferline.close_with_pick()
     end, { desc = "Pick a buffer to close" })
+
+    vim.keymap.set("n", "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", { desc = "Buffer Pin/Unpin" })
 
     for i = 1, 9 do
       vim.keymap.set("n", "<C-" .. i .. ">", function()
