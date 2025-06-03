@@ -66,10 +66,17 @@ return {
       },
       custom_highlights = function(colors)
         local custom_pink = "#ffc2c2"
+        local custom_bg = "#282c34"
 
         return {
           String = { fg = custom_pink },
           CursorLine = { bg = colors.surface0 },
+
+          -- for neovide
+          Normal = { bg = custom_bg },
+          NormalNC = { bg = custom_bg },
+          -- for leetcode.nvim
+          NormalSB = { bg = custom_bg },
 
           PanelHeading = {
             fg = colors.lavender,
@@ -87,11 +94,6 @@ return {
 
           PmenuThumb = {
             bg = colors.yellow,
-          },
-
-          -- for leetcode.nvim
-          NormalSB = {
-            bg = "#282c34",
           },
 
           CmpBorder = { fg = colors.yellow },

@@ -3,6 +3,9 @@ return {
   "3rd/image.nvim",
   event = "VeryLazy",
   build = false,
+  cond = function()
+    return not vim.g.neovide
+  end,
   opts = {
     backend = "kitty",
     -- brew install imagemagick
