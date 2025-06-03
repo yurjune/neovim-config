@@ -5,6 +5,7 @@ if vim.g.neovide then
   vim.g.neovide_opacity = 1
   vim.g.neovide_normal_opacity = 1
   vim.g.neovide_window_blurred = true
+  vim.g.neovide_floating_shadow = false
 
   vim.g.neovide_scale_factor = 1.0
   vim.g.neovide_underline_stroke_scale = 2.0
