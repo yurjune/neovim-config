@@ -11,17 +11,13 @@ return {
     lualine.setup({
       options = {
         theme = "catppuccin",
+        always_divide_middle = true,
+        always_show_tabline = true,
+        globalstatus = false, -- If true, one lualine for all windows
       },
-
-      -- sections: a,b,c,x,y,z 총 6개의 섹션
-      -- 한 섹션은 여러개의 컴포넌트로 구성
-      -- lualine_a: 모드 표시 (e.g. NORMAL)
-      -- lualine_b: 브랜치, diff 정보 등
-      -- lualine_c: 파일 경로, 파일명 등
-      -- lualine_x: 인코딩, 파일 형식, 파일 타입 등
-      -- lualine_y: 진행 상태
-      -- lualine_z: 행/열 위치
       sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch", "diff", "diagnostics" },
         lualine_c = {
           {
             "filename",
@@ -39,6 +35,16 @@ return {
           { "fileformat" },
           { "filetype" },
         },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { "filename" },
+        lualine_x = { "location" },
+        lualine_y = {},
+        lualine_z = {},
       },
       extensions = {},
     })
