@@ -107,6 +107,11 @@ return {
           NvimTreeOpenedFolderName = { fg = colors.lavender },
           NvimTreeEmptyFolderName = { fg = colors.lavender },
 
+          GitSignsCurrentLineBlame = {
+            fg = colors.overlay1,
+            italic = true,
+          },
+
           -- lazy.nvim
           LazyH1 = {
             bg = colors.none,
