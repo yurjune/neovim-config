@@ -9,10 +9,10 @@ return {
     "TmuxNavigatorProcessList",
   },
   keys = {
-    { "<M-h>", "<cmd>TmuxNavigateLeft<cr>" },
-    { "<M-j>", "<cmd>TmuxNavigateDown<cr>" },
-    { "<M-k>", "<cmd>TmuxNavigateUp<cr>" },
-    { "<M-l>", "<cmd>TmuxNavigateRight<cr>" },
-    { "<M-\\>", "<cmd>TmuxNavigatePrevious<cr>" },
+    -- remove D-h keymap in MacOS first
+    { "<D-h>", "<cmd>TmuxNavigateLeft<cr>" },
+    { "<D-j>", "<cmd>TmuxNavigateDown<cr>" },
+    { "<D-k>", "<cmd>TmuxNavigateUp<cr>" },
+    { "<D-l>", "<cmd>TmuxNavigateRight<cr>" },
   },
 }
