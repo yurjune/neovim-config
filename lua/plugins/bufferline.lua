@@ -7,6 +7,13 @@ return {
   after = "catppuccin",
   config = function()
     local bufferline = require("bufferline")
+    local cat_palette = require("catppuccin.palettes").get_palette()
+    local highlights = require("catppuccin.groups.integrations.bufferline").get()()
+    highlights.buffer_selected = {
+      fg = cat_palette.text,
+      bold = true,
+      italic = true,
+    }
 
     bufferline.setup({
       options = {
@@ -21,7 +28,7 @@ return {
           return "" .. count
         end,
       },
-      highlights = require("catppuccin.groups.integrations.bufferline").get(),
+      highlights = highlights,
     })
 
     vim.keymap.set("n", "<D-S-h>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Go to prev buffer" })
