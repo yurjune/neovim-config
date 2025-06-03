@@ -6,6 +6,7 @@ vim.keymap.set("v", "<D-c>", '"+y')
 vim.keymap.set("n", "<D-v>", '"+p')
 vim.keymap.set("i", "<D-v>", "<c-r>+")
 vim.keymap.set("c", "<D-v>", "<c-r>+")
+vim.keymap.set("t", "<D-v>", [[<C-\><C-n>"+pi]])
 
 vim.keymap.set("n", "<C-q>", "<C-6>", { desc = "Switch to last accessed buffer" })
 vim.keymap.set("n", "<C-6>", "<Nop>")
