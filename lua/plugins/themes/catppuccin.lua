@@ -41,6 +41,9 @@ return {
           underlines = {
             errors = { "undercurl" },
             warnings = { "undercurl" },
+            information = { "undercurl" },
+            hints = { "undercurl" },
+            ok = { "undercurl" },
           },
           inlay_hints = {
             background = true,
