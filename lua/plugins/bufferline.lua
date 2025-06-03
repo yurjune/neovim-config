@@ -22,30 +22,26 @@ return {
       highlights = require("catppuccin.groups.integrations.bufferline").get(),
     })
 
-    vim.keymap.set("n", "<leader>bp", "<cmd>bp<CR>", { desc = "Go prev buffer" })
-    vim.keymap.set("n", "<leader>bn", "<cmd>bn<CR>", { desc = "Go next buffer" })
+    vim.keymap.set("n", "<D-S-h>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Go to prev buffer" })
+    vim.keymap.set("n", "<D-S-l>", "<cmd>BufferLineCycleNext<CR>", { desc = "Go to next buffer" })
 
-    vim.keymap.set("n", "<leader>bd", function()
+    vim.keymap.set("n", "<leader>bh", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer backward" })
+    vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineMoveNext<CR>", { desc = "Move buffer forward" })
+
+    vim.keymap.set("n", "<D-x>", function()
       local current_buf = vim.api.nvim_get_current_buf()
       vim.cmd("bprevious")
       vim.api.nvim_buf_delete(current_buf, { force = false })
     end, { desc = "Delete current buffer and move to prev buffer" })
 
-    vim.keymap.set("n", "<leader>bs", function()
-      bufferline.close_with_pick()
-    end, { desc = "Pick a buffer to close" })
-
-    vim.keymap.set("n", "<leader>bc", function()
-      local current_buf = vim.api.nvim_get_current_buf()
-      local buffers = vim.api.nvim_list_bufs()
-
-      for _, buf in ipairs(buffers) do
-        if buf ~= current_buf and vim.api.nvim_buf_get_option(buf, "filetype") ~= "NvimTree" then
-          vim.api.nvim_buf_delete(buf, { force = false })
-        end
-      end
+    vim.keymap.set("n", "<leader>bD", function()
+      bufferline.close_others()
       vim.notify("Cleared all buffers.", vim.log.levels.INFO)
     end, { desc = "Clear buffers except current buffer and nvim-tree" })
+
+    vim.keymap.set("n", "<leader>bd", function()
+      bufferline.close_with_pick()
+    end, { desc = "Pick a buffer to close" })
 
     for i = 1, 9 do
       vim.keymap.set("n", "<C-" .. i .. ">", function()
