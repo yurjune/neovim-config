@@ -1,11 +1,11 @@
 -- A plugin for customizing statusline of neovim
--- status: current mode, current file name, and more
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local lualine = require("lualine")
     local lazy_status = require("lazy.status") -- to configure lazy pending updates count
+    local codecompanion_lualine = require("modules.codecompanion_lualine")
 
     -- configure lualine with modified theme
     lualine.setup({
@@ -46,7 +46,27 @@ return {
         lualine_y = {},
         lualine_z = {},
       },
-      extensions = {},
+      extensions = {
+        {
+          filetypes = { "codecompanion" },
+          sections = {
+            lualine_a = { "mode" },
+            lualine_b = { codecompanion_lualine.get_adapter_name },
+            lualine_c = { codecompanion_lualine.get_current_model_name },
+            lualine_x = {
+              {
+                codecompanion_lualine,
+                color = { fg = "#ff9e64" },
+              },
+            },
+            lualine_y = { "progress" },
+            lualine_z = { "location" },
+          },
+          inactive_sections = {
+            lualine_b = { codecompanion_lualine.get_adapter_name },
+          },
+        },
+      },
     })
   end,
 }
