@@ -101,10 +101,7 @@ return {
         language = "Korean", -- default system prompt includes this
         send_code = true, -- If false, the code will not be sent to the LLM
         system_prompt = function()
-          return [[
-1. Use Korean
-2. I'm frontend dev using typescript and react.
-]]
+          return "Use Korean"
         end,
       },
       display = {
