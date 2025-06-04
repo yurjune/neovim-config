@@ -63,23 +63,18 @@ return {
         which_key = true,
       },
       color_overrides = {
-        mocha = {
-          -- pink = "#ffc2c2",
-        },
+        mocha = {},
       },
       custom_highlights = function(colors)
-        local custom_pink = "#ffc2c2"
-        local custom_bg = "#282c34"
-
         return {
-          String = { fg = custom_pink },
+          String = { fg = vim.g.colors.pink },
           CursorLine = { bg = colors.surface0 },
 
           -- for neovide
-          Normal = { bg = custom_bg },
-          NormalNC = { bg = custom_bg },
+          Normal = { bg = vim.g.colors.bg },
+          NormalNC = { bg = vim.g.colors.bg },
           -- for leetcode.nvim
-          NormalSB = { bg = custom_bg },
+          NormalSB = { bg = vim.g.colors.bg },
 
           PanelHeading = {
             fg = colors.lavender,
