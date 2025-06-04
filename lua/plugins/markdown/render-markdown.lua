@@ -22,6 +22,10 @@ return {
       },
     })
 
+    vim.api.nvim_set_hl(0, "RenderMarkdownCode", {
+      bg = "#26231c",
+    })
+
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "markdown",
       callback = function(ev)
