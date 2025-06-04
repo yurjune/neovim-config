@@ -14,6 +14,7 @@ return {
       version = "^0.9.0",
     },
     "nvim-telescope/telescope-file-browser.nvim",
+    "nvim-telescope/telescope-project.nvim",
   },
   config = function()
     local telescope = require("telescope")
@@ -148,6 +149,15 @@ return {
             },
           },
         },
+        project = {
+          base_dirs = { "~/github", "~/.config" },
+          ignore_missing_dirs = true, -- default: false
+          hidden_files = false, -- default: false
+          sync_with_nvim_tree = true, -- default false
+          theme = "dropdown",
+          order_by = "asc",
+          search_by = "title",
+        },
       },
     })
 
@@ -155,6 +165,7 @@ return {
     telescope.load_extension("fzf") -- 검색 성능 최적화
     telescope.load_extension("frecency")
     telescope.load_extension("file_browser")
+    telescope.load_extension("project")
 
     keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
     keymap.set("n", "<leader>fr", builtin.resume, { desc = "Telescope resume last picker" })
@@ -188,6 +199,13 @@ return {
     keymap.set("n", "<space>fe", function()
       telescope.extensions.file_browser.file_browser()
     end, { desc = "Telescope file browser" })
+
+    keymap.set("n", "<leader>fp", function()
+      telescope.extensions.project.project({
+        display_type = "full", -- full | minimal
+        hide_workspace = true,
+      })
+    end, { desc = "Telescope projects" })
 
     keymap.set("n", "<leader>fn", "<cmd>Telescope notify<CR>", { desc = "Telescope notifications" })
   end,
