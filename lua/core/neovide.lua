@@ -1,5 +1,11 @@
 if vim.g.neovide then
   vim.opt.linespace = 4
+  -- pass markdown_mode variable to neovide with zshrc alias
+  -- zshrc alias: alias nvmd="neovide -- --cmd 'let g:markdown_mode = 1'"
+  if vim.g.markdown_mode == 1 then
+    vim.opt.linespace = 8
+  end
+
   vim.opt.guifont = "JetBrainsMono NF Medium:h11"
 
   vim.g.neovide_opacity = 1
