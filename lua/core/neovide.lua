@@ -1,6 +1,6 @@
 if vim.g.neovide then
-  vim.opt.linespace = 3
-  vim.opt.guifont = "JetBrains Mono:h11"
+  vim.opt.linespace = 4
+  vim.opt.guifont = "JetBrainsMono NF Medium:h11"
 
   vim.g.neovide_opacity = 1
   vim.g.neovide_normal_opacity = 1
