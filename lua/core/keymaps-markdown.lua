@@ -1,5 +1,5 @@
 -- Keymaps for bold, italic, strikethrough, and inline code in markdown files
--- This keymaps depends on custom mini.surround mapping: "gsa" for add, "gsd" for delete
+-- This keymaps depends on custom mini.surround mapping: "Zsa" for add, "Zsd" for delete
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function(ev)
@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 
     map("v", "<leader>mb", function()
-      vim.cmd("normal 2gsa*")
+      vim.cmd("normal 2Zsa*")
     end, { desc = "Make bold current selection" })
 
     -- Bold the current word under the cursor
@@ -71,16 +71,16 @@ vim.api.nvim_create_autocmd("FileType", {
         local after = line:sub(col + 1)
         local inside_surround = before:match("%*%*[^%*]*$") and after:match("^[^%*]*%*%*")
         if inside_surround then
-          vim.cmd("normal gsd*.")
+          vim.cmd("normal Zsd*.")
         else
           vim.cmd("normal viw")
-          vim.cmd("normal 2gsa*")
+          vim.cmd("normal 2Zsa*")
         end
       end
     end, { desc = "Toggle bold markers" })
 
     map("v", "<leader>ms", function()
-      vim.cmd("normal 2gsa~")
+      vim.cmd("normal 2Zsa~")
     end, { desc = "Make strikethrough current selection" })
 
     map("n", "<leader>ms", function()
@@ -130,16 +130,16 @@ vim.api.nvim_create_autocmd("FileType", {
         local after = line:sub(col + 1)
         local inside_surround = before:match("~~[^~]*$") and after:match("^[^~]*~~")
         if inside_surround then
-          vim.cmd("normal gsd~.")
+          vim.cmd("normal Zsd~.")
         else
           vim.cmd("normal viw")
-          vim.cmd("normal 2gsa~")
+          vim.cmd("normal 2Zsa~")
         end
       end
     end, { desc = "Toggle strikethrough markers" })
 
     map("v", "<leader>mi", function()
-      vim.cmd("normal gsa*")
+      vim.cmd("normal Zsa*")
     end, { desc = "Make italic current selection" })
 
     map("n", "<leader>mi", function()
@@ -189,16 +189,16 @@ vim.api.nvim_create_autocmd("FileType", {
         local after = line:sub(col + 1)
         local inside_surround = before:match("%*[^%*]*$") and after:match("^[^%*]*%*")
         if inside_surround then
-          vim.cmd("normal gsd*")
+          vim.cmd("normal Zsd*")
         else
           vim.cmd("normal viw")
-          vim.cmd("normal gsa*")
+          vim.cmd("normal Zsa*")
         end
       end
     end, { desc = "Toggle italic markers" })
 
     map("v", "<leader>mc", function()
-      vim.cmd("normal gsa`")
+      vim.cmd("normal Zsa`")
     end, { desc = "Make inline codeblock current selection" })
 
     map("n", "<leader>mc", function()
@@ -248,10 +248,10 @@ vim.api.nvim_create_autocmd("FileType", {
         local after = line:sub(col + 1)
         local inside_surround = before:match("`[^`]*$") and after:match("^[^`]*`")
         if inside_surround then
-          vim.cmd("normal gsd`")
+          vim.cmd("normal Zsd`")
         else
           vim.cmd("normal viw")
-          vim.cmd("normal gsa`")
+          vim.cmd("normal Zsa`")
         end
       end
     end, { desc = "Toggle inline code block markers" })
