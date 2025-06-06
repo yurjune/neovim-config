@@ -9,6 +9,18 @@ vim.opt.relativenumber = true
 vim.opt.number = true -- mark current line number
 vim.opt.wrap = false -- if false, disable line wrapping when text overflows
 
+if vim.g.leetcode then
+  -- make wordwrap in question window, since leetcode.nvim set nowrap internally
+  vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    pattern = "*",
+    callback = function()
+      if vim.bo.filetype == "leetcode.nvim" then -- apply on question window only
+        vim.opt_local.wrap = true
+      end
+    end,
+  })
+end
+
 -- split windows
 vim.opt.splitright = true -- split vertical window to the right
 vim.opt.splitbelow = true -- split horizontal window to the bottom
