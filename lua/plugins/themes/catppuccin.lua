@@ -72,6 +72,8 @@ return {
         return {
           String = { fg = vim.g.colors.pink },
           CursorLine = { bg = colors.surface0 },
+          CursorLineNr = { fg = "#f5e0dc" },
+          LineNr = { fg = colors.overlay0 },
 
           -- for neovide
           Normal = { bg = vim.g.colors.bg },
