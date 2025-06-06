@@ -6,11 +6,13 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
     { "folke/neodev.nvim", opts = {} },
+    "SmiteshP/nvim-navic",
   },
   config = function()
     local lspconfig = require("lspconfig")
     local mason_lspconfig = require("mason-lspconfig")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    local nvim_navic = require("nvim-navic")
     local keymap = vim.keymap
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -153,7 +155,13 @@ return {
 
     -- used to enable autocompletion (assign to every lsp server config)
     local capabilities = cmp_nvim_lsp.default_capabilities()
+    local attach_navic = function(client, bufnr)
+      if client.server_capabilities.documentSymbolProvider then
+        nvim_navic.attach(client, bufnr)
+      end
+    end
 
+    -- type :LspInfo to view lsp server name
     mason_lspconfig.setup_handlers({
       -- default handler for installed servers
       function(server_name)
@@ -171,6 +179,7 @@ return {
               providePrefixAndSuffixTextForRename = false,
             },
           },
+          on_attach = attach_navic,
         })
       end,
       ["emmet_ls"] = function()

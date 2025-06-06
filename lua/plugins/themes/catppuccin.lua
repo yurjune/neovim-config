@@ -49,6 +49,9 @@ return {
             background = true,
           },
         },
+        navic = { -- nvim-navic
+          enabled = true,
+        },
         neogit = true,
         neotest = true,
         noice = true,
@@ -97,6 +100,8 @@ return {
           CmpBorder = { fg = colors.yellow },
 
           -- DiagnosticVirtualTextError = { fg = colors.red, bg = "#2a0000" },
+
+          NavicText = { fg = "#f5e0dc" },
 
           NvimTreeFolderName = { fg = colors.lavender },
           NvimTreeOpenedFolderName = { fg = colors.lavender },
