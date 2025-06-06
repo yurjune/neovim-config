@@ -1,8 +1,11 @@
 -- Scroll animation plugin
 return {
   "psliwka/vim-smoothie",
+  cond = function()
+    return not vim.g.neovide
+  end,
   config = function()
-    vim.g.smoothie_enabled = vim.g.neovide and 0 or 1
+    vim.g.smoothie_enabled = 1
     vim.g.smoothie_update_interval = 20 -- update screen every n(ms), default 20
 
     -- ex) total_time = constant_factor + (linear_factor * distance)
