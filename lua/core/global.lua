@@ -1,6 +1,7 @@
 vim.g.colors = {
   bg = "#282c34",
   pink = "#ffc2c2",
+  rose_beige = "#f5e0dc",
 }
 
 -- check leetcode.nvim arg option

@@ -72,7 +72,7 @@ return {
         return {
           String = { fg = vim.g.colors.pink },
           CursorLine = { bg = colors.surface0 },
-          CursorLineNr = { fg = "#f5e0dc" },
+          CursorLineNr = { fg = vim.g.colors.rose_beige },
           LineNr = { fg = colors.overlay0 },
 
           -- for neovide
@@ -103,7 +103,7 @@ return {
 
           -- DiagnosticVirtualTextError = { fg = colors.red, bg = "#2a0000" },
 
-          NavicText = { fg = "#f5e0dc" },
+          NavicText = { fg = vim.g.colors.rose_beige },
 
           NvimTreeFolderName = { fg = colors.lavender },
           NvimTreeOpenedFolderName = { fg = colors.lavender },
