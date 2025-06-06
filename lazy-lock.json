@@ -64,6 +64,7 @@
   "refactoring.nvim": { "branch": "master", "commit": "64dbe67bf7c28c864488262d267c799f80cae9ba" },
   "render-markdown.nvim": { "branch": "main", "commit": "dd620561843d5a62c917fffe77f2923c965d12c7" },
   "sqlite.lua": { "branch": "master", "commit": "50092d60feb242602d7578398c6eb53b4a8ffe7b" },
+  "substitute.nvim": { "branch": "main", "commit": "9db749a880e3dd3b0eb57f698aa8f1e1630e1f25" },
   "supermaven-nvim": { "branch": "main", "commit": "07d20fce48a5629686aefb0a7cd4b25e33947d50" },
   "table-nvim": { "branch": "main", "commit": "c044fd37169eb10376962b0d0cec5f94d58ca626" },
   "telescope-file-browser.nvim": { "branch": "master", "commit": "626998e5c1b71c130d8bc6cf7abb6709b98287bb" },
