@@ -169,6 +169,17 @@ return {
           capabilities = capabilities,
         })
       end,
+      ["lua_ls"] = function()
+        lspconfig["lua_ls"].setup({
+          capabilities = capabilities,
+          on_attach = attach_navic,
+          settings = {
+            diagnostics = {
+              globals = { "vim" }, -- allow using vim global variable
+            },
+          },
+        })
+      end,
       ["ts_ls"] = function()
         lspconfig["ts_ls"].setup({
           capabilities = capabilities,
