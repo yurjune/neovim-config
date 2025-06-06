@@ -7,7 +7,7 @@ return {
       require("toggleterm").setup({
         size = 22,
         -- 숫자 + 단축키로 여러 터미널 세션을 관리할 수 있다.
-        open_mapping = [[<D-g>]],
+        open_mapping = [[<D-b>]],
         start_in_insert = true,
         insert_mappings = true, -- whether or not the open mapping applies in insert mode
         terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals

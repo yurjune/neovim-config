@@ -39,8 +39,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
--- vim.opt.foldtext = ""
-
 -- cursor
 vim.opt.cursorline = true -- highlight the current cursor line
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait480-blinkoff480-blinkon480" -- blink cursor

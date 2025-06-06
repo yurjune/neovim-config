@@ -37,6 +37,7 @@ return {
       },
       scope = {
         show_start = false, -- 현재 스코프에 대한 밑줄 표시 여부
+        show_end = false,
         show_exact_scope = false,
       },
     })
