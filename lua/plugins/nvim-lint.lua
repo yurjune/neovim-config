@@ -3,6 +3,9 @@ return {
   "mfussenegger/nvim-lint",
   enabled = true,
   event = { "BufReadPre", "BufNewFile" },
+  cond = function()
+    return not vim.g.leetcode
+  end,
   config = function()
     local lint = require("lint")
 
@@ -12,7 +15,7 @@ return {
       javascriptreact = { "eslint_d" },
       typescriptreact = { "eslint_d" },
       svelte = { "eslint_d" },
-      -- python = { "pylint" },
+      python = { "pylint" },
       rust = { "clippy" },
     }
 

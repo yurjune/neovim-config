@@ -8,6 +8,9 @@ return {
     { "folke/neodev.nvim", opts = {} },
     "SmiteshP/nvim-navic",
   },
+  cond = function()
+    return not vim.g.leetcode
+  end,
   config = function()
     local lspconfig = require("lspconfig")
     local mason_lspconfig = require("mason-lspconfig")

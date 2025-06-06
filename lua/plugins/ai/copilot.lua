@@ -1,8 +1,10 @@
 return {
   "zbirenbaum/copilot.lua",
-  enabled = true,
   cmd = "Copilot",
   event = "InsertEnter",
+  cond = function()
+    return not vim.g.leetcode
+  end,
   config = function()
     require("copilot").setup({
       -- if you use copilot-cmp, disabled panel and suggestion for better use

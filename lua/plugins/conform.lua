@@ -2,6 +2,9 @@
 return {
   "stevearc/conform.nvim",
   event = { "BufReadPre", "BufNewFile" },
+  cond = function()
+    return not vim.g.leetcode
+  end,
   config = function()
     local conform = require("conform")
 
