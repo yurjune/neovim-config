@@ -17,12 +17,17 @@ local themesource = "plugins.themes.catppuccin"
 
 require("lazy").setup({
   { import = "plugins" },
-  { import = "plugins.lsp" },
-  { import = "plugins.ai" },
-  { import = "plugins.git" },
-  { import = "plugins.debug" },
-  { import = "plugins.markdown" },
   { import = themesource },
+  { import = "plugins.lsp" },
+  { import = "plugins.ui" },
+  { import = "plugins.workflow" },
+  { import = "plugins.git" },
+  { import = "plugins.ai" },
+  { import = "plugins.navigation" },
+  { import = "plugins.editing" },
+  { import = "plugins.markdown" },
+  { import = "plugins.debug" },
+  { import = "plugins.etc" },
 }, {
   checker = {
     enabled = true,
