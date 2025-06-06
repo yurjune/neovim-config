@@ -13,6 +13,18 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.cmd("normal 2Zsa*")
     end, { desc = "Make bold current selection" })
 
+    map("v", "<leader>ms", function()
+      vim.cmd("normal 2Zsa~")
+    end, { desc = "Make strikethrough current selection" })
+
+    map("v", "<leader>mi", function()
+      vim.cmd("normal Zsa*")
+    end, { desc = "Make italic current selection" })
+
+    map("v", "<leader>mc", function()
+      vim.cmd("normal Zsa`")
+    end, { desc = "Make inline codeblock current selection" })
+
     -- Bold the current word under the cursor
     -- If already bold, unbold the word under the cursor
     -- If you're in a multiline bold, it will unbold it only if you're on the first line
@@ -79,10 +91,6 @@ vim.api.nvim_create_autocmd("FileType", {
       end
     end, { desc = "Toggle bold markers" })
 
-    map("v", "<leader>ms", function()
-      vim.cmd("normal 2Zsa~")
-    end, { desc = "Make strikethrough current selection" })
-
     map("n", "<leader>ms", function()
       local cursor_pos = vim.api.nvim_win_get_cursor(0)
       local current_buffer = vim.api.nvim_get_current_buf()
@@ -138,10 +146,6 @@ vim.api.nvim_create_autocmd("FileType", {
       end
     end, { desc = "Toggle strikethrough markers" })
 
-    map("v", "<leader>mi", function()
-      vim.cmd("normal Zsa*")
-    end, { desc = "Make italic current selection" })
-
     map("n", "<leader>mi", function()
       local cursor_pos = vim.api.nvim_win_get_cursor(0)
       local current_buffer = vim.api.nvim_get_current_buf()
@@ -196,10 +200,6 @@ vim.api.nvim_create_autocmd("FileType", {
         end
       end
     end, { desc = "Toggle italic markers" })
-
-    map("v", "<leader>mc", function()
-      vim.cmd("normal Zsa`")
-    end, { desc = "Make inline codeblock current selection" })
 
     map("n", "<leader>mc", function()
       local cursor_pos = vim.api.nvim_win_get_cursor(0)
