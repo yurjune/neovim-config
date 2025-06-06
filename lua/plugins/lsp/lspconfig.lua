@@ -250,6 +250,12 @@ return {
           },
         })
       end,
+      ["marksman"] = function()
+        lspconfig["marksman"].setup({
+          capabilities = capabilities,
+          on_attach = attach_navic,
+        })
+      end,
     })
   end,
 }
