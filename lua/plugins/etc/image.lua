@@ -1,10 +1,12 @@
 -- A plugin for rendering images in Neovim
+-- For tmux, add following option to .tmux.conf:
+-- set -g allow-passthrough on
 return {
   "3rd/image.nvim",
   event = "VeryLazy",
   build = false,
   cond = function()
-    return vim.env.TMUX == nil and not vim.g.neovide
+    return not vim.g.neovide
   end,
   opts = {
     backend = "kitty",
