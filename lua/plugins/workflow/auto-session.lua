@@ -13,11 +13,14 @@ return {
         "~/Documents",
         "~/Desktop/",
       },
-      -- 세션 복원 후 실행할 명령어
       post_restore_cmds = {
-        -- 세션 복원 시 파일 탐색기를 함께 열기
-        -- vim.cmd('wincmd p'): 이전 창으로 이동하여 커서가 파일 탐색기에 위치하지 않도록
-        "lua if not require('nvim-tree.view').is_visible() then require('nvim-tree.api').tree.open(); vim.cmd('wincmd p') end",
+        -- open nvim-tree after restoring session
+        function()
+          if not require("nvim-tree.view").is_visible() then
+            require("nvim-tree.api").tree.open()
+            vim.cmd("wincmd p") -- move cursor back to the previous window
+          end
+        end,
       },
     })
 
