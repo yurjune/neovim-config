@@ -4,7 +4,7 @@ return {
   event = "VeryLazy",
   build = false,
   cond = function()
-    return not vim.g.neovide
+    return vim.env.TMUX == nil and not vim.g.neovide
   end,
   opts = {
     backend = "kitty",
