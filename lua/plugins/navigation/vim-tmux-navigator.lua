@@ -14,5 +14,9 @@ return {
     { "<D-j>", "<cmd>TmuxNavigateDown<cr>" },
     { "<D-k>", "<cmd>TmuxNavigateUp<cr>" },
     { "<D-l>", "<cmd>TmuxNavigateRight<cr>" },
+    { "<M-h>", "<cmd>TmuxNavigateLeft<cr>" },
+    { "<M-j>", "<cmd>TmuxNavigateDown<cr>" },
+    { "<M-k>", "<cmd>TmuxNavigateUp<cr>" },
+    { "<M-l>", "<cmd>TmuxNavigateRight<cr>" },
   },
 }
