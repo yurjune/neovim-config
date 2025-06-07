@@ -9,14 +9,13 @@ return {
       fps = 60,
       max_width = 80,
       timeout = 2000,
-      wrap = true,
       merge_duplicates = false,
 
       render = "wrapped-compact", -- default, minimal, simple, compact, wrapped-compact
       background_colour = vim.g.colors.bg,
 
-      position = "top_right", -- top, top_right, top_left, bottom, bottom_left, bottom_right
-      stages = "fade", -- fade, slide, fase_in_slide_out, static
+      stages = "fade_in_slide_out", -- fade, slide, fade_in_slide_out, static
+      top_down = true, -- If true, notification position will be top
 
       icons = {
         INFO = "󰋼",
