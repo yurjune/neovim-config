@@ -6,7 +6,7 @@ return {
   event = "VeryLazy",
   build = false,
   cond = function()
-    return not vim.g.neovide
+    return vim.g.leetcode
   end,
   opts = {
     backend = "kitty",
