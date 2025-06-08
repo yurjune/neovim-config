@@ -123,9 +123,10 @@ return {
             send = {
               modes = { n = "<C-s>", i = "<C-s>" },
             },
-            close = {
-              modes = { n = "<C-c>", i = "<C-c>" },
-            },
+            -- If you close the chat buffer, you can not see it again
+            -- close = {
+            --   modes = { n = "<C-c>", i = "<C-c>" },
+            -- },
           },
           variables = {
             ["my_var"] = {
