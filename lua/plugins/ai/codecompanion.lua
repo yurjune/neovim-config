@@ -62,7 +62,6 @@ return {
         openai = function()
           return adapters.extend("openai", {
             env = {
-              -- api_key = execute_cmd("op read op://Private/OPENAI_API_KEY/name/firstname --no-newline"),
               api_key = execute_cmd("echo $OPENAI_API_KEY"),
             },
             schema = {
@@ -75,7 +74,6 @@ return {
         anthropic = function()
           return adapters.extend("anthropic", {
             env = {
-              -- api_key = execute_cmd("op read op://Private/ANTHROPIC_API_KEY/name/firstname --no-newline"),
               api_key = execute_cmd("echo $ANTHROPIC_API_KEY"),
             },
             schema = {
