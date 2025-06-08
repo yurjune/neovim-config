@@ -39,6 +39,15 @@ return {
         copilot = {
           model = "gpt-4.1-2025-04-14",
         },
+        claude = {
+          endpoint = "https://api.anthropic.com",
+          model = "claude-sonnet-4-20250514",
+          timeout = 30000,
+          extra_request_body = {
+            temperature = 0.1,
+            max_tokens = 4096,
+          },
+        },
       },
       behaviour = {
         auto_suggestions = false, -- Experimental stage
