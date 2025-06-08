@@ -78,6 +78,11 @@ return {
               -- api_key = execute_cmd("op read op://Private/ANTHROPIC_API_KEY/name/firstname --no-newline"),
               api_key = execute_cmd("echo $ANTHROPIC_API_KEY"),
             },
+            schema = {
+              model = {
+                default = "claude-sonnet-4-20250514",
+              },
+            },
           })
         end,
         llama3 = function()
