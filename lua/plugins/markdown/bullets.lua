@@ -1,6 +1,8 @@
+local ft = { "markdown", "text", "gitcommit", "scratch" }
+
 return {
   "bullets-vim/bullets.vim",
-  ft = { "markdown", "text", "gitcommit", "scratch" },
+  ft = ft,
   keys = {
     { "<leader>bt", "<Plug>(bullets-toggle-checkbox)", mode = "n", desc = "toggle checkbox" },
     { "<leader>br", "<Plug>(bullets-renumber)", mode = { "n", "v" }, desc = "renumber bullets" },
@@ -39,5 +41,14 @@ return {
     vim.g.bullets_checkbox_markers = " .ox"
     vim.g.bullets_nested_checkboxes = 1 -- 1이면 부모-자식 체크박스 연동, 0이면 독립적으로 동작
     vim.g.bullets_checkbox_partials_toggle = 1 -- 부분 완료 체크박스 토글 시 1이면 전체 완료, 0이면 전체 미완료로 토글
+
+    -- override default bullets.vim mappings
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = ft,
+      callback = function()
+        vim.api.nvim_buf_set_keymap(0, "n", "o", "o", { noremap = true })
+        vim.api.nvim_buf_set_keymap(0, "n", "O", "O", { noremap = true })
+      end,
+    })
   end,
 }
