@@ -25,7 +25,7 @@ return {
     local adapters = require("codecompanion.adapters")
 
     -- NOTE: Change adapter here
-    local current_adapter = "copilot"
+    local current_adapter = "anthropic"
 
     require("codecompanion").setup({
       strategies = {
@@ -105,9 +105,9 @@ return {
       opts = {
         language = "Korean", -- default system prompt includes this
         send_code = true, -- If false, the code will not be sent to the LLM
-        system_prompt = function()
-          return "Use Korean"
-        end,
+        -- system_prompt = function()
+        --   return ""
+        -- end,
       },
       display = {
         chat = {

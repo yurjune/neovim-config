@@ -35,7 +35,7 @@ return {
     vim.g.bullets_outline_levels = { "num", "abc", "rom", "num" }
     vim.g.bullets_enable_in_empty_buffers = 1
     vim.g.bullets_auto_indent_after_colon = 1
-    vim.g.bullets_renumber_on_change = 1
+    vim.g.bullets_renumber_on_change = 0
     vim.g.bullets_delete_last_bullet_if_empty = 1 -- empty bullet 에서 줄바꿈 시 bullet 제거 및 들여쓰기 초기화
     vim.g.bullets_max_alpha_characters = 2 -- alphabet bullet 을 n자 까지 허용, ex) 2이면 "z" 이후 "aa"
     vim.g.bullets_checkbox_markers = " .ox"
