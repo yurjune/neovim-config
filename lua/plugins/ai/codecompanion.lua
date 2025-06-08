@@ -82,6 +82,22 @@ return {
               model = {
                 default = "claude-sonnet-4-20250514",
               },
+              temperature = {
+                -- If you want more creative responses, increase this value
+                -- Recommended for coding: 0 ~ 0.3
+                default = 0.1,
+              },
+              extended_thinking = {
+                default = false,
+              },
+              top_p = { -- 누적 확률 샘플링
+                -- Consider only the most certain 10% of tokens (very conservative)
+                -- default is null
+                -- default = 0.1,
+              },
+              thinking_budget = {
+                default = 16000,
+              },
             },
           })
         end,
