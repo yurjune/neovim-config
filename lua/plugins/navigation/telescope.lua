@@ -43,23 +43,6 @@ return {
         path_display = { -- truncate(default), smart, shorten, hidden
           "smart",
         },
-
-        -- -- Path display depth customize
-        -- path_display = function(_, path)
-        --   local tail = require("telescope.utils").path_tail(path)
-        --   local parts = vim.split(path, "/")
-        --
-        --   if #parts <= 3 then -- 파일명 포함 3개 이하(2뎁스)면 전체 경로 표시
-        --     return path
-        --   else
-        --     -- 마지막 2개 디렉토리와 파일명 표시
-        --     local last_dir = parts[#parts - 1]
-        --     local second_last_dir = parts[#parts - 2]
-        --
-        --     return "../" .. second_last_dir .. "/" .. last_dir .. "/" .. tail
-        --   end
-        -- end,
-
         mappings = {
           i = {
             -- Disable normal mode intensionally
@@ -67,6 +50,7 @@ return {
             -- ["<C-p>"] = actions.cycle_history_prev, -- 이전 검색어
             -- ["<C-n>"] = actions.cycle_history_next, -- 다음 검색어
 
+            ["<C-?>"] = actions.which_key,
             ["<C-b>"] = actions.results_scrolling_up,
             ["<C-f>"] = actions.results_scrolling_down,
             ["<C-u>"] = actions.preview_scrolling_up,
@@ -86,7 +70,6 @@ return {
                 actions.delete_buffer(prompt_bufnr)
               end
             end,
-
             ["<C-b>"] = actions.results_scrolling_up,
             ["<C-f>"] = actions.results_scrolling_down,
             ["<C-u>"] = actions.preview_scrolling_up,
@@ -126,9 +109,6 @@ return {
             end,
           }),
         },
-        -- find_files = {
-        --   previewer = false,
-        -- },
       },
       extensions = {
         fzf = {
