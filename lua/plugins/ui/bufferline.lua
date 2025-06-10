@@ -42,8 +42,8 @@ return {
       vim.api.nvim_buf_delete(current_buf, { force = false })
     end
 
-    vim.keymap.set("n", "<D-x>", close_buffer, { desc = "Delete current buffer and move to prev buffer" })
-    vim.keymap.set("n", "<M-x>", close_buffer, { desc = "Delete current buffer and move to prev buffer" })
+    vim.keymap.set("n", "<D-d>", close_buffer, { desc = "Delete current buffer and move to prev buffer" })
+    vim.keymap.set("n", "<M-d>", close_buffer, { desc = "Delete current buffer and move to prev buffer" })
 
     vim.keymap.set("n", "<leader>bh", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer backward" })
     vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineMoveNext<CR>", { desc = "Move buffer forward" })
