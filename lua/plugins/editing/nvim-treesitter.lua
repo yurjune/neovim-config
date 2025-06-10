@@ -37,6 +37,7 @@ return {
         "vimdoc",
         "c",
         "rust",
+        "regex",
       },
       auto_install = true,
       sync_install = false,
