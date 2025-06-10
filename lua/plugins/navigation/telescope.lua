@@ -62,6 +62,8 @@ return {
 
         mappings = {
           i = {
+            -- Disable normal mode intensionally
+            ["<ESC>"] = actions.close,
             -- ["<C-p>"] = actions.cycle_history_prev, -- 이전 검색어
             -- ["<C-n>"] = actions.cycle_history_next, -- 다음 검색어
 
