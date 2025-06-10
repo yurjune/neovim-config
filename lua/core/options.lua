@@ -51,6 +51,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
+-- Decide what inormation to save when saving a session
+-- localoptions: local options set for each window or buffer
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
 -- cursor
 vim.opt.cursorline = true -- highlight the current cursor line
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait480-blinkoff480-blinkon480" -- blink cursor
