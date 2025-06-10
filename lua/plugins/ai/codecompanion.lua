@@ -31,6 +31,17 @@ return {
       strategies = {
         chat = {
           adapter = current_adapter,
+          keymaps = {
+            send = {
+              modes = { n = "<C-s>", i = "<C-s>" },
+              description = "Send the current chat message",
+            },
+            -- If you close the chat buffer, you can not see it again
+            close = {
+              modes = { n = "<Nop>", i = "<Nop>" },
+              description = "Close the chat buffer",
+            },
+          },
         },
         cmd = {
           adapter = current_adapter,
@@ -133,15 +144,6 @@ return {
           show_settings = true, -- Show LLM settings at the top of the chat buffer?
           show_token_count = true, -- Show the token count for each response?
           start_in_insert_mode = true, -- Open the chat buffer in insert mode?
-          keymaps = {
-            send = {
-              modes = { n = "<C-s>", i = "<C-s>" },
-            },
-            -- If you close the chat buffer, you can not see it again
-            -- close = {
-            --   modes = { n = "<C-c>", i = "<C-c>" },
-            -- },
-          },
           variables = {
             ["my_var"] = {
               ---Ensure the file matches the CodeCompanion.Variable class
@@ -161,16 +163,6 @@ return {
         },
         inline = {
           layout = "vertical", -- vertical|horizontal|buffer
-          keymaps = {
-            accept_change = {
-              modes = { n = "ga" },
-              description = "Accept the suggested change",
-            },
-            reject_change = {
-              modes = { n = "gr" },
-              description = "Reject the suggested change",
-            },
-          },
         },
         -- Options to customize the UI of the chat buffer
         window = {
