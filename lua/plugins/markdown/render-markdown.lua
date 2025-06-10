@@ -20,6 +20,7 @@ return {
         preset = "none",
         padding = 2,
       },
+      latex = { enabled = false },
     })
 
     vim.api.nvim_set_hl(0, "RenderMarkdownCode", {
