@@ -199,14 +199,7 @@ return {
       ["emmet_ls"] = function()
         lspconfig["emmet_ls"].setup({
           capabilities = capabilities,
-          filetypes = {
-            "html",
-            "css",
-            "scss",
-            "typescriptreact",
-            "javascriptreact",
-            "svelte",
-          },
+          filetypes = { "html", "css", "scss" },
         })
       end,
       ["svelte"] = function()
