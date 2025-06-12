@@ -33,8 +33,8 @@ return {
           },
           { "filetype" },
         },
-        lualine_y = { "progress" },
-        lualine_z = { "location" },
+        lualine_y = { "location" },
+        lualine_z = { "progress" },
       },
       inactive_sections = {
         lualine_a = {},
@@ -57,8 +57,8 @@ return {
                 color = { fg = "#ff9e64" },
               },
             },
-            lualine_y = { "progress" },
-            lualine_z = { "location" },
+            lualine_y = { "location" },
+            lualine_z = { "progress" },
           },
           inactive_sections = {
             lualine_b = { codecompanion_lualine.get_adapter_name },
