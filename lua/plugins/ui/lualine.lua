@@ -45,6 +45,12 @@ return {
         lualine_z = {},
       },
       extensions = {
+        "nvim-tree",
+        "avante",
+        "quickfix",
+        "nvim-dap-ui",
+        "toggleterm",
+        "Man",
         {
           filetypes = { "codecompanion" },
           sections = {
