@@ -24,7 +24,11 @@ return {
     cmp.setup({
       enabled = function()
         local filetype = vim.bo.filetype
-        if filetype == "markdown" then
+        local exlcude_ft = {
+          "TelescopePrompt",
+          "markdown",
+        }
+        if vim.tbl_contains(exlcude_ft, filetype) then
           return false
         end
         if vim.g.leetcode then
