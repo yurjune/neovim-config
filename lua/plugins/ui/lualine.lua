@@ -31,8 +31,6 @@ return {
             cond = lazy_status.has_updates,
             color = { fg = "#ff9e64" },
           },
-          { "encoding" },
-          { "fileformat", icons_enabled = false },
           { "filetype" },
         },
         lualine_y = { "progress" },
