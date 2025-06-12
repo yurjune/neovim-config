@@ -61,29 +61,6 @@ return {
       },
     })
 
-    -- vim.api.nvim_create_autocmd("BufEnter", {
-    --   callback = function()
-    --     -- 현재 버퍼가 실제 파일이고 알파 화면이 아닌 경우에만 nvim-tree 열기
-    --     local bufname = vim.fn.expand("%")
-    --     local filetype = vim.bo.filetype
-    --
-    --     -- 알파(alpha), 대시보드 등의 시작 화면은 제외
-    --     local is_real_file = bufname ~= ""
-    --       and filetype ~= "alpha"
-    --       and filetype ~= "dashboard"
-    --       and filetype ~= "TelescopePrompt"
-    --
-    --     if is_real_file then
-    --       -- nvim-tree가 이미 열려있지 않은 경우에만 열기
-    --       if not treeview.is_visible() then
-    --         treeapi.tree.open()
-    --       end
-    --     end
-    --   end,
-    --   -- 한 번만 실행
-    --   once = true,
-    -- })
-
     local function set_tree_width(width)
       return function()
         -- 현재 열려있는 nvim-tree 창 찾기
@@ -105,12 +82,6 @@ return {
     -- e means explore
     vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
     vim.keymap.set("n", "<leader>ef", "<cmd>NvimTreeFocus<CR>", { desc = "Focus nvim tree" })
-    -- vim.keymap.set(
-    --   "n",
-    --   "<leader>ef",
-    --   "<cmd>NvimTreeFindFileToggle<CR>",
-    --   { desc = "Toggle file explorer on current file" }
-    -- )
 
     vim.keymap.set("n", "<leader>e1", set_tree_width(42), { desc = "NvimTree width 42" })
     vim.keymap.set("n", "<leader>e2", set_tree_width(50), { desc = "NvimTree width 50" })
