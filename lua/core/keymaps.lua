@@ -8,6 +8,14 @@ vim.keymap.set("i", "<D-v>", "<c-r>+")
 vim.keymap.set("c", "<D-v>", "<c-r>+")
 vim.keymap.set("t", "<D-v>", [[<C-\><C-n>"+pi]])
 
+-- Keymaps using command
+vim.keymap.set("n", "<D-s>", "<cmd>w<CR>", { desc = "Save current file" })
+vim.keymap.set("n", "<M-s>", "<cmd>w<CR>", { desc = "Save current file" })
+vim.keymap.set("n", "<D-q>", "<cmd>q<CR>", { desc = "Quit current file" })
+vim.keymap.set("n", "<M-q>", "<cmd>q<CR>", { desc = "Quit current file" })
+vim.keymap.set("n", "<D-a>", "ggVG", { desc = "Select all lines" })
+vim.keymap.set("n", "<M-a>", "ggVG", { desc = "Select all lines" })
+
 vim.keymap.set("n", "<C-q>", "<C-6>", { desc = "Switch to last accessed buffer" })
 vim.keymap.set("n", "<C-6>", "<Nop>")
 
