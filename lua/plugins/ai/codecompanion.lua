@@ -33,7 +33,7 @@ return {
           adapter = current_adapter,
           keymaps = {
             send = {
-              modes = { n = "<C-s>", i = "<C-s>" },
+              modes = { n = "<Enter>", i = "<C-s>" },
               description = "Send the current chat message",
             },
             -- If you close the chat buffer, you can not see it again
