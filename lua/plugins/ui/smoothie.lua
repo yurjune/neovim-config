@@ -6,7 +6,7 @@ return {
   end,
   config = function()
     vim.g.smoothie_enabled = 1
-    vim.g.smoothie_update_interval = 20 -- update screen every n(ms), default 20
+    vim.g.smoothie_update_interval = 10 -- update screen every n(ms), default 20
 
     -- ex) total_time = constant_factor + (linear_factor * distance)
     vim.g.smoothie_speed_constant_factor = 20 -- default 10
