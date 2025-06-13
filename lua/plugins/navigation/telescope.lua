@@ -24,6 +24,7 @@ return {
     local builtin = require("telescope.builtin")
     local sorters = require("telescope.sorters")
     local fb_actions = require("telescope._extensions.file_browser.actions")
+    local project_actions = require("telescope._extensions.project.actions")
     local keymap = vim.keymap
 
     telescope.setup({
@@ -139,6 +140,11 @@ return {
           theme = "dropdown",
           order_by = "asc",
           search_by = "title",
+          -- recommend to define on_project_selected, since default handler often changes to wrong working directory
+          on_project_selected = function(prompt_bufnr)
+            project_actions.change_working_directory(prompt_bufnr, false)
+            builtin.find_files()
+          end,
         },
       },
     })
