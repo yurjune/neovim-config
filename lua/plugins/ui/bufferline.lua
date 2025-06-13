@@ -19,7 +19,7 @@ return {
       options = {
         mode = "buffers", -- "tabs" | "buffers"
         separator_style = "thin", -- "slant" | "slope" | "thick" | "thin"
-        sort_by = "insert_after_current",
+        sort_by = "insert_at_end",
         max_name_length = 30,
         diagnostics = "nvim_lsp",
         diagnostics_update_on_event = true,
