@@ -22,6 +22,7 @@ return {
     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
     -- Auto linting trigger
+    local debounce_timer = nil
     vim.api.nvim_create_autocmd({
       "BufEnter", -- 버퍼로 들어갈 때
       "BufWritePost", -- 버퍼 내용을 파일에 저장할 때
