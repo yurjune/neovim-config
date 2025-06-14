@@ -38,11 +38,11 @@ return {
 
     local function close_buffer()
       local current_buf = vim.api.nvim_get_current_buf()
-      vim.cmd("bprevious")
+      vim.cmd("bnext")
       vim.api.nvim_buf_delete(current_buf, { force = false })
     end
-    vim.keymap.set("n", "<D-d>", close_buffer, { desc = "Delete current buffer and move to prev buffer" })
-    vim.keymap.set("n", "<M-d>", close_buffer, { desc = "Delete current buffer and move to prev buffer" })
+    vim.keymap.set("n", "<D-d>", close_buffer, { desc = "Delete current buffer and move to next buffer" })
+    vim.keymap.set("n", "<M-d>", close_buffer, { desc = "Delete current buffer and move to next buffer" })
 
     local function close_all_buffers()
       bufferline.close_others()
