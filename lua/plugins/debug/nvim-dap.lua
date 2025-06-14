@@ -184,6 +184,8 @@ return {
           url = enter_launch_url,
           webRoot = "${workspaceFolder}",
           sourceMaps = true,
+          -- save browser session data
+          userDataDir = vim.fn.stdpath("data") .. "/chrome-debug-profile",
         },
         -- {
         --   type = "pwa-msedge",
@@ -192,6 +194,7 @@ return {
         --   url = enter_launch_url,
         --   webRoot = "${workspaceFolder}",
         --   sourceMaps = true,
+        --   userDataDir = vim.fn.stdpath("data") .. "/edge-debug-profile",
         -- },
       }
     end
