@@ -109,6 +109,11 @@ return {
     end
 
     dap.defaults.fallback.exception_breakpoints = { "uncaught" }
+
+    dap.listeners.after.event_stopped["focus_terminal"] = function()
+      vim.fn.system("osascript -e 'tell application \"Ghostty\" to activate'")
+    end
+
     for _, adapterType in ipairs({ "node", "chrome", "msedge" }) do
       local pwaType = "pwa-" .. adapterType
 
