@@ -124,7 +124,9 @@ return {
           -- disables netrw and use telescope-file-browser in its place
           hijack_netrw = true,
           mappings = {
-            ["i"] = {},
+            ["i"] = {
+              ["<C-.>"] = fb_actions.toggle_hidden,
+            },
             ["n"] = {
               ["h"] = fb_actions.toggle_hidden,
             },
@@ -161,8 +163,8 @@ return {
     keymap.set("n", "<leader>fgs", builtin.git_status, { desc = "Telescope git status" })
     keymap.set("n", "<leader>fgb", builtin.git_bcommits, { desc = "Telescope git file commits" })
 
-    keymap.set("n", "<leader>fhh", builtin.help_tags, { desc = "Telescope help tags" })
-    keymap.set("n", "<leader>fhc", builtin.commands, { desc = "Telescope commands" })
+    keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
+    keymap.set("n", "<leader>fc", builtin.commands, { desc = "Telescope commands" })
 
     keymap.set("n", "<leader>ft", "<cmd>TodoTelescope keywords=TODO<CR>", { desc = "Telescope TODOs only" })
     keymap.set("n", "<leader>fT", "<cmd>TodoTelescope<CR>", { desc = "Telescope all todos" })
