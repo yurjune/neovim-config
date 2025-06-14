@@ -1,4 +1,5 @@
 -- A plugin to explore files with tree ui
+-- Type g? in tree buffer to see all key mappings
 return {
   "nvim-tree/nvim-tree.lua",
   dependencies = "nvim-tree/nvim-web-devicons",
@@ -50,7 +51,12 @@ return {
           quit_on_open = false, -- close nvim-tree when file is opened
           resize_window = true, -- default true
           window_picker = {
-            enable = false, -- if true, it will always open the file in the current window.
+            enable = true,
+            -- pick the previous window when open file
+            picker = function()
+              local prev_winnr = vim.fn.winnr("#")
+              return vim.fn.win_getid(prev_winnr)
+            end,
           },
         },
         remove_file = {
