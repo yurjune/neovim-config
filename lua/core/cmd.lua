@@ -8,12 +8,13 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- for keep fold state
+-- To keep fold state
 vim.api.nvim_create_autocmd("BufWinLeave", {
   pattern = "*",
   callback = function()
-    -- exclude empty buffer and special buffers(like help)
-    if vim.bo.filetype ~= "" and vim.bo.buftype == "" then
+    local is_normal_buffer = vim.bo.filetype ~= "" and vim.bo.buftype == ""
+    if is_normal_buffer then
+      -- make(save) view state: ex) folds, cursor position, etc.
       vim.cmd("silent! mkview")
     end
   end,
@@ -21,7 +22,8 @@ vim.api.nvim_create_autocmd("BufWinLeave", {
 vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "*",
   callback = function()
-    if vim.bo.filetype ~= "" and vim.bo.buftype == "" then
+    local is_normal_buffer = vim.bo.filetype ~= "" and vim.bo.buftype == ""
+    if is_normal_buffer then
       vim.cmd("silent! loadview")
     end
   end,
