@@ -93,18 +93,17 @@ return {
         },
         marks = {
           sorter = sorters.new({
+            -- if returns -1, it will be filtered
+            -- show only uppercase marks
             scoring_function = function(_, _, line, _)
               local mark = line:match("^%s*([%w'`])")
               if not mark then
-                return nil
+                return -1
               end
               if mark:match("[A-Z]") then
-                return -200 + mark:byte()
+                return mark:byte()
               end
-              if mark:match("[a-z]") then
-                return -100 + mark:byte()
-              end
-              return mark:byte()
+              return -1
             end,
           }),
         },
