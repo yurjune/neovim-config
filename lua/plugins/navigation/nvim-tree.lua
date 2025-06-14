@@ -13,30 +13,56 @@ return {
       view = {
         width = 42,
         relativenumber = true,
-        centralize_selection = true, -- 파일을 찾을 때 해당 항목을 중앙에 배치
+        centralize_selection = true, -- reposition the view so that the current node is initially centralized
+        side = "left",
+        signcolumn = "no",
+        cursorline = true,
+        preserve_window_proportions = true, -- If `false`, the height and width of windows other than nvim-tree will be equalized.
       },
       update_focused_file = {
-        enable = true, -- 현재 파일에 따라 트리를 자동으로 업데이트
-        ignore_list = { -- not working...
-          -- "^node_modules$",
-          "^dist$",
-          "^build$",
-          "^\\.git$",
-        },
+        enable = true,
+        update_root = false,
       },
-      -- 파일 트리에 표시하지 않을 파일 지정
       filters = {
         custom = {
           ".DS_Store",
-          -- "^node_modules$",
+          "^node_modules$",
           "^dist$",
           "^build$",
           "^\\.git$",
         },
-        exclude = {}, -- 필터에서 제외할 파일/폴더
+        exclude = {},
+      },
+      tab = {
+        -- all tabs share the same nvim-tree instance
+        sync = {
+          open = true,
+          close = true,
+        },
       },
       git = {
-        ignore = false, -- false 이면 git 이 무시하는 파일도 표시
+        enable = true,
+        show_on_dirs = true, -- if false, always hide icon of directory
+        show_on_open_dirs = true, -- if false, hide icon of directory if directory is open
+      },
+      actions = {
+        open_file = {
+          quit_on_open = false, -- close nvim-tree when file is opened
+          resize_window = true, -- default true
+          window_picker = {
+            enable = false, -- if true, it will always open the file in the current window.
+          },
+        },
+        remove_file = {
+          close_window = true, -- close window on remove file in nvim-tree
+        },
+        change_dir = {
+          -- if true, <C-]>(change root to node) mutates cwd
+          -- execute ":pwd" to check cwd at nvim-tree buffer
+          enable = true,
+          global = false, -- Use `:cd` instead of `:lcd` when changing directories.
+          restrict_above_cwd = false, -- if true, change to parent directory above cwd disabled
+        },
       },
       renderer = {
         indent_markers = {
@@ -44,6 +70,11 @@ return {
         },
         indent_width = 1,
         icons = {
+          git_placement = "before",
+          modified_placement = "after",
+          hidden_placement = "after",
+          diagnostics_placement = "signcolumn",
+          bookmarks_placement = "signcolumn",
           glyphs = {
             folder = {
               arrow_closed = "", -- arrow when folder is closed
@@ -52,29 +83,32 @@ return {
           },
         },
       },
-      actions = {
-        open_file = {
-          window_picker = {
-            enable = false, -- false 이면 새 파일 열람시 현재 활성화된 창에서 열람
-          },
-        },
+
+      -- sync root when Dirchange event occurs (ex. :cd command)
+      sync_root_with_cwd = true, -- default false
+      -- reload nvim-tree on BufEnter nvim-tree
+      -- this option can cause performance issues, so use filesystem_watchers instead
+      -- filesystem_watchers disables BufEnter event on nvim-tree for optimization
+      reload_on_bufenter = false, -- default false
+      -- observe filesystem changes and apply changes to nvim-tree
+      filesystem_watchers = {
+        enable = true,
       },
     })
 
     local function set_tree_width(width)
       return function()
-        -- 현재 열려있는 nvim-tree 창 찾기
+        -- find nvim-tree buf then adjust width
         for _, win in pairs(vim.api.nvim_list_wins()) do
           local buf = vim.api.nvim_win_get_buf(win)
           local buf_name = vim.api.nvim_buf_get_name(buf)
 
-          -- nvim-tree 버퍼 확인하고 크기 변경
           if string.match(buf_name, "NvimTree") then
             vim.api.nvim_win_set_width(win, width)
           end
         end
 
-        -- 열려있지 않더라도 너비를 적용
+        -- Apply width even if nvim-tree is hidden
         treeview.View.width = width
       end
     end
