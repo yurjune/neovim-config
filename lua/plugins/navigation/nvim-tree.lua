@@ -57,9 +57,8 @@ return {
           close_window = true, -- close window on remove file in nvim-tree
         },
         change_dir = {
-          -- if true, <C-]>(change root to node) mutates cwd
-          -- execute ":pwd" to check cwd at nvim-tree buffer
-          enable = true,
+          -- If enabled, change the cwd when changing directories in the tree. (ex. C-])
+          enable = false,
           global = false, -- Use `:cd` instead of `:lcd` when changing directories.
           restrict_above_cwd = false, -- if true, change to parent directory above cwd disabled
         },
