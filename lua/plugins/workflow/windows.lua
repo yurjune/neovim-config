@@ -3,6 +3,9 @@ return {
   dependencies = { "anuvyklack/middleclass" },
   config = function()
     require("windows").setup({
+      autowidth = {
+        enable = false,
+      },
       ignore = {
         buftype = { "quickfix" },
         filetype = { "NvimTree" },
