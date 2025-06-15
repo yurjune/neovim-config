@@ -118,10 +118,20 @@ return {
       end
     end
 
+    local function toggle_focus_tree()
+      local current_buf = vim.api.nvim_get_current_buf()
+      local buf_name = vim.api.nvim_buf_get_name(current_buf)
+      if string.match(buf_name, "NvimTree") then
+        vim.cmd("wincmd p") -- return to previous window
+      else
+        vim.cmd("NvimTreeFocus")
+      end
+    end
+
     -- vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
-    -- vim.keymap.set("n", "<leader>ef", "<cmd>NvimTreeFocus<CR>", { desc = "Focus nvim tree" })
-    vim.keymap.set("n", "<D-e>", "<cmd>NvimTreeFocus<CR>", { desc = "Focus nvim tree" })
-    vim.keymap.set("n", "<M-e>", "<cmd>NvimTreeFocus<CR>", { desc = "Focus nvim tree" })
+    -- vim.keymap.set("n", "<leader>ef", toggle_focus_tree", { desc = "Toggle focus nvim tree" })
+    vim.keymap.set("n", "<D-e>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
+    vim.keymap.set("n", "<M-e>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
     vim.keymap.set("n", "<D-E>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
     vim.keymap.set("n", "<M-E>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
 
