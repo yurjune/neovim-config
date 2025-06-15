@@ -118,9 +118,12 @@ return {
       end
     end
 
-    -- e means explore
-    vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
-    vim.keymap.set("n", "<leader>ef", "<cmd>NvimTreeFocus<CR>", { desc = "Focus nvim tree" })
+    -- vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
+    -- vim.keymap.set("n", "<leader>ef", "<cmd>NvimTreeFocus<CR>", { desc = "Focus nvim tree" })
+    vim.keymap.set("n", "<D-e>", "<cmd>NvimTreeFocus<CR>", { desc = "Focus nvim tree" })
+    vim.keymap.set("n", "<M-e>", "<cmd>NvimTreeFocus<CR>", { desc = "Focus nvim tree" })
+    vim.keymap.set("n", "<D-E>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
+    vim.keymap.set("n", "<M-E>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
 
     vim.keymap.set("n", "<leader>e1", set_tree_width(42), { desc = "NvimTree width 42" })
     vim.keymap.set("n", "<leader>e2", set_tree_width(50), { desc = "NvimTree width 50" })
