@@ -41,15 +41,15 @@ return {
       vim.cmd("bnext")
       vim.api.nvim_buf_delete(current_buf, { force = false })
     end
-    vim.keymap.set("n", "<D-d>", close_buffer, { desc = "Delete current buffer and move to next buffer" })
-    vim.keymap.set("n", "<M-d>", close_buffer, { desc = "Delete current buffer and move to next buffer" })
+    vim.keymap.set("n", "<D-w>", close_buffer, { desc = "Delete current buffer and move to next buffer" })
+    vim.keymap.set("n", "<M-w>", close_buffer, { desc = "Delete current buffer and move to next buffer" })
 
     local function close_all_buffers()
       bufferline.close_others()
       vim.notify("Cleared all buffers.", vim.log.levels.INFO)
     end
-    vim.keymap.set("n", "<D-D>", close_all_buffers, { desc = "Clear buffers except current buffer and nvim-tree" })
-    vim.keymap.set("n", "<M-D>", close_all_buffers, { desc = "Clear buffers except current buffer and nvim-tree" })
+    vim.keymap.set("n", "<D-W>", close_all_buffers, { desc = "Clear buffers except current buffer and nvim-tree" })
+    vim.keymap.set("n", "<M-W>", close_all_buffers, { desc = "Clear buffers except current buffer and nvim-tree" })
 
     vim.keymap.set("n", "<leader>bh", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer backward" })
     vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineMoveNext<CR>", { desc = "Move buffer forward" })
