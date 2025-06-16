@@ -49,6 +49,7 @@ return {
       actions = {
         open_file = {
           quit_on_open = false, -- close nvim-tree when file is opened
+          eject = true, -- Prevent new opened file from opening in the same window as the tree.
           resize_window = true, -- default true
           window_picker = {
             enable = true,
