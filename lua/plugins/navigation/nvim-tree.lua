@@ -129,12 +129,49 @@ return {
       end
     end
 
-    -- vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
-    -- vim.keymap.set("n", "<leader>ef", toggle_focus_tree", { desc = "Toggle focus nvim tree" })
-    vim.keymap.set("n", "<D-e>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
-    vim.keymap.set("n", "<M-e>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
-    vim.keymap.set("n", "<D-E>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
-    vim.keymap.set("n", "<M-E>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
+    local function toggle_tree_keep_focus()
+      local prev_win = vim.api.nvim_get_current_win()
+      local tree_is_open = require("nvim-tree.view").is_visible()
+
+      vim.cmd("NvimTreeToggle")
+
+      -- If tree is opened, focus the previous window
+      if not tree_is_open and vim.api.nvim_win_is_valid(prev_win) then
+        vim.schedule(function()
+          pcall(vim.api.nvim_set_current_win, prev_win)
+        end)
+      end
+    end
+
+    local function focus_first_editor()
+      local wins = vim.api.nvim_list_wins()
+      local leftmost_win = nil
+      local leftmost_col = math.huge
+
+      for _, win in ipairs(wins) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
+
+        if filetype ~= "NvimTree" then
+          local pos = vim.api.nvim_win_get_position(win)
+          if pos[2] < leftmost_col then
+            leftmost_col = pos[2]
+            leftmost_win = win
+          end
+        end
+      end
+
+      if leftmost_win then
+        vim.api.nvim_set_current_win(leftmost_win)
+      end
+    end
+
+    vim.keymap.set({ "n", "v" }, "<D-0>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
+    vim.keymap.set({ "n", "v" }, "<M-0>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
+    vim.keymap.set({ "n", "v" }, "<D-b>", toggle_tree_keep_focus, { desc = "Toggle nvim tree" })
+    vim.keymap.set({ "n", "v" }, "<M-b>", toggle_tree_keep_focus, { desc = "Toggle nvim tree" })
+    vim.keymap.set({ "n", "v" }, "<D-1>", focus_first_editor, { desc = "Focus first editor" })
+    vim.keymap.set({ "n", "v" }, "<M-1>", focus_first_editor, { desc = "Focus first editor" })
 
     vim.keymap.set("n", "<leader>e1", set_tree_width(42), { desc = "NvimTree width 42" })
     vim.keymap.set("n", "<leader>e2", set_tree_width(50), { desc = "NvimTree width 50" })
