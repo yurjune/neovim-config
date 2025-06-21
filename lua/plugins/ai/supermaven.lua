@@ -1,6 +1,9 @@
 return {
   "supermaven-inc/supermaven-nvim",
   enabled = true,
+  cond = function()
+    return not vim.g.leetcode
+  end,
   config = function()
     local sp = require("supermaven-nvim")
     local api = require("supermaven-nvim.api")
