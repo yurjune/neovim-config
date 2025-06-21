@@ -139,7 +139,10 @@ return {
     telescope.load_extension("frecency")
     telescope.load_extension("file_browser")
 
-    keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
+    -- keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
+    keymap.set("n", "<D-p>", builtin.find_files, { desc = "Telescope find files" })
+    keymap.set("n", "<M-p>", builtin.find_files, { desc = "Telescope find files" })
+
     keymap.set("n", "<leader>fr", builtin.resume, { desc = "Telescope resume last picker" })
     keymap.set("n", "<leader>fl", builtin.live_grep, { desc = "Telescope live grep" })
 
@@ -159,8 +162,8 @@ return {
     keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
     keymap.set("n", "<leader>fm", builtin.marks, { desc = "Telescope marks" })
 
-    keymap.set("n", "<leader>fgs", builtin.git_status, { desc = "Telescope git status" })
-    keymap.set("n", "<leader>fgb", builtin.git_bcommits, { desc = "Telescope git file commits" })
+    keymap.set("n", "<leader>fg", builtin.git_status, { desc = "Telescope git status" })
+    keymap.set("n", "<leader>fG", builtin.git_bcommits, { desc = "Telescope git file commits" })
 
     keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
     keymap.set("n", "<leader>fc", builtin.commands, { desc = "Telescope commands" })
