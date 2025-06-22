@@ -143,35 +143,10 @@ return {
       end
     end
 
-    local function focus_first_editor()
-      local wins = vim.api.nvim_list_wins()
-      local leftmost_win = nil
-      local leftmost_col = math.huge
-
-      for _, win in ipairs(wins) do
-        local buf = vim.api.nvim_win_get_buf(win)
-        local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
-
-        if filetype ~= "NvimTree" then
-          local pos = vim.api.nvim_win_get_position(win)
-          if pos[2] < leftmost_col then
-            leftmost_col = pos[2]
-            leftmost_win = win
-          end
-        end
-      end
-
-      if leftmost_win then
-        vim.api.nvim_set_current_win(leftmost_win)
-      end
-    end
-
-    vim.keymap.set({ "n", "v" }, "<D-0>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
-    vim.keymap.set({ "n", "v" }, "<M-0>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
+    vim.keymap.set({ "n", "v" }, "<D-e>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
+    vim.keymap.set({ "n", "v" }, "<M-e>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
     vim.keymap.set({ "n", "v" }, "<D-b>", toggle_tree_keep_focus, { desc = "Toggle nvim tree" })
     vim.keymap.set({ "n", "v" }, "<M-b>", toggle_tree_keep_focus, { desc = "Toggle nvim tree" })
-    vim.keymap.set({ "n", "v" }, "<D-1>", focus_first_editor, { desc = "Focus first editor" })
-    vim.keymap.set({ "n", "v" }, "<M-1>", focus_first_editor, { desc = "Focus first editor" })
 
     vim.keymap.set("n", "<leader>e1", set_tree_width(42), { desc = "NvimTree width 42" })
     vim.keymap.set("n", "<leader>e2", set_tree_width(50), { desc = "NvimTree width 50" })
