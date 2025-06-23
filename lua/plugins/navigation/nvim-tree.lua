@@ -49,14 +49,27 @@ return {
       actions = {
         open_file = {
           quit_on_open = false, -- close nvim-tree when file is opened
-          eject = true, -- Prevent new opened file from opening in the same window as the tree.
           resize_window = true, -- default true
           window_picker = {
             enable = true,
             -- pick the previous window when open file
             picker = function()
               local prev_winnr = vim.fn.winnr("#")
-              return vim.fn.win_getid(prev_winnr)
+              local prev_winid = vim.fn.win_getid(prev_winnr)
+              local prev_bufname = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(prev_winid))
+
+              -- If previous window is nvim-tree, find another window
+              if prev_bufname:match("NvimTree") then
+                for winnr = 1, vim.fn.winnr("$") do
+                  local winid = vim.fn.win_getid(winnr)
+                  local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(winid))
+                  if not bufname:match("NvimTree") then
+                    return winid
+                  end
+                end
+              end
+
+              return prev_winid
             end,
           },
         },
