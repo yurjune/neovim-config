@@ -25,7 +25,7 @@ return {
     local adapters = require("codecompanion.adapters")
 
     -- NOTE: Change adapter here
-    local current_adapter = "copilot"
+    local current_adapter = "anthropic"
 
     require("codecompanion").setup({
       strategies = {
@@ -232,20 +232,20 @@ return {
       },
     })
 
-    local function open_new_chat_when_in_chat()
-      if vim.bo.filetype == "codecompanion" then
-        vim.cmd("CodeCompanionChat")
-      end
-    end
+    -- local function open_new_chat_when_in_chat()
+    --   if vim.bo.filetype == "codecompanion" then
+    --     vim.cmd("CodeCompanionChat")
+    --   end
+    -- end
 
     local keymap = vim.keymap
 
-    -- keymap.set("n", "<Leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
-    -- keymap.set("n", "<Leader>cn", "<cmd>CodeCompanionChat<CR>", { desc = "CodeCompanion new chat" })
-    keymap.set({ "n", "v", "i" }, "<D-i>", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
-    keymap.set({ "n", "v", "i" }, "<M-i>", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
-    keymap.set({ "n", "v", "i" }, "<D-n>", open_new_chat_when_in_chat, { desc = "CodeCompanion new chat" })
-    keymap.set({ "n", "v", "i" }, "<M-n>", open_new_chat_when_in_chat, { desc = "CodeCompanion new chat" })
+    keymap.set("n", "<Leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
+    keymap.set("n", "<Leader>cn", "<cmd>CodeCompanionChat<CR>", { desc = "CodeCompanion new chat" })
+    -- keymap.set({ "n", "v", "i" }, "<D-i>", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
+    -- keymap.set({ "n", "v", "i" }, "<M-i>", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
+    -- keymap.set({ "n", "v", "i" }, "<D-n>", open_new_chat_when_in_chat, { desc = "CodeCompanion new chat" })
+    -- keymap.set({ "n", "v", "i" }, "<M-n>", open_new_chat_when_in_chat, { desc = "CodeCompanion new chat" })
 
     keymap.set("n", "<Leader>ca", "<cmd>CodeCompanionActions<CR>", { desc = "CodeCompanion actions" })
     keymap.set("n", "<Leader>cp", function()

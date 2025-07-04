@@ -28,7 +28,7 @@ return {
   config = function()
     require("avante").setup({
       -- NOTE: Change provider here
-      provider = "copilot",
+      provider = "claude",
       -- provider = "ollama",
       providers = {
         ollama = {
@@ -47,6 +47,9 @@ return {
             temperature = 0.1,
             max_tokens = 4096,
           },
+        },
+        openai = {
+          model = "gpt-4.1-2025-04-14",
         },
       },
       behaviour = {

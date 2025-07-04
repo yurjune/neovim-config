@@ -33,6 +33,7 @@ return {
           "^\\.git$",
         },
         exclude = {},
+        dotfiles = false, -- If false, expose hidden files
       },
       tab = {
         -- all tabs share the same nvim-tree instance

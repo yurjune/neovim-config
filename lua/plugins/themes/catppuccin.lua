@@ -70,7 +70,7 @@ return {
       },
       custom_highlights = function(colors)
         return {
-          String = { fg = vim.g.colors.pink },
+          String = { fg = colors.sapphire },
           CursorLine = { bg = colors.surface0 },
           CursorLineNr = { fg = vim.g.colors.rose_beige },
           LineNr = { fg = colors.overlay0 },
