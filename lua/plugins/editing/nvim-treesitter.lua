@@ -8,6 +8,12 @@ return {
   dependencies = {
     "windwp/nvim-ts-autotag",
     "nvim-treesitter/nvim-treesitter-context",
+    {
+      -- nvim-treesitter 에서는 중첩 함수의 return 이후 indent가 이상적으로 동작하지 않음(들여쓰기 레벨이 초기화)
+      -- check current indent method by this command: set indentexpr?
+      "Vimjas/vim-python-pep8-indent",
+      ft = "python",
+    },
   },
 
   config = function()
@@ -45,7 +51,12 @@ return {
       modules = {},
 
       highlight = { enable = true }, -- enable syntax highlighting
-      indent = { enable = true },
+      indent = {
+        enable = true,
+        disable = {
+          "python", -- to use external python indent plugin
+        },
+      },
       fold = { enable = true },
 
       -- 코드 구문 구조에 따라 선택 영역을 점진적으로 확장하거나 축소
