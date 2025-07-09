@@ -46,6 +46,7 @@ return {
         enable = true,
         show_on_dirs = true, -- if false, always hide icon of directory
         show_on_open_dirs = true, -- if false, hide icon of directory if directory is open
+        ignore = false,
       },
       actions = {
         open_file = {
