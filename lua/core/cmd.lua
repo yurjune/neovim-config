@@ -42,3 +42,17 @@ vim.api.nvim_create_autocmd("DirChanged", {
     end
   end,
 })
+
+-- Copy absolute path
+vim.api.nvim_create_user_command("CopyAbsolutePath", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  vim.notify("Absolute path copied:\n" .. path, vim.log.levels.INFO, { title = "Copy Path" })
+end, { desc = "Copy absolute path of current file" })
+
+-- Copy relative path
+vim.api.nvim_create_user_command("CopyRelativePath", function()
+  local path = vim.fn.expand("%")
+  vim.fn.setreg("+", path)
+  vim.notify("Relative path copied:\n" .. path, vim.log.levels.INFO, { title = "Copy Path" })
+end, { desc = "Copy relative path of current file" })
