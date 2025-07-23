@@ -28,8 +28,6 @@ return {
         custom = {
           ".DS_Store",
           "^node_modules$",
-          "^dist$",
-          "^build$",
           "^\\.git$",
         },
         exclude = {},
