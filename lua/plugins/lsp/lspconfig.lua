@@ -177,8 +177,11 @@ return {
           capabilities = capabilities,
           on_attach = attach_navic,
           settings = {
-            diagnostics = {
-              globals = { "vim" }, -- allow using vim global variable
+            Lua = {
+              diagnostics = {
+                -- Specify global variables to prevent 'undefined global' diagnostics in Lua scripts
+                globals = { "vim", "hs", "_G" },
+              },
             },
           },
         })
