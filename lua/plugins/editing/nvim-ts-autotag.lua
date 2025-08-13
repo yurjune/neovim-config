@@ -2,6 +2,7 @@
 return {
   "windwp/nvim-ts-autotag",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
+  ft = { "html", "xml", "javascript", "typescript", "jsx", "tsx" },
   config = function()
     ---@diagnostic disable-next-line: missing-fields
     require("nvim-ts-autotag").setup({

@@ -1,6 +1,7 @@
 return {
   "supermaven-inc/supermaven-nvim",
   enabled = true,
+  event = "InsertEnter",
   cond = function()
     return not vim.g.leetcode
   end,

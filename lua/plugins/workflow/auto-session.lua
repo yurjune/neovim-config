@@ -1,6 +1,7 @@
 -- A plugin to auto-manage sessions
 return {
   "rmagatti/auto-session",
+  event = "VimEnter",
   config = function()
     local auto_session = require("auto-session")
 
