@@ -41,11 +41,27 @@ return {
       -- prefer format_after_save then format_on_save since save with formatting always blocks UI
       -- process: save -> format -> resave
       -- ref. https://github.com/stevearc/conform.nvim/issues/401#issuecomment-2108453243
-      format_after_save = {
-        async = true,
-        lsp_format = "never",
-        timeout_ms = 2000,
-      },
+      format_after_save = function(bufnr)
+        local bufname = vim.api.nvim_buf_get_name(bufnr)
+        local filename = vim.fn.fnamemodify(bufname, ":t")
+
+        local exclude_files = {
+          "lazy-lock.json",
+          "package-lock.json",
+        }
+
+        for _, exclude_file in ipairs(exclude_files) do
+          if filename == exclude_file then
+            return nil
+          end
+        end
+
+        return {
+          async = true,
+          lsp_format = "never",
+          timeout_ms = 2000,
+        }
+      end,
     })
 
     vim.keymap.set({ "n", "v" }, "<leader>lf", function()
