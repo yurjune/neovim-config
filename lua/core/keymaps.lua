@@ -20,6 +20,8 @@ vim.keymap.set("n", "<C-6>", "<Nop>")
 vim.keymap.set("n", "<leader>rq", ":cexpr [] | cclose<CR>", { desc = "Reset and close quick-fix" })
 -- vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, desc = "change to normal mode" })
 
+vim.keymap.set("n", "<leader>[[", "<cmd>qa!<CR>", { desc = "Exit neovim by force" })
+
 vim.keymap.set("n", "gh", function()
   local windows = vim.api.nvim_tabpage_list_wins(0)
   for _, win in ipairs(windows) do
