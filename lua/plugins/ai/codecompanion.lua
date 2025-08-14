@@ -25,7 +25,7 @@ return {
     local adapters = require("codecompanion.adapters")
 
     -- NOTE: Change adapter here
-    local current_adapter = "anthropic"
+    local current_adapter = "openai"
 
     require("codecompanion").setup({
       strategies = {
