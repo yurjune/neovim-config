@@ -46,7 +46,6 @@ return {
       },
       extensions = {
         "nvim-tree",
-        "avante",
         "quickfix",
         "nvim-dap-ui",
         "toggleterm",
