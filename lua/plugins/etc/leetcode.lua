@@ -1,6 +1,9 @@
 return {
   "kawre/leetcode.nvim",
   -- build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
+  cond = function()
+    return vim.g.leetcode
+  end,
   dependencies = {
     "nvim-telescope/telescope.nvim",
     "nvim-lua/plenary.nvim",
