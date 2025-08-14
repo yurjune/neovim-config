@@ -5,17 +5,21 @@ return {
   config = function()
     local auto_session = require("auto-session")
 
+    -- This causes screen blinking when restoring session
+    local function restore_nvim_tree()
+      if not require("nvim-tree.view").is_visible() then
+        require("nvim-tree.api").tree.open()
+        vim.cmd("wincmd p") -- move cursor back to the previous window
+        vim.cmd("redraw") -- minimize screen blinking
+      end
+    end
+
     auto_session.setup({
+      auto_save = true, -- Enables/disables auto saving session on exit
       auto_restore = true,
       suppressed_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
       post_restore_cmds = {
-        -- open nvim-tree after restoring session
-        function()
-          if not require("nvim-tree.view").is_visible() then
-            require("nvim-tree.api").tree.open()
-            vim.cmd("wincmd p") -- move cursor back to the previous window
-          end
-        end,
+        restore_nvim_tree,
       },
     })
 
