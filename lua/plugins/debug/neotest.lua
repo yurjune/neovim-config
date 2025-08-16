@@ -1,5 +1,8 @@
+-- A framework for interacting with tests within NeoVim
 return {
   "nvim-neotest/neotest",
+  -- disabled since it's test results are not accurate
+  enabled = false,
   dependencies = {
     "nvim-neotest/nvim-nio",
     "nvim-lua/plenary.nvim",
