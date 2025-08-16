@@ -23,6 +23,23 @@ return {
           height = 45,
         },
       })
+
+      local Terminal = require("toggleterm.terminal").Terminal
+      vim.api.nvim_create_user_command("TestCurrentFile", function()
+        Terminal:new({
+          cmd = "npx jest " .. vim.fn.shellescape(vim.fn.expand("%")),
+          close_on_exit = false,
+          direction = "float",
+        }):toggle()
+      end, { desc = "Run test current file in toggleterm" })
+
+      vim.api.nvim_create_user_command("TestCurrentFileCoverage", function()
+        Terminal:new({
+          cmd = "npx jest " .. vim.fn.shellescape(vim.fn.expand("%")) .. " --coverage",
+          close_on_exit = false,
+          direction = "float",
+        }):toggle()
+      end, { desc = "Get test coverage of current file in toggleterm" })
     end,
   },
 }
