@@ -56,3 +56,8 @@ vim.api.nvim_create_user_command("CopyRelativePath", function()
   vim.fn.setreg("+", path)
   vim.notify("Relative path copied:\n" .. path, vim.log.levels.INFO, { title = "Copy Path" })
 end, { desc = "Copy relative path of current file" })
+
+vim.api.nvim_create_user_command("NodeCurrentFile", function()
+  local file_path = vim.fn.expand("%")
+  vim.cmd("terminal node " .. vim.fn.fnameescape(file_path))
+end, { desc = "Run current file on node" })
