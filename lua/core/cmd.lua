@@ -43,6 +43,11 @@ vim.api.nvim_create_autocmd("DirChanged", {
   end,
 })
 
+vim.api.nvim_create_user_command("W", "w", { desc = "Save current file" })
+vim.api.nvim_create_user_command("Wq", "wq", { desc = "Save and quit current file" })
+vim.api.nvim_create_user_command("Q", "q", { desc = "Quit current file" })
+vim.api.nvim_create_user_command("Qa", "qa", { desc = "Quit all files" })
+
 -- Copy absolute path
 vim.api.nvim_create_user_command("CopyAbsolutePath", function()
   local path = vim.fn.expand("%:p")
