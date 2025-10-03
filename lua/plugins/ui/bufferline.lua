@@ -8,7 +8,8 @@ return {
   config = function()
     local bufferline = require("bufferline")
     local cat_palette = require("catppuccin.palettes").get_palette()
-    local highlights = require("catppuccin.groups.integrations.bufferline").get()()
+    local highlights = require("catppuccin.special.bufferline").get_theme()()
+
     highlights.buffer_selected = {
       fg = cat_palette.text,
       bold = true,
