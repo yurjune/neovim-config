@@ -3,6 +3,11 @@ return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
   dependencies = {
+    -- cmp-nvim-lsp tells LSP servers that nvim-cmp can handle advanced features like auto-imports
+    -- with this: shows ALL available symbols from node_modules and adds import when selected
+    -- without this: only shows already imported symbols
+    -- auto-import means: shows unimported symbols (useState, useEffect, etc.) in completion list
+    "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer", -- source for text in buffer
     "hrsh7th/cmp-path", -- source for file system paths
     "hrsh7th/cmp-cmdline", -- for command line autocompletion
