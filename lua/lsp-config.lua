@@ -82,8 +82,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- Change the Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
 vim.diagnostic.config({
   underline = true,
   update_in_insert = true,
@@ -100,25 +99,11 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.INFO] = signs.Info,
       [vim.diagnostic.severity.HINT] = signs.Hint,
     },
-    texthl = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-    },
-    numhl = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-    },
   },
-  vim.diagnostic.config({
-    float = {
-      border = "rounded",
-      winhighlight = "Normal:DiagnosticFloat,FloatBorder:DiagnosticBorder",
-    },
-  }),
+  float = {
+    border = "rounded",
+    winhighlight = "Normal:DiagnosticFloat,FloatBorder:DiagnosticBorder",
+  },
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
