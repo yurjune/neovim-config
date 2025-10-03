@@ -77,6 +77,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       map("n", "<leader>ru", remove_unused, "Remove unused")
     end
 
+    -- attach nvim-navic plugin to LSP clients
     local navic_ok, navic = pcall(require, "nvim-navic")
     if navic_ok and client.server_capabilities.documentSymbolProvider then
       navic.attach(client, bufnr)
@@ -108,18 +109,22 @@ vim.diagnostic.config({
   },
 })
 
+-- Activate LSP completion
 vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if client and client.supports_method("textDocument/completion") then
+      -- Enable completion
       vim.lsp.completion.enable(true, client.id, ev.buf, {
+        -- Automatically trigger completion after typing
         autotrigger = true,
       })
     end
   end,
 })
 
+-- For Svelte lsp
 vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
@@ -127,8 +132,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client and client.name == "svelte" then
       vim.api.nvim_create_autocmd("BufWritePost", {
         group = lsp_group,
+        -- When JS/TS file changes which is imported by Svelte file,
         pattern = { "*.js", "*.ts" },
         callback = function(ctx)
+          -- Notify Svelte LSP that the file has changed, so that LSP server can update type info and diagnostics
           client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
         end,
       })
