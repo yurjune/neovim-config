@@ -91,20 +91,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+-- Disable built-in completion when using nvim-cmp
 -- Activate LSP completion
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = lsp_group,
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client and client.supports_method("textDocument/completion") then
-      -- Enable completion
-      vim.lsp.completion.enable(true, client.id, ev.buf, {
-        -- if True, completion select will automatically trigger after inserting a character
-        autotrigger = false,
-      })
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--   group = lsp_group,
+--   callback = function(ev)
+--     local client = vim.lsp.get_client_by_id(ev.data.client_id)
+--     if client and client.supports_method("textDocument/completion") then
+--       -- Enable completion
+--       vim.lsp.completion.enable(true, client.id, ev.buf, {
+--         -- if True, completion select will automatically trigger after inserting a character
+--         autotrigger = false,
+--       })
+--     end
+--   end,
+-- })
 
 -- For Svelte lsp
 vim.api.nvim_create_autocmd("LspAttach", {
