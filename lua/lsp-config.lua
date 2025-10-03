@@ -20,10 +20,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
       })
     end
 
+    -- Remove built in keymaps for lsp buf starts with "gr"
+    local gr_mappings = { "grn", "gra", "grr", "gri", "grt" }
+    for _, mapping in ipairs(gr_mappings) do
+      pcall(vim.keymap.del, "n", mapping)
+      pcall(vim.keymap.del, "x", mapping)
+    end
+
     local tele_builtin = require("telescope.builtin")
 
     map("n", "gl", "gd", "Show local definitions")
-
     map("n", "gd", tele_builtin.lsp_definitions, "Show LSP definitions")
     map("n", "gr", tele_builtin.lsp_references, "Show LSP references")
     map("n", "gi", tele_builtin.lsp_implementations, "Show LSP implementations")
