@@ -48,6 +48,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     map("n", "<leader>dl", vim.diagnostic.open_float, "Show line diagnostics")
     map("n", "<leader>rs", "<cmd>LspRestart<CR>", "Restart LSP")
+  end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = lsp_group,
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
     if client and client.name == "ts_ls" then
       local function organize_imports()
@@ -73,8 +80,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.api.nvim_create_user_command("OrganizeImports", organize_imports, {})
       vim.api.nvim_create_user_command("RemoveUnused", remove_unused, {})
 
-      map("n", "<leader>oi", organize_imports, "Organize Imports")
-      map("n", "<leader>ru", remove_unused, "Remove unused")
+      vim.keymap.set("n", "<leader>oi", organize_imports, { desc = "Organize Imports", buffer = ev.buf })
+      vim.keymap.set("n", "<leader>ru", remove_unused, { desc = "Remove unused", buffer = ev.buf })
     end
   end,
 })
@@ -99,6 +106,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
+
     if client and client.name == "svelte" then
       vim.api.nvim_create_autocmd("BufWritePost", {
         group = lsp_group,
