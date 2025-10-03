@@ -61,78 +61,80 @@ return {
         },
       },
       adapters = {
-        copilot = function()
-          return adapters.extend("copilot", {
-            schema = {
-              model = {
-                default = "gpt-4.1-2025-04-14",
+        http = {
+          copilot = function()
+            return adapters.extend("copilot", {
+              schema = {
+                model = {
+                  default = "gpt-4.1-2025-04-14",
+                },
               },
-            },
-          })
-        end,
-        openai = function()
-          return adapters.extend("openai", {
-            env = {
-              api_key = execute_cmd("echo $OPENAI_API_KEY"),
-            },
-            schema = {
-              model = {
-                default = "gpt-4.1-2025-04-14",
+            })
+          end,
+          openai = function()
+            return adapters.extend("openai", {
+              env = {
+                api_key = execute_cmd("echo $OPENAI_API_KEY"),
               },
-            },
-          })
-        end,
-        anthropic = function()
-          return adapters.extend("anthropic", {
-            env = {
-              api_key = execute_cmd("echo $ANTHROPIC_API_KEY"),
-            },
-            schema = {
-              model = {
-                default = "claude-sonnet-4-20250514",
+              schema = {
+                model = {
+                  default = "gpt-4.1-2025-04-14",
+                },
               },
-              temperature = {
-                -- If you want more creative responses, increase this value
-                -- Recommended for coding: 0 ~ 0.3
-                default = 0.1,
+            })
+          end,
+          anthropic = function()
+            return adapters.extend("anthropic", {
+              env = {
+                api_key = execute_cmd("echo $ANTHROPIC_API_KEY"),
               },
-              extended_thinking = {
-                default = false,
+              schema = {
+                model = {
+                  default = "claude-sonnet-4-20250514",
+                },
+                temperature = {
+                  -- If you want more creative responses, increase this value
+                  -- Recommended for coding: 0 ~ 0.3
+                  default = 0.1,
+                },
+                extended_thinking = {
+                  default = false,
+                },
+                top_p = { -- 누적 확률 샘플링
+                  -- Consider only the most certain 10% of tokens (very conservative)
+                  -- default is null
+                  -- default = 0.1,
+                },
+                thinking_budget = {
+                  default = 16000,
+                },
               },
-              top_p = { -- 누적 확률 샘플링
-                -- Consider only the most certain 10% of tokens (very conservative)
-                -- default is null
-                -- default = 0.1,
+            })
+          end,
+          llama3 = function()
+            return adapters.extend("ollama", {
+              name = "llama3", -- Give this adapter a different name to differentiate it from the default ollama adapter
+              schema = {
+                model = {
+                  default = "llama3:latest",
+                },
+                num_ctx = {
+                  default = 16384,
+                },
+                num_predict = {
+                  default = -1,
+                },
               },
-              thinking_budget = {
-                default = 16000,
-              },
-            },
-          })
-        end,
-        llama3 = function()
-          return adapters.extend("ollama", {
-            name = "llama3", -- Give this adapter a different name to differentiate it from the default ollama adapter
-            schema = {
-              model = {
-                default = "llama3:latest",
-              },
-              num_ctx = {
-                default = 16384,
-              },
-              num_predict = {
-                default = -1,
-              },
-            },
-          })
-        end,
-      },
-      opts = {
-        language = "Korean", -- default system prompt includes this
-        send_code = true, -- If false, the code will not be sent to the LLM
-        -- system_prompt = function()
-        --   return ""
-        -- end,
+            })
+          end,
+          opts = {
+            language = "Korean", -- default system prompt includes this
+            send_code = true, -- If false, the code will not be sent to the LLM
+            -- system_prompt = function()
+            --   return ""
+            -- end,
+          },
+        },
       },
       display = {
         chat = {
