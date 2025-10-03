@@ -7,8 +7,10 @@ vim.lsp.enable({
   "marksman",
 })
 
+local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
+
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+  group = lsp_group,
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     local bufnr = ev.buf
@@ -107,6 +109,7 @@ vim.diagnostic.config({
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
+  group = lsp_group,
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if client and client.supports_method("textDocument/completion") then
@@ -118,10 +121,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
+  group = lsp_group,
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if client and client.name == "svelte" then
       vim.api.nvim_create_autocmd("BufWritePost", {
+        group = lsp_group,
         pattern = { "*.js", "*.ts" },
         callback = function(ctx)
           client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
