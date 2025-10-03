@@ -91,8 +91,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client and client.supports_method("textDocument/completion") then
       -- Enable completion
       vim.lsp.completion.enable(true, client.id, ev.buf, {
-        -- Automatically trigger completion after typing
-        autotrigger = true,
+        -- if True, completion select will automatically trigger after inserting a character
+        autotrigger = false,
       })
     end
   end,
