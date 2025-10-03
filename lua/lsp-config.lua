@@ -12,12 +12,9 @@ local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
 vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    local bufnr = ev.buf
-
     local function map(mode, lhs, rhs, desc)
       vim.keymap.set(mode, lhs, rhs, {
-        buffer = bufnr,
+        buffer = ev.buf,
         silent = true,
         desc = desc,
       })
