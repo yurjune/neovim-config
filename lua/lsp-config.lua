@@ -76,12 +76,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       map("n", "<leader>oi", organize_imports, "Organize Imports")
       map("n", "<leader>ru", remove_unused, "Remove unused")
     end
-
-    -- attach nvim-navic plugin to LSP clients
-    local navic_ok, navic = pcall(require, "nvim-navic")
-    if navic_ok and client.server_capabilities.documentSymbolProvider then
-      navic.attach(client, bufnr)
-    end
   end,
 })
 
@@ -115,6 +109,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
           client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
         end,
       })
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = lsp_group,
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    local navic_ok, navic = pcall(require, "nvim-navic")
+
+    -- attach nvim-navic plugin to LSP clients
+    if navic_ok and client.server_capabilities.documentSymbolProvider then
+      navic.attach(client, ev.buf)
     end
   end,
 })
