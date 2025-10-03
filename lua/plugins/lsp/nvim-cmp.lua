@@ -3,22 +3,21 @@ return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
   dependencies = {
-    -- cmp-nvim-lsp tells LSP servers that nvim-cmp can handle advanced features like auto-imports
-    -- with this: shows ALL available symbols from node_modules and adds import when selected
-    -- without this: only shows already imported symbols
-    -- auto-import means: shows unimported symbols (useState, useEffect, etc.) in completion list
+    -- tells LSP servers that nvim-cmp can handle advanced features (auto-imports, snippets, etc.)
+    -- without this: useState won't appear unless you manually write 'import { useState } from "react"'
+    -- with this: useState appears in completion even without import, and adds the import when selected
     "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-buffer", -- source for text in buffer
-    "hrsh7th/cmp-path", -- source for file system paths
-    "hrsh7th/cmp-cmdline", -- for command line autocompletion
+    "hrsh7th/cmp-buffer", -- source: words from current buffer (variables/functions you've already typed)
+    "hrsh7th/cmp-path", -- source: file system paths (./src/, ../components/Header.tsx)
+    "hrsh7th/cmp-cmdline", -- source: vim commands in command line mode (:colorscheme, /search patterns)
     {
-      "L3MON4D3/LuaSnip",
+      "L3MON4D3/LuaSnip", -- snippet engine: expands templates (e.g., rfc → React functional component)
       version = "v2.*",
       build = "make install_jsregexp", -- install jsregexp (optional!).
     },
-    "saadparwaiz1/cmp_luasnip", -- for autocompletion
-    "rafamadriz/friendly-snippets", -- useful snippets
-    "onsails/lspkind.nvim", -- vs-code like pictograms
+    "saadparwaiz1/cmp_luasnip", -- source: connects LuaSnip snippets to nvim-cmp completion list
+    "rafamadriz/friendly-snippets", -- snippet data: pre-made templates for React, Vue, Python, etc.
+    "onsails/lspkind.nvim", -- UI enhancement: adds VSCode-like icons (ƒ  󰊕 etc.)
   },
   config = function()
     local cmp = require("cmp")
@@ -42,7 +41,12 @@ return {
         return true
       end,
 
+      -- controls completion popup menu
       completion = {
+        -- menu: show popup menu for completions
+        -- menuone: show popup menu even if there's only one completion
+        -- preview: show preview window for completions
+        -- noselect: don't select the completion automatically
         completeopt = "menu,menuone,preview,noselect",
       },
 
@@ -69,20 +73,21 @@ return {
         -- ["<Tab>"] = cmp.mapping.confirm({ select = true }),
       }),
 
-      -- sources for autocompletion
+      -- sources for autocompletion (order matters - higher priority first)
       sources = cmp.config.sources({
-        { name = "nvim_lsp" }, -- lsp server
-        { name = "buffer" }, -- text within current buffer
-        { name = "luasnip" }, -- snippets
-        { name = "path" }, -- file system paths
-        -- { name = "copilot" }, -- integrate with copilot.cmp
-        -- { name = "supermaven" }, -- integrate with supermaven.nvim
-        -- { name = "render-markdown" },
+        { name = "nvim_lsp" }, -- from cmp-nvim-lsp
+        { name = "buffer" }, -- from cmp-buffer
+        { name = "luasnip" }, -- from cmp_luasnip
+        { name = "path" }, -- from cmp-path
+        -- { name = "copilot" }, -- requires cmp-copilot
+        -- { name = "supermaven" }, -- requires supermaven-nvim
+        -- { name = "render-markdown" }, -- requires render-markdown.nvim
         per_filetype = {
-          codecompanion = { "codecompanion" },
+          codecompanion = { "codecompanion" }, -- requires codecompanion.nvim
         },
       }),
 
+      -- Customize how completions are formatted
       formatting = {
         format = function(entry, item)
           -- integrate nvim-highlight-colors to nvim-cmp
@@ -109,11 +114,14 @@ return {
         end,
       },
 
+      -- Customize UI styles for completion popup menu
       window = {
+        -- completion list popup menu
         completion = {
           border = "rounded",
           winhighlight = "Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
         },
+        -- documentation popup menu for completions
         documentation = {
           border = "rounded",
           winhighlight = "Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
@@ -121,13 +129,13 @@ return {
       },
     })
 
+    -- Apply completions in command line
     cmp.setup.cmdline("/", {
       mapping = cmp.mapping.preset.cmdline(),
       sources = {
         { name = "buffer" },
       },
     })
-
     cmp.setup.cmdline(":", {
       mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({
@@ -148,7 +156,7 @@ return {
       },
     })
 
-    -- luasnip 의 tabstop/placeholder(ex. $1, $2) 에 대한 키매핑
+    -- Keymaps of luasnip about tabstop/placeholder(ex. $1, $2)
     vim.keymap.set({ "i", "s" }, "<C-f>", function()
       return luasnip.jumpable(1) and "<Plug>luasnip-jump-next" or "<C-f>"
     end, { expr = true })
