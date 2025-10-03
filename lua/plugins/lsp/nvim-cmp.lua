@@ -41,21 +41,19 @@ return {
         return true
       end,
 
-      -- controls completion popup menu
-      completion = {
-        -- menu: show popup menu for completions
-        -- menuone: show popup menu even if there's only one completion
-        -- preview: show preview window for completions
-        -- noselect: don't select the completion automatically
-        completeopt = "menu,menuone,preview,noselect",
-      },
-
-      -- configure how nvim-cmp interacts with snippet engine
-      snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body)
-        end,
-      },
+      -- sources for autocompletion (order matters - higher priority first)
+      sources = cmp.config.sources({
+        { name = "nvim_lsp" }, -- from cmp-nvim-lsp
+        { name = "buffer" }, -- from cmp-buffer
+        { name = "luasnip" }, -- from cmp_luasnip
+        { name = "path" }, -- from cmp-path
+        -- { name = "copilot" }, -- requires cmp-copilot
+        -- { name = "supermaven" }, -- requires supermaven-nvim
+        -- { name = "render-markdown" }, -- requires render-markdown.nvim
+        per_filetype = {
+          codecompanion = { "codecompanion" }, -- requires codecompanion.nvim
+        },
+      }),
 
       mapping = cmp.mapping.preset.insert({
         ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
@@ -73,21 +71,7 @@ return {
         -- ["<Tab>"] = cmp.mapping.confirm({ select = true }),
       }),
 
-      -- sources for autocompletion (order matters - higher priority first)
-      sources = cmp.config.sources({
-        { name = "nvim_lsp" }, -- from cmp-nvim-lsp
-        { name = "buffer" }, -- from cmp-buffer
-        { name = "luasnip" }, -- from cmp_luasnip
-        { name = "path" }, -- from cmp-path
-        -- { name = "copilot" }, -- requires cmp-copilot
-        -- { name = "supermaven" }, -- requires supermaven-nvim
-        -- { name = "render-markdown" }, -- requires render-markdown.nvim
-        per_filetype = {
-          codecompanion = { "codecompanion" }, -- requires codecompanion.nvim
-        },
-      }),
-
-      -- Customize how completions are formatted
+      -- customize how completions are formatted
       formatting = {
         format = function(entry, item)
           -- integrate nvim-highlight-colors to nvim-cmp
@@ -112,9 +96,25 @@ return {
 
           return item
         end,
+
+        -- configure how nvim-cmp interacts with snippet engine
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
       },
 
-      -- Customize UI styles for completion popup menu
+      -- controls completion popup menu functions
+      completion = {
+        -- menu: show popup menu for completions
+        -- menuone: show popup menu even if there's only one completion
+        -- preview: show preview window for completions
+        -- noselect: don't select the completion automatically
+        completeopt = "menu,menuone,preview,noselect",
+      },
+
+      -- customize UI styles for completion popup menu
       window = {
         -- completion list popup menu
         completion = {
