@@ -1,4 +1,5 @@
 require("core.global")
+require("core.diagnostics")
 require("core.options")
 require("core.keymaps")
 require("core.keymaps-markdown")

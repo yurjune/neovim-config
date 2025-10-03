@@ -1,6 +1,5 @@
 return {
   "nvim-telescope/telescope.nvim",
-  branch = "0.1.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
@@ -37,7 +36,7 @@ return {
         },
         preview = {
           treesitter = false, -- Treesitter 비활성화로 미리보기 가볍게
-          file_size_limit = 1,
+          file_size_limit = 5,
         },
         path_display = { -- truncate(default), smart, shorten, hidden
           "smart",
