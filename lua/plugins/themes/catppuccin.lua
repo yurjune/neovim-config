@@ -11,6 +11,32 @@ return {
         keywords = { "bold" },
         functions = { "italic" },
       },
+      auto_integrations = false,
+      float = {
+        transparent = true, -- -- enable transparent floating windows
+        -- use solid styling for floating windows, see |winborder|
+        -- e.g. if true, telecope window title becomes solid style
+        solid = true,
+      },
+      lsp_styles = {
+        virtual_text = {
+          errors = { "italic", "bold", "undercurl" },
+          warnings = { "italic", "bold", "undercurl" },
+          information = { "italic", "bold" },
+          hints = { "italic", "bold" },
+          ok = { "italic", "bold" },
+        },
+        underlines = {
+          errors = { "undercurl" },
+          warnings = { "undercurl" },
+          information = { "undercurl" },
+          hints = { "undercurl" },
+          ok = { "undercurl" },
+        },
+        inlay_hints = {
+          background = true,
+        },
+      },
       integrations = {
         alpha = true,
         cmp = true, -- nvim-cmp
@@ -29,26 +55,6 @@ return {
         },
         lsp_trouble = true, -- trouble.nvim
         mason = true,
-        native_lsp = {
-          enabled = true,
-          virtual_text = {
-            errors = { "italic", "bold", "undercurl" },
-            warnings = { "italic", "bold", "undercurl" },
-            information = { "italic", "bold" },
-            hints = { "italic", "bold" },
-            ok = { "italic", "bold" },
-          },
-          underlines = {
-            errors = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
-            hints = { "undercurl" },
-            ok = { "undercurl" },
-          },
-          inlay_hints = {
-            background = true,
-          },
-        },
         navic = { -- nvim-navic
           enabled = true,
         },
@@ -59,8 +65,9 @@ return {
         nvim_surround = true,
         nvimtree = true,
         render_markdown = true,
-        telescope = { style = nil },
-        treesitter = true, -- nvim-treesitter
+        telescope = {
+          enabled = true,
+        },
         treesitter_context = true,
         ufo = true, -- nvim-ufo
         which_key = true,

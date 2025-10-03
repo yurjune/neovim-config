@@ -35,12 +35,12 @@ return {
           return
         end
       end
-      auto_session.RestoreSession()
+      auto_session.restore_session()
     end
 
-    vim.keymap.set("n", "<leader>ss", auto_session.SaveSession, { desc = "Save Session" })
+    vim.keymap.set("n", "<leader>ss", auto_session.save_session, { desc = "Save Session" })
     vim.keymap.set("n", "<leader>sd", function()
-      auto_session.DeleteSession()
+      auto_session.delete_session()
       vim.notify("Session deleted", vim.log.levels.INFO, { title = "Auto Session" })
     end, { desc = "Delete Session" })
     vim.keymap.set("n", "<leader>sr", restore_session_with_check, { desc = "Restore Session with check" })

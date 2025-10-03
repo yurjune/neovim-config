@@ -10,7 +10,6 @@ return {
       find_left = "ZsF",
       replace = "Zsr",
       highlight = "Zsh",
-      update_n_lines = "Zsn",
     },
   },
 }

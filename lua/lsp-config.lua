@@ -5,6 +5,7 @@ vim.lsp.enable({
   "emmet_ls",
   "svelte",
   "marksman",
+  "tailwindcss",
 })
 
 local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
