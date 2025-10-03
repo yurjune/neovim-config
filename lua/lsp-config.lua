@@ -9,6 +9,7 @@ vim.lsp.enable({
 
 local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
 
+-- LSP config for keymaps
 vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
@@ -54,6 +55,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+-- LSP config for ts-ls
 vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
