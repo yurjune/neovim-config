@@ -213,25 +213,6 @@ return {
           },
         },
       },
-      prompt_library = {
-        ["Prompt example"] = {
-          strategy = "chat",
-          description = "Prompt example",
-          opts = {
-            short_name = "example",
-          },
-          prompts = {
-            {
-              role = "system",
-              content = [[Write your custom prompt here.]],
-            },
-            {
-              role = "user",
-              content = [[Write your custom prompt here.]],
-            },
-          },
-        },
-      },
     })
 
     -- local function open_new_chat_when_in_chat()
@@ -250,11 +231,6 @@ return {
     -- keymap.set({ "n", "v", "i" }, "<M-n>", open_new_chat_when_in_chat, { desc = "CodeCompanion new chat" })
 
     keymap.set("n", "<Leader>ca", "<cmd>CodeCompanionActions<CR>", { desc = "CodeCompanion actions" })
-    keymap.set("n", "<Leader>cp", function()
-      vim.ui.input({ prompt = "Prompt short name" }, function(short_name)
-        vim.cmd("CodeCompanion /" .. short_name)
-      end)
-    end, { desc = "CodeCompanion custom prompt" })
 
     keymap.set("v", "<Leader>ci", ":CodeCompanion ", { desc = "CodeCompanion inline" })
   end,
