@@ -1,6 +1,6 @@
 return {
   "brenoprata10/nvim-highlight-colors",
-  event = "VeryLazy",
+  event = "BufReadPost",
   config = function()
     require("nvim-highlight-colors").setup({
       ---@usage 'background'|'foreground'|'virtual'
