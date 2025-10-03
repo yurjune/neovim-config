@@ -87,3 +87,7 @@ vim.opt.listchars = {
   extends = ">",
   precedes = "<",
 }
+
+-- claude code 로 파일을 수정했을 때 생기는 문제 방지(검증 중)
+vim.opt.fixeol = false -- 파일 끝 개행 문자 자동 수정 활성화 여부
+vim.opt.eol = false -- 파일 끝 개행 문자 활성화 여부
