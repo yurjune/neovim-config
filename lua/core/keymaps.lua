@@ -43,3 +43,16 @@ vim.keymap.set("n", "<leader>mC", function()
   vim.cmd("delmarks A-Z")
   vim.notify("A-Z marks cleared", vim.log.levels.INFO)
 end, { desc = "Clear A-Z marks" })
+
+-- Copy current file paths
+vim.keymap.set("n", "<leader>cp", function()
+  local path = vim.fn.expand("%")
+  vim.fn.setreg("+", path)
+  vim.notify(path, vim.log.levels.INFO, { title = "Copy Relative Path" })
+end, { desc = "Copy relative path of current file" })
+
+vim.keymap.set("n", "<leader>cP", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  vim.notify(path, vim.log.levels.INFO, { title = "Copy Absolute Path" })
+end, { desc = "Copy absolute path of current file" })
