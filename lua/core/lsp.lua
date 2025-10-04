@@ -1,6 +1,7 @@
 vim.lsp.enable({
   "lua_ls",
   "ts_ls",
+  "copilot",
   "rust_analyzer",
   "emmet_ls",
   "svelte",
