@@ -102,25 +102,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion) then
       vim.lsp.inline_completion.enable(true)
 
-      vim.keymap.set("i", "<Tab>", function()
-        if not vim.lsp.inline_completion.get() then
-          return "<Tab>"
-        end
-      end, { expr = true, desc = "Apply the currently displayed completion suggestion" })
-
-      -- next completion
-      for _, key in ipairs({ "<D-j>", "<M-j>" }) do
-        vim.keymap.set("i", key, function()
-          vim.lsp.inline_completion.select({})
-        end, { desc = "Show next inline completion suggestion" })
-      end
-
-      -- prev completion
-      for _, key in ipairs({ "<D-k>", "<M-k>" }) do
-        vim.keymap.set("i", key, function()
-          vim.lsp.inline_completion.select({ count = -1 })
-        end, { desc = "Show previous inline completion suggestion" })
-      end
+      -- vim.keymap.set("i", "<Tab>", function()
+      --   if not vim.lsp.inline_completion.get() then
+      --     return "<Tab>"
+      --   end
+      -- end, { expr = true, desc = "Apply the currently displayed completion suggestion" })
+      --
+      -- -- next completion
+      -- for _, key in ipairs({ "<D-j>", "<M-j>" }) do
+      --   vim.keymap.set("i", key, function()
+      --     vim.lsp.inline_completion.select({})
+      --   end, { desc = "Show next inline completion suggestion" })
+      -- end
+      --
+      -- -- prev completion
+      -- for _, key in ipairs({ "<D-k>", "<M-k>" }) do
+      --   vim.keymap.set("i", key, function()
+      --     vim.lsp.inline_completion.select({ count = -1 })
+      --   end, { desc = "Show previous inline completion suggestion" })
+      -- end
     end
   end,
 })
