@@ -6,6 +6,7 @@ vim.g.colors = {
 
 -- check leetcode.nvim arg option
 vim.g.leetcode = vim.fn.argv(0, -1) == "leet" and true or false
+vim.g.sidekick_buf_pattern = "term://*"
 
 -- default providers
 vim.g.loaded_node_provider = 1

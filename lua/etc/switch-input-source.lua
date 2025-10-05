@@ -18,7 +18,7 @@ local augroup = vim.api.nvim_create_augroup("AutoInputSource", { clear = true })
 
 vim.api.nvim_create_autocmd("BufLeave", {
   group = augroup,
-  pattern = "term://*", -- sidekick buffer name
+  pattern = vim.g.sidekick_buf_pattern,
   callback = function()
     set_input_source_async(en_source)
   end,
