@@ -1,6 +1,7 @@
 vim.lsp.enable({
   "lua_ls",
   "ts_ls",
+  "copilot",
   "rust_analyzer",
   "emmet_ls",
   "svelte",
@@ -88,6 +89,38 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
       vim.keymap.set("n", "<leader>oi", organize_imports, { desc = "Organize Imports", buffer = ev.buf })
       vim.keymap.set("n", "<leader>ru", remove_unused, { desc = "Remove unused", buffer = ev.buf })
+    end
+  end,
+})
+
+-- Enable LLM-based inline completion
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = lsp_group,
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+
+    if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion) then
+      vim.lsp.inline_completion.enable(true)
+
+      -- vim.keymap.set("i", "<Tab>", function()
+      --   if not vim.lsp.inline_completion.get() then
+      --     return "<Tab>"
+      --   end
+      -- end, { expr = true, desc = "Apply the currently displayed completion suggestion" })
+      --
+      -- -- next completion
+      -- for _, key in ipairs({ "<D-j>", "<M-j>" }) do
+      --   vim.keymap.set("i", key, function()
+      --     vim.lsp.inline_completion.select({})
+      --   end, { desc = "Show next inline completion suggestion" })
+      -- end
+      --
+      -- -- prev completion
+      -- for _, key in ipairs({ "<D-k>", "<M-k>" }) do
+      --   vim.keymap.set("i", key, function()
+      --     vim.lsp.inline_completion.select({ count = -1 })
+      --   end, { desc = "Show previous inline completion suggestion" })
+      -- end
     end
   end,
 })
