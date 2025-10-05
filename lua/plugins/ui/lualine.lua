@@ -5,7 +5,6 @@ return {
   config = function()
     local lualine = require("lualine")
     local lazy_status = require("lazy.status") -- to configure lazy pending updates count
-    local codecompanion_lualine = require("etc.codecompanion_lualine")
 
     -- configure lualine with modified theme
     lualine.setup({
@@ -50,25 +49,6 @@ return {
         "nvim-dap-ui",
         "toggleterm",
         "Man",
-        {
-          filetypes = { "codecompanion" },
-          sections = {
-            lualine_a = { "mode" },
-            lualine_b = { codecompanion_lualine.get_adapter_name },
-            lualine_c = { codecompanion_lualine.get_current_model_name },
-            lualine_x = {
-              {
-                codecompanion_lualine,
-                color = { fg = "#ff9e64" },
-              },
-            },
-            lualine_y = { "location" },
-            lualine_z = { "progress" },
-          },
-          inactive_sections = {
-            lualine_b = { codecompanion_lualine.get_adapter_name },
-          },
-        },
       },
     })
   end,
