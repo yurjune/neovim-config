@@ -9,9 +9,7 @@ local function set_input_source_async(im)
   if not im or im == "" then
     return
   end
-  vim.defer_fn(function()
-    vim.fn.jobstart("im-select " .. im)
-  end, 100)
+  vim.fn.jobstart("im-select " .. im)
 end
 
 local augroup = vim.api.nvim_create_augroup("AutoInputSource", { clear = true })
