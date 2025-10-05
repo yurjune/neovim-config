@@ -23,10 +23,10 @@ return {
     })
 
     local function restore_session_with_check()
-      -- 세션 복원 실행 전, 현재 버퍼의 변경사항 확인
+      -- check current buffer modified before restoring session
       if vim.bo.modified then
         local choice = vim.fn.confirm(
-          "현재 버퍼에 저장되지 않은 변경사항이 있습니다. 계속할까요?",
+          "The current buffer has unsaved changes. Do you want to continue and lose those changes?",
           "&Yes\n&No",
           2
         )
