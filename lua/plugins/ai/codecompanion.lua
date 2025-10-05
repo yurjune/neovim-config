@@ -223,8 +223,8 @@ return {
 
     local keymap = vim.keymap
 
-    keymap.set("n", "<Leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
-    keymap.set("n", "<Leader>cn", "<cmd>CodeCompanionChat<CR>", { desc = "CodeCompanion new chat" })
+    keymap.set("n", "<Leader>cn", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
+    keymap.set("n", "<Leader>cN", "<cmd>CodeCompanionChat<CR>", { desc = "CodeCompanion new chat" })
     -- keymap.set({ "n", "v", "i" }, "<D-i>", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
     -- keymap.set({ "n", "v", "i" }, "<M-i>", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "CodeCompanion toggle" })
     -- keymap.set({ "n", "v", "i" }, "<D-n>", open_new_chat_when_in_chat, { desc = "CodeCompanion new chat" })

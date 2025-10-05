@@ -72,7 +72,7 @@ return {
       desc = "Goto/Apply Next Edit Suggestion",
     },
     {
-      "<leader>aa",
+      "<leader>an",
       function()
         require("sidekick.cli").toggle({
           name = "claude",
@@ -83,7 +83,7 @@ return {
       mode = { "n" },
     },
     {
-      "<leader>aa",
+      "<leader>an",
       function()
         require("sidekick.cli").send({
           msg = "{selection}",
