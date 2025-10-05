@@ -99,7 +99,17 @@ return {
           msg = "{this}",
         })
       end,
-      mode = { "x", "n" },
+      mode = { "n" },
+      desc = "Send This",
+    },
+    {
+      "<leader>at",
+      function()
+        require("sidekick.cli").send({
+          msg = "{this}\n{selection}",
+        })
+      end,
+      mode = { "x" },
       desc = "Send This",
     },
     {
