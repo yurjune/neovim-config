@@ -1,3 +1,3 @@
 require("core")
-require("modules")
+require("etc")
 require("lazy-config")

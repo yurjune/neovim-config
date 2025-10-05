@@ -5,7 +5,7 @@ return {
   config = function()
     local lualine = require("lualine")
     local lazy_status = require("lazy.status") -- to configure lazy pending updates count
-    local codecompanion_lualine = require("modules.codecompanion_lualine")
+    local codecompanion_lualine = require("etc.codecompanion_lualine")
 
     -- configure lualine with modified theme
     lualine.setup({
