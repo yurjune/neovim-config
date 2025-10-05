@@ -24,6 +24,7 @@ end
 -- split windows
 vim.opt.splitright = true -- split vertical window to the right
 vim.opt.splitbelow = true -- split horizontal window to the bottom
+vim.opt.equalalways = true -- always make split windows equal width & height
 
 -- cases
 vim.opt.ignorecase = true -- case-insensitive
