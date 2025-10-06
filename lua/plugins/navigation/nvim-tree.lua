@@ -1,12 +1,63 @@
 -- A plugin to explore files with tree ui
 -- Type g? in tree buffer to see all key mappings
+
+local function toggle_focus_tree()
+  local current_buf = vim.api.nvim_get_current_buf()
+  local buf_name = vim.api.nvim_buf_get_name(current_buf)
+  if string.match(buf_name, "NvimTree") then
+    vim.cmd("wincmd p") -- return to previous window
+  else
+    vim.cmd("NvimTreeFocus")
+  end
+end
+
+local function toggle_tree_keep_focus()
+  local prev_win = vim.api.nvim_get_current_win()
+  local tree_is_open = require("nvim-tree.view").is_visible()
+
+  vim.cmd("NvimTreeToggle")
+
+  -- If tree is opened, focus the previous window
+  if not tree_is_open and vim.api.nvim_win_is_valid(prev_win) then
+    vim.schedule(function()
+      pcall(vim.api.nvim_set_current_win, prev_win)
+    end)
+  end
+end
+
+local function set_tree_width(width)
+  return function()
+    local treeview = require("nvim-tree.view")
+    -- find nvim-tree buf then adjust width
+    for _, win in pairs(vim.api.nvim_list_wins()) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      local buf_name = vim.api.nvim_buf_get_name(buf)
+
+      if string.match(buf_name, "NvimTree") then
+        vim.api.nvim_win_set_width(win, width)
+      end
+    end
+
+    -- Apply width even if nvim-tree is hidden
+    treeview.View.width = width
+  end
+end
+
 return {
   "nvim-tree/nvim-tree.lua",
   dependencies = "nvim-tree/nvim-web-devicons",
   cmd = { "NvimTreeToggle", "NvimTreeOpen" },
+  keys = {
+    { "<D-e>", toggle_focus_tree, mode = { "n", "v" }, desc = "Toggle focus nvim tree" },
+    { "<M-e>", toggle_focus_tree, mode = { "n", "v" }, desc = "Toggle focus nvim tree" },
+    { "<D-b>", toggle_tree_keep_focus, mode = { "n", "v" }, desc = "Toggle nvim tree" },
+    { "<M-b>", toggle_tree_keep_focus, mode = { "n", "v" }, desc = "Toggle nvim tree" },
+    { "<leader>e1", set_tree_width(42), desc = "NvimTree width 42" },
+    { "<leader>e2", set_tree_width(50), desc = "NvimTree width 50" },
+    { "<leader>e3", set_tree_width(60), desc = "NvimTree width 60" },
+  },
   config = function()
     local nvimtree = require("nvim-tree")
-    local treeview = require("nvim-tree.view")
 
     vim.g.loaded_netrw = 1 -- deactivate netrw which is neovim default explorer
     vim.g.loaded_netrwPlugin = 1 -- deactivate netrw extensions
@@ -115,55 +166,5 @@ return {
         enable = true,
       },
     })
-
-    local function set_tree_width(width)
-      return function()
-        -- find nvim-tree buf then adjust width
-        for _, win in pairs(vim.api.nvim_list_wins()) do
-          local buf = vim.api.nvim_win_get_buf(win)
-          local buf_name = vim.api.nvim_buf_get_name(buf)
-
-          if string.match(buf_name, "NvimTree") then
-            vim.api.nvim_win_set_width(win, width)
-          end
-        end
-
-        -- Apply width even if nvim-tree is hidden
-        treeview.View.width = width
-      end
-    end
-
-    local function toggle_focus_tree()
-      local current_buf = vim.api.nvim_get_current_buf()
-      local buf_name = vim.api.nvim_buf_get_name(current_buf)
-      if string.match(buf_name, "NvimTree") then
-        vim.cmd("wincmd p") -- return to previous window
-      else
-        vim.cmd("NvimTreeFocus")
-      end
-    end
-
-    local function toggle_tree_keep_focus()
-      local prev_win = vim.api.nvim_get_current_win()
-      local tree_is_open = require("nvim-tree.view").is_visible()
-
-      vim.cmd("NvimTreeToggle")
-
-      -- If tree is opened, focus the previous window
-      if not tree_is_open and vim.api.nvim_win_is_valid(prev_win) then
-        vim.schedule(function()
-          pcall(vim.api.nvim_set_current_win, prev_win)
-        end)
-      end
-    end
-
-    vim.keymap.set({ "n", "v" }, "<D-e>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
-    vim.keymap.set({ "n", "v" }, "<M-e>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
-    vim.keymap.set({ "n", "v" }, "<D-b>", toggle_tree_keep_focus, { desc = "Toggle nvim tree" })
-    vim.keymap.set({ "n", "v" }, "<M-b>", toggle_tree_keep_focus, { desc = "Toggle nvim tree" })
-
-    vim.keymap.set("n", "<leader>e1", set_tree_width(42), { desc = "NvimTree width 42" })
-    vim.keymap.set("n", "<leader>e2", set_tree_width(50), { desc = "NvimTree width 50" })
-    vim.keymap.set("n", "<leader>e3", set_tree_width(60), { desc = "NvimTree width 60" })
   end,
 }
