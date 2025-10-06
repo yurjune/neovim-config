@@ -11,7 +11,10 @@ return {
   opts = {
     -- NES: next edit suggestion
     nes = {
-      enabled = not vim.g.leetcode,
+      enabled = function(buf)
+        local ft = vim.bo[buf].filetype
+        return not vim.g.leetcode and ft ~= "markdown"
+      end,
       debounce = 50,
       trigger = {
         events = { "InsertLeave", "TextChanged", "User SidekickNesDone" },
