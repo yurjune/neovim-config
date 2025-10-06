@@ -4,6 +4,8 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
     after = "nvim-treesitter",
     requires = "nvim-treesitter/nvim-treesitter",
+    branch = "master",
+    -- branch = "main",  -- prepare for update.
   },
   lazy = false,
   opts = {

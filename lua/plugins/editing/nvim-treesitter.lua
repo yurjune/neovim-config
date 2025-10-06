@@ -2,6 +2,8 @@
 -- 구문을 분석하여 하이라이팅과 다양한 코드 조작 기능 제공
 return {
   "nvim-treesitter/nvim-treesitter",
+  branhch = "master",
+  -- branch = "main",  -- prepare for update
   event = { "BufReadPre", "BufNewFile" },
   -- whenever this plugin is updated, all language parsers will be updated
   build = ":TSUpdate",
