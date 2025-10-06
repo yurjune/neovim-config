@@ -39,6 +39,7 @@ return {
         "rust",
         "vim", -- vimscript
         "dockerfile",
+        "python",
         -- "c",
         -- "regex",
         -- "graphql",
