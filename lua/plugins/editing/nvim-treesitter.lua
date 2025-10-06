@@ -51,8 +51,17 @@ return {
       sync_install = false,
       ignore_install = {},
       modules = {},
-
-      highlight = { enable = true }, -- enable syntax highlighting
+      highlight = {
+        enable = true,
+        disable = function(lang)
+          -- disable python since treesitter issues
+          -- will be fixed if nvim-treesitter is updated
+          if lang == "python" then
+            return true
+          end
+          return false
+        end,
+      },
       indent = {
         enable = true,
         disable = {
