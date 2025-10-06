@@ -97,9 +97,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if vim.g.leetcode then
+      return
+    end
 
-    if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion) then
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    local support_inline = client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion)
+
+    if support_inline then
       vim.lsp.inline_completion.enable(true)
 
       -- vim.keymap.set("i", "<Tab>", function()

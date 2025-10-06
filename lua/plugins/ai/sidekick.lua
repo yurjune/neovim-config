@@ -11,6 +11,7 @@ return {
   opts = {
     -- NES: next edit suggestion
     nes = {
+      enabled = not vim.g.leetcode,
       debounce = 50,
       trigger = {
         events = { "InsertLeave", "TextChanged", "User SidekickNesDone" },
