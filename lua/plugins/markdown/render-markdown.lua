@@ -4,6 +4,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "nvim-tree/nvim-web-devicons",
   },
+  enabled = false,
   config = function()
     local rm = require("render-markdown")
     require("render-markdown").setup({
