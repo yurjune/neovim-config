@@ -62,6 +62,16 @@ return {
 
     leetcode.setup(opts)
 
+    -- make wordwrap in question window, since leetcode.nvim set nowrap internally
+    vim.api.nvim_create_autocmd({ "BufEnter" }, {
+      pattern = "*",
+      callback = function()
+        if vim.bo.filetype == "leetcode.nvim" then -- apply on question window only
+          vim.opt_local.wrap = true
+        end
+      end,
+    })
+
     vim.keymap.set("n", "<leader>lt", "<cmd>Leet run<CR>", { desc = "Run Leetcode Testcase" })
     vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<CR>", { desc = "Open Leetcode console" })
     vim.keymap.set("n", "<leader>lS", "<cmd>Leet submit<CR>", { desc = "Submit Leetcode answer" })
