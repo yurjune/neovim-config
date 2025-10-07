@@ -1,7 +1,8 @@
-local last_input_source = nil
-local english_input_source = "com.apple.keylayout.ABC"
+-- Switch input source when leave or enter insert mode
 
--- 비동기로 현재 입력 소스 가져오기
+local last_input_source = nil
+local en_input_source = "com.apple.keylayout.ABC"
+
 local function get_input_source_async(callback)
   vim.fn.jobstart("im-select", {
     on_stdout = function(_, data)
@@ -14,7 +15,6 @@ local function get_input_source_async(callback)
   })
 end
 
--- 비동기로 입력 소스 설정하기
 local function set_input_source_async(im)
   if not im or im == "" then
     return
@@ -22,10 +22,9 @@ local function set_input_source_async(im)
   vim.fn.jobstart("im-select " .. im)
 end
 
--- 자동 명령어 설정
-local augroup = vim.api.nvim_create_augroup("ImSelectManager", { clear = true })
+local augroup = vim.api.nvim_create_augroup("SwitchInputOnInsert", { clear = true })
 
--- Insert 모드에서 나갈 때 영문으로 전환하고 현재 입력소스 저장
+-- save current input source change change source to EN when leave insert mode
 vim.api.nvim_create_autocmd("InsertLeave", {
   group = augroup,
   pattern = "*",
@@ -36,16 +35,16 @@ vim.api.nvim_create_autocmd("InsertLeave", {
       end
     end)
 
-    set_input_source_async(english_input_source)
+    set_input_source_async(en_input_source)
   end,
 })
 
--- Insert 모드 진입 시 이전 입력소스로 복원
+-- restore last input source when enter insert mode
 vim.api.nvim_create_autocmd("InsertEnter", {
   group = augroup,
   pattern = "*",
   callback = function()
-    if last_input_source and last_input_source ~= "" and last_input_source ~= english_input_source then
+    if last_input_source and last_input_source ~= "" and last_input_source ~= en_input_source then
       set_input_source_async(last_input_source)
     end
   end,

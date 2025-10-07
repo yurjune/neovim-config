@@ -12,7 +12,7 @@ local function set_input_source_async(im)
   vim.fn.jobstart("im-select " .. im)
 end
 
-local augroup = vim.api.nvim_create_augroup("AutoInputSource", { clear = true })
+local augroup = vim.api.nvim_create_augroup("SwitchInputOnBuf", { clear = true })
 
 vim.api.nvim_create_autocmd("BufLeave", {
   group = augroup,
