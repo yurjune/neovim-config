@@ -100,9 +100,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     local support_inline = client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion)
-    local is_markdown = vim.bo[ev.buf].filetype == "markdown"
 
-    if not support_inline or vim.g.leetcode or is_markdown then
+    local excluded_filetypes = {
+      markdown = true,
+    }
+    local excluded_filetype = excluded_filetypes[vim.bo[ev.buf].filetype]
+
+    if not support_inline or vim.g.leetcode or excluded_filetype then
       return
     end
 
