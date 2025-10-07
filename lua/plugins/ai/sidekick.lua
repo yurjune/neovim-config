@@ -11,9 +11,8 @@ return {
   opts = {
     -- NES: next edit suggestion
     nes = {
-      enabled = function(buf)
-        local ft = vim.bo[buf].filetype
-        return not vim.g.leetcode and ft ~= "markdown"
+      enabled = function()
+        return vim.g.inline_completion_enabled
       end,
       debounce = 50,
       trigger = {
