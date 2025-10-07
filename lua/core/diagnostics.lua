@@ -1,4 +1,4 @@
-local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
 vim.diagnostic.config({
   underline = true,
   update_in_insert = true,
