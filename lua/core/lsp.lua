@@ -98,47 +98,46 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
-    if vim.g.leetcode then
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    local support_inline = client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion)
+    local is_markdown = vim.bo[ev.buf].filetype == "markdown"
+
+    if not support_inline or vim.g.leetcode or is_markdown then
       return
     end
 
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    local support_inline = client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion)
+    vim.g.inline_completion_enabled = true
+    vim.lsp.inline_completion.enable()
 
-    if support_inline then
-      vim.lsp.inline_completion.enable()
-      local inline_enabled = true
+    vim.keymap.set("n", "<leader>ct", function()
+      vim.g.inline_completion_enabled = not vim.g.inline_completion_enabled
+      vim.lsp.inline_completion.enable(vim.g.inline_completion_enabled)
+      vim.notify(
+        "Inline completion " .. (vim.g.inline_completion_enabled and "ENABLED" or "DISABLED"),
+        vim.log.levels.INFO,
+        { title = "LSP" }
+      )
+    end, { desc = "Toggle inline completion", buffer = ev.buf })
 
-      vim.keymap.set("n", "<leader>ct", function()
-        inline_enabled = not inline_enabled
-        vim.lsp.inline_completion.enable(inline_enabled)
-        vim.notify(
-          "Inline completion " .. (inline_enabled and "ENABLED" or "DISABLED"),
-          vim.log.levels.INFO,
-          { title = "LSP" }
-        )
-      end, { desc = "Toggle inline completion", buffer = ev.buf })
+    -- handle suggestion accept event in sidekick.nvim
+    -- vim.keymap.set("i", "<Tab>", function()
+    --   if not vim.lsp.inline_completion.get() then
+    --     return "<Tab>"
+    --   end
+    -- end, { expr = true, desc = "Apply the currently displayed completion suggestion" })
 
-      -- handle suggestion accept event in sidekick.nvim
-      -- vim.keymap.set("i", "<Tab>", function()
-      --   if not vim.lsp.inline_completion.get() then
-      --     return "<Tab>"
-      --   end
-      -- end, { expr = true, desc = "Apply the currently displayed completion suggestion" })
+    -- next completion
+    for _, key in ipairs({ "<D-j>", "<M-j>" }) do
+      vim.keymap.set("i", key, function()
+        vim.lsp.inline_completion.select({})
+      end, { desc = "Show next inline completion suggestion" })
+    end
 
-      -- next completion
-      for _, key in ipairs({ "<D-j>", "<M-j>" }) do
-        vim.keymap.set("i", key, function()
-          vim.lsp.inline_completion.select({})
-        end, { desc = "Show next inline completion suggestion" })
-      end
-
-      -- prev completion
-      for _, key in ipairs({ "<D-k>", "<M-k>" }) do
-        vim.keymap.set("i", key, function()
-          vim.lsp.inline_completion.select({ count = -1 })
-        end, { desc = "Show previous inline completion suggestion" })
-      end
+    -- prev completion
+    for _, key in ipairs({ "<D-k>", "<M-k>" }) do
+      vim.keymap.set("i", key, function()
+        vim.lsp.inline_completion.select({ count = -1 })
+      end, { desc = "Show previous inline completion suggestion" })
     end
   end,
 })
