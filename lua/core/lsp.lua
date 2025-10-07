@@ -106,7 +106,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local support_inline = client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion)
 
     if support_inline then
-      vim.lsp.inline_completion.enable(true)
+      vim.lsp.inline_completion.enable()
+      local inline_enabled = true
+
+      vim.keymap.set("n", "<leader>ct", function()
+        inline_enabled = not inline_enabled
+        vim.lsp.inline_completion.enable(inline_enabled)
+        vim.notify(
+          "Inline completion " .. (inline_enabled and "ENABLED" or "DISABLED"),
+          vim.log.levels.INFO,
+          { title = "LSP" }
+        )
+      end, { desc = "Toggle inline completion", buffer = ev.buf })
 
       -- handle suggestion accept event in sidekick.nvim
       -- vim.keymap.set("i", "<Tab>", function()
