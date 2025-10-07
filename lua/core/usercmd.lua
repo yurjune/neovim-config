@@ -5,6 +5,7 @@ vim.api.nvim_create_user_command("WQ", "wq", { desc = "Save and quit current fil
 vim.api.nvim_create_user_command("Q", "q", { desc = "Quit current file" })
 vim.api.nvim_create_user_command("Qa", "qa", { desc = "Quit all files" })
 vim.api.nvim_create_user_command("QA", "qa", { desc = "Quit all files" })
+vim.api.nvim_create_user_command("QQ", "qa!", { desc = "Quit all files force" })
 
 vim.api.nvim_create_user_command("R", function()
   vim.cmd("restart")
