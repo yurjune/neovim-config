@@ -9,21 +9,9 @@ vim.opt.relativenumber = true
 vim.opt.number = true -- mark current line number
 vim.opt.wrap = false -- if false, disable line wrapping when text overflows
 
-if vim.g.leetcode then
-  -- make wordwrap in question window, since leetcode.nvim set nowrap internally
-  vim.api.nvim_create_autocmd({ "BufEnter" }, {
-    pattern = "*",
-    callback = function()
-      if vim.bo.filetype == "leetcode.nvim" then -- apply on question window only
-        vim.opt_local.wrap = true
-      end
-    end,
-  })
-end
-
 -- split windows
-vim.opt.splitright = true -- split vertical window to the right
-vim.opt.splitbelow = true -- split horizontal window to the bottom
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 vim.opt.equalalways = true -- always make split windows equal width & height
 
 -- cases
@@ -45,12 +33,6 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 -- 항상 N칸 폭의 foldcolumn 을 표시, auto:N 이면 최대 N칸 폭의 foldcolumn 을 표시
 vim.opt.foldcolumn = "0"
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    -- remove auto fold open condition: horizontal move
-    -- vim.opt.foldopen:remove("hor")
-  end,
-})
 
 -- Decide what inormation to save when saving a session
 -- localoptions: local options set for each window or buffer
@@ -67,15 +49,12 @@ vim.opt.guicursor = {
   "a:blinkwait480-blinkoff480-blinkon480",
 }
 
-vim.opt.termguicolors = true -- 터미널에서 24bit true color 를 사용할지를 결정
-vim.opt.background = "dark" -- 현재 사용중인 컬러 스키마가 dark or light 에 최적화되도록 조정
-vim.opt.signcolumn = "yes" -- 편집기 왼쪽에 표시되는 sign 의 제어방식을 결정
+vim.opt.termguicolors = true -- use 24bit true color in terminal
+vim.opt.signcolumn = "yes"
 
-vim.opt.backspace = "indent,eol,start" -- allow backspace condition
 vim.opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 
 vim.opt.swapfile = false -- 편집 중인 파일의 swap file 을 생성할지를 결정
-vim.opt.autoread = true -- automatically read file when it is changed outside of vim
 
 vim.opt.scrolloff = 4 -- number of lines to keep above and below the cursor
 
