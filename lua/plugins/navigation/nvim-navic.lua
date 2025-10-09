@@ -3,7 +3,6 @@ return {
   config = function()
     local navic = require("nvim-navic")
 
-    ---@diagnostic disable-next-line: missing-fields
     navic.setup({
       highlight = true,
     })
@@ -14,9 +13,8 @@ return {
           return
         end
 
-        local bufnr = vim.api.nvim_get_current_buf()
         local winbarTxt = "%{%v:lua.require'nvim-navic'.get_location()%}"
-        vim.api.nvim_buf_set_option(bufnr, "winbar", winbarTxt)
+        vim.opt_local.winbar = winbarTxt
       end,
     })
   end,
