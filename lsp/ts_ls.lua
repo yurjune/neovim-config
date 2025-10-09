@@ -27,6 +27,11 @@ return {
       includeInlayVariableTypeHints = true,
       includeInlayPropertyDeclarationTypeHints = true,
       includeInlayEnumMemberValueHints = true,
+
+      -- Import settings
+      importModuleSpecifierPreference = "shortest", -- shortest, relative, non-relative, project-relative
+      -- minimal: remove specifier like /index or .ts
+      importModuleSpecifierEnding = "minimal", -- auto, minimal, index
     },
   },
 }
