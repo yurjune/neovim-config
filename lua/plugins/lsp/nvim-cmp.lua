@@ -71,6 +71,13 @@ return {
         -- ["<Tab>"] = cmp.mapping.confirm({ select = true }),
       }),
 
+      -- configure how nvim-cmp interacts with snippet engine
+      snippet = {
+        expand = function(args)
+          luasnip.lsp_expand(args.body)
+        end,
+      },
+
       -- customize how completions are formatted
       formatting = {
         format = function(entry, item)
@@ -96,13 +103,6 @@ return {
 
           return item
         end,
-
-        -- configure how nvim-cmp interacts with snippet engine
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
       },
 
       -- controls completion popup menu functions
