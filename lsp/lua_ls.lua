@@ -22,6 +22,7 @@ return {
       workspace = {
         library = {
           -- Enable Neovim API autocompletion (vim.api, vim.fn, etc.)
+          -- This can be removed if you use lazydev.nvim plugin
           vim.env.VIMRUNTIME, -- Neovim runtime path
         },
         checkThirdParty = false, -- Third party check popup
