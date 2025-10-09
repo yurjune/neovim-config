@@ -11,7 +11,6 @@ return {
         keywords = { "bold" },
         functions = { "italic" },
       },
-      auto_integrations = false,
       float = {
         transparent = true, -- -- enable transparent floating windows
         -- use solid styling for floating windows, see |winborder|
@@ -37,12 +36,14 @@ return {
           background = true,
         },
       },
+      default_integrations = true,
+      auto_integrations = false,
       integrations = {
         alpha = true,
+        -- bufferline: configured in bufferline.lua
         cmp = true, -- nvim-cmp
-        copilot_vim = true,
         dap = true, -- nvim-dap
-        diffview = true,
+        dap_ui = true,
         gitsigns = true,
         illuminate = { -- vim-illuminate
           enabled = true,
@@ -53,18 +54,17 @@ return {
           scope_color = "yellow", -- catppuccin color (eg. `lavender`) Default: text
           colored_indent_levels = false,
         },
-        lsp_trouble = true, -- trouble.nvim
+        -- lualine: configured in lualine.lua
+        markview = true,
         mason = true,
         navic = { -- nvim-navic
           enabled = true,
         },
-        neogit = true,
         neotest = true,
         noice = true,
         notify = true, -- nvim-notify
         nvim_surround = true,
         nvimtree = true,
-        render_markdown = true,
         telescope = {
           enabled = true,
         },
