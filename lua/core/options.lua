@@ -40,7 +40,6 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 
 -- cursor
 vim.opt.cursorline = true -- highlight the current cursor line
----@diagnostic disable-next-line: missing-fields
 vim.opt.guicursor = {
   "n-v-c-sm:block",
   "i-ci-ve:ver25",
@@ -59,7 +58,6 @@ vim.opt.swapfile = false -- 편집 중인 파일의 swap file 을 생성할지�
 vim.opt.scrolloff = 4 -- number of lines to keep above and below the cursor
 
 vim.opt.list = true
----@diagnostic disable-next-line: missing-fields
 vim.opt.listchars = {
   tab = ">·",
   lead = "·",

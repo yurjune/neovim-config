@@ -12,7 +12,6 @@ return {
     comment.setup({
       padding = true, -- Add a space between comment and the line
       sticky = true, -- Whether the cursor should stay at its position
-      ---@diagnostic disable-next-line
       ignore = nil, -- Lines to be ignored while (un)comment
 
       -- LHS of toggle mappings in NORMAL mode
