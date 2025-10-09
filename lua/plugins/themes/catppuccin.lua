@@ -101,14 +101,11 @@ return {
             fg = colors.lavender,
             bg = colors.none,
           },
-
           PmenuThumb = {
             bg = colors.yellow,
           },
 
           CmpBorder = { fg = colors.yellow },
-
-          -- DiagnosticVirtualTextError = { fg = colors.red, bg = "#2a0000" },
 
           NavicText = { fg = vim.g.colors.rose_beige },
 
@@ -119,25 +116,6 @@ return {
           GitSignsCurrentLineBlame = {
             fg = colors.overlay1,
             italic = true,
-          },
-
-          -- lazy.nvim
-          LazyH1 = {
-            bg = colors.none,
-            fg = colors.lavender,
-            style = { "bold" },
-          },
-          LazyButton = {
-            bg = colors.none,
-            fg = colors.overlay0,
-          },
-          LazyButtonActive = {
-            bg = colors.none,
-            fg = colors.lavender,
-            style = { "bold" },
-          },
-          LazySpecial = {
-            fg = colors.green,
           },
         }
       end,
