@@ -1,6 +1,7 @@
 local function organize_imports()
   vim.lsp.buf.code_action({
     context = {
+      -- organizes and removes unused imports
       only = { "source.organizeImports" },
       diagnostics = {},
     },
@@ -13,7 +14,7 @@ local function remove_unused()
   vim.lsp.buf.code_action({
     context = {
       ---@diagnostic disable-next-line: assign-type-mismatch
-      only = { "source.removeUnused.ts" },
+      only = { "source.removeUnused" },
       diagnostics = {},
     },
     apply = true,
@@ -21,7 +22,30 @@ local function remove_unused()
   vim.notify("Remove unused triggered", vim.log.levels.INFO, { title = "LSP" })
 end
 
--- LSP config for ts-ls
+local function add_missing_imports()
+  vim.lsp.buf.code_action({
+    context = {
+      ---@diagnostic disable-next-line: assign-type-mismatch
+      only = { "source.addMissingImports" },
+      diagnostics = {},
+    },
+    apply = true,
+  })
+  vim.notify("Add Missing imports triggered", vim.log.levels.INFO, { title = "LSP" })
+end
+
+local function fix_all()
+  vim.lsp.buf.code_action({
+    context = {
+      -- despite the name, fixes a couple of specific issues: unreachable code, await in non-async functions, incorrectly implemented interface
+      only = { "source.fixAll" },
+      diagnostics = {},
+    },
+    apply = true,
+  })
+  vim.notify("Fix all triggered", vim.log.levels.INFO, { title = "LSP" })
+end
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("ts_ls_group", { clear = true }),
   callback = function(ev)
@@ -30,9 +54,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client and client.name == "ts_ls" then
       vim.api.nvim_create_user_command("OrganizeImports", organize_imports, {})
       vim.api.nvim_create_user_command("RemoveUnused", remove_unused, {})
+      vim.api.nvim_create_user_command("MissingImports", add_missing_imports, {})
+      vim.api.nvim_create_user_command("FixAll", fix_all, {})
 
       vim.keymap.set("n", "<leader>oi", organize_imports, { desc = "Organize Imports", buffer = ev.buf })
       vim.keymap.set("n", "<leader>ru", remove_unused, { desc = "Remove unused", buffer = ev.buf })
+      vim.keymap.set("n", "<leader>mi", add_missing_imports, { desc = "Add missing imports", buffer = ev.buf })
+      vim.keymap.set("n", "<leader>fa", fix_all, { desc = "Fix all", buffer = ev.buf })
     end
   end,
 })
