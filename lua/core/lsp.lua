@@ -99,7 +99,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    local support_inline = client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion)
+    local support_inline = client and client.server_capabilities.inlineCompletionProvider
     if not support_inline or vim.g.leetcode then
       return
     end
@@ -141,6 +141,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.keymap.set("i", key, function()
         vim.lsp.inline_completion.select({ count = -1 })
       end, { desc = "Show previous inline completion suggestion" })
+    end
+  end,
+})
+
+-- Enable inlay hints
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = lsp_group,
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    local support = client and client.server_capabilities.inlayHintProvider
+    if support then
+      vim.lsp.inlay_hint.enable(false, { bufnr = ev.buf })
+
+      vim.keymap.set("n", "<leader>ih", function()
+        local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = ev.buf })
+        vim.lsp.inlay_hint.enable(not enabled, { bufnr = ev.buf })
+
+        local text = enabled and "DISABLED" or "ENABLED"
+        vim.notify("Inlay hints " .. text, vim.log.levels.INFO, { title = "LSP" })
+      end, { desc = "Toggle inlay hints", buffer = ev.buf })
     end
   end,
 })
