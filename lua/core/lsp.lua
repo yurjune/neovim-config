@@ -145,26 +145,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 --   end,
 -- })
 
--- For Svelte lsp
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = lsp_group,
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client and client.name == "svelte" then
-      vim.api.nvim_create_autocmd("BufWritePost", {
-        group = lsp_group,
-        -- When JS/TS file changes which is imported by Svelte file,
-        pattern = { "*.js", "*.ts" },
-        callback = function(ctx)
-          -- Notify Svelte LSP that the file has changed, so that LSP server can update type info and diagnostics
-          ---@diagnostic disable-next-line: param-type-mismatch
-          client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-        end,
-      })
-    end
-  end,
-})
-
 vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
