@@ -4,8 +4,8 @@ return {
   opts = {
     padd_column_separators = true, -- Insert a space around column separators.
     mappings = { -- next and prev work in Normal and Insert mode. All other mappings work in Normal mode.
-      next = "<TAB>", -- Go to next cell.
-      prev = "<S-TAB>", -- Go to previous cell.
+      next = "<Nop>", -- Go to next cell.
+      prev = "<Nop>", -- Go to previous cell.
 
       move_row_up = "<leader>tk", -- Move the current row up.
       move_row_down = "<leader>tj", -- Move the current row down.
