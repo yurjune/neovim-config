@@ -1,7 +1,6 @@
 -- A completion engine plugin
 return {
   "hrsh7th/nvim-cmp",
-  event = "InsertEnter",
   dependencies = {
     -- tells LSP servers that nvim-cmp can handle advanced features (auto-imports, snippets, etc.)
     -- without this: useState won't appear unless you manually write 'import { useState } from "react"'
