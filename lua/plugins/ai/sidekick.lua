@@ -102,8 +102,9 @@ return {
     {
       "<leader>at",
       function()
+        local current_path = vim.fn.expand("%")
         require("sidekick.cli").send({
-          msg = "{this}",
+          msg = "@" .. current_path,
         })
       end,
       mode = { "n" },
