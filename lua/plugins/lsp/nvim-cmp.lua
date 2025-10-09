@@ -46,10 +46,6 @@ return {
         { name = "buffer" }, -- from cmp-buffer
         { name = "luasnip" }, -- from cmp_luasnip
         { name = "path" }, -- from cmp-path
-        {
-          name = "lazydev",
-          group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-        },
       }),
 
       mapping = cmp.mapping.preset.insert({
