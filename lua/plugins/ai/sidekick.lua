@@ -113,7 +113,7 @@ return {
       "<leader>at",
       function()
         require("sidekick.cli").send({
-          msg = "{this}\n{selection}",
+          msg = "{this}",
         })
       end,
       mode = { "x" },
