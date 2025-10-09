@@ -18,6 +18,15 @@ return {
   init_options = {
     preferences = {
       providePrefixAndSuffixTextForRename = false,
+
+      -- Inlay Hints
+      includeInlayParameterNameHints = "literals", -- none, literals, all
+      includeInlayParameterNameHintsWhenArgumentMatchesName = false, -- show inlay even if argument matches parameter name
+      includeInlayFunctionParameterTypeHints = true,
+      includeInlayFunctionLikeReturnTypeHints = true,
+      includeInlayVariableTypeHints = true,
+      includeInlayPropertyDeclarationTypeHints = true,
+      includeInlayEnumMemberValueHints = true,
     },
   },
 }
