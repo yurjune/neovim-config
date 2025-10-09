@@ -68,7 +68,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
       local function organize_imports()
         vim.lsp.buf.code_action({
           context = {
-            only = { "source.organizeImports.ts" },
+            only = { "source.organizeImports" },
+            diagnostics = {},
           },
           apply = true,
         })
@@ -78,7 +79,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
       local function remove_unused()
         vim.lsp.buf.code_action({
           context = {
-            only = { "source.removeUnused" },
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            only = { "source.removeUnused.ts" },
+            diagnostics = {},
           },
           apply = true,
         })
@@ -186,7 +189,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_group,
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
-
     if client and client.name == "svelte" then
       vim.api.nvim_create_autocmd("BufWritePost", {
         group = lsp_group,
@@ -194,6 +196,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         pattern = { "*.js", "*.ts" },
         callback = function(ctx)
           -- Notify Svelte LSP that the file has changed, so that LSP server can update type info and diagnostics
+          ---@diagnostic disable-next-line: param-type-mismatch
           client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
         end,
       })
@@ -208,7 +211,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local navic_ok, navic = pcall(require, "nvim-navic")
 
     -- attach nvim-navic plugin to LSP clients
-    if navic_ok and client.server_capabilities.documentSymbolProvider then
+    if navic_ok and client and client.server_capabilities.documentSymbolProvider then
       navic.attach(client, ev.buf)
     end
   end,
