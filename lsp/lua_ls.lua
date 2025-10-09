@@ -13,8 +13,24 @@ return {
   },
   settings = {
     Lua = {
+      runtime = {
+        version = "LuaJIT", -- Neovim includes LuaJIT
+      },
       diagnostics = {
         globals = { "vim", "hs", "_G" },
+      },
+      workspace = {
+        library = {
+          -- Enable Neovim API autocompletion (vim.api, vim.fn, etc.)
+          vim.env.VIMRUNTIME, -- Neovim runtime path
+        },
+        checkThirdParty = false, -- Third party check popup
+      },
+      completion = {
+        -- Disable: function only → table.insert
+        -- Replace: snippet only → table.insert(list, value)
+        -- Both: both -> [table.insert] and [table.insert~]
+        callSnippet = "Disable",
       },
     },
   },
