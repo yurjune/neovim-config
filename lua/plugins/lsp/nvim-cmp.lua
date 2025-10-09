@@ -47,12 +47,6 @@ return {
         { name = "buffer" }, -- from cmp-buffer
         { name = "luasnip" }, -- from cmp_luasnip
         { name = "path" }, -- from cmp-path
-        -- { name = "copilot" }, -- requires cmp-copilot
-        -- { name = "supermaven" }, -- requires supermaven-nvim
-        -- { name = "render-markdown" }, -- requires render-markdown.nvim
-        per_filetype = {
-          codecompanion = { "codecompanion" }, -- requires codecompanion.nvim
-        },
       }),
 
       mapping = cmp.mapping.preset.insert({
