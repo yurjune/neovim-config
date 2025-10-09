@@ -19,32 +19,23 @@ return {
       rust = { "clippy" },
     }
 
-    local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+    local debounce_timer = vim.loop.new_timer()
 
     -- Auto linting trigger
-    local debounce_timer = nil
     vim.api.nvim_create_autocmd({
       "BufEnter", -- 버퍼로 들어갈 때
       "BufWritePost", -- 버퍼 내용을 파일에 저장할 때
-      "InsertLeave", -- 삽입 모드에서 나갈 때
       "TextChanged", -- 노말 모드에서 텍스트가 변경될 때
+      "InsertLeave", -- 삽입 모드에서 나갈 때
     }, {
-      group = lint_augroup,
-
-      -- Some events frequently trigger linting, so apply debounce (ex. TextChanged)
+      group = vim.api.nvim_create_augroup("lint", { clear = true }),
       callback = function()
-        if debounce_timer then
-          vim.loop.timer_stop(debounce_timer)
-          debounce_timer:close()
+        if debounce_timer == nil then
+          return
         end
-        debounce_timer = vim.loop.new_timer()
-        debounce_timer:start(
-          300,
-          0,
-          vim.schedule_wrap(function()
-            lint.try_lint()
-          end)
-        )
+
+        debounce_timer:stop()
+        debounce_timer:start(300, 0, vim.schedule_wrap(lint.try_lint))
       end,
     })
 
