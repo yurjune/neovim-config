@@ -30,12 +30,12 @@ return {
         ignore_case = true,
         smart_case = false,
 
-        sorting_strategy = "ascending", -- 검색 방향을 위에서 아래로
+        sorting_strategy = "ascending", -- Search direction: top to down
         layout_config = {
-          prompt_position = "top", -- 검색창을 상단에 배치
+          prompt_position = "top", -- Place search box at the top
         },
         preview = {
-          treesitter = false, -- Treesitter 비활성화로 미리보기 가볍게
+          treesitter = false, -- Disable Treesitter for lighter preview
           file_size_limit = 5,
         },
         path_display = { -- truncate(default), smart, shorten, hidden
@@ -45,8 +45,8 @@ return {
           i = {
             -- Disable normal mode intensionally
             ["<ESC>"] = actions.close,
-            -- ["<C-p>"] = actions.cycle_history_prev, -- 이전 검색어
-            -- ["<C-n>"] = actions.cycle_history_next, -- 다음 검색어
+            -- ["<C-p>"] = actions.cycle_history_prev,
+            -- ["<C-n>"] = actions.cycle_history_next,
 
             ["<C-?>"] = actions.which_key,
             ["<C-b>"] = actions.results_scrolling_up,
@@ -79,14 +79,14 @@ return {
       },
       pickers = {
         lsp_references = {
-          show_line = false, -- 코드 라인 미리보기 비활성화
-          fname_width = 60, -- 파일명 폭 조정
+          show_line = false, -- Hide row:col
+          fname_width = 60, -- defines the width of the filename section
         },
         buffers = {
           sorter = sorters.new({
             scoring_function = function(_, _, line, _)
               local bufnr = tonumber(line:match("^%s*(%d+)"))
-              return bufnr and -bufnr or 0 -- 음수로 만들어서 버퍼 번호 역순 정렬
+              return bufnr and -bufnr or 0 -- show higher buffer number first
             end,
           }),
         },
@@ -110,9 +110,9 @@ return {
       extensions = {
         fzf = {
           fuzzy = true, -- activate fuzzy matching
-          override_generic_sorter = true, -- 기본 정렬 엔진 대체
-          override_file_sorter = true, -- 파일 정렬 엔진 대체
-          case_mode = "ignore_case",
+          override_generic_sorter = true, -- replace default sort engine
+          override_file_sorter = true, -- replace file sort engine
+          case_mode = "ignore_case", -- ignore_case, smart_case, respect_case
         },
         frecency = {
           show_scores = true, -- not working now
@@ -134,7 +134,7 @@ return {
     })
 
     -- load extensions
-    telescope.load_extension("fzf") -- 검색 성능 최적화
+    telescope.load_extension("fzf") -- Optimize search performance
     telescope.load_extension("frecency")
     telescope.load_extension("file_browser")
 
