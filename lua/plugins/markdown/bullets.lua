@@ -3,6 +3,7 @@ local ft = { "markdown", "text", "gitcommit", "scratch" }
 return {
   "bullets-vim/bullets.vim",
   ft = ft,
+  enabled = true,
   keys = {
     { "<leader>bt", "<Plug>(bullets-toggle-checkbox)", mode = "n", desc = "toggle checkbox" },
     { "<leader>br", "<Plug>(bullets-renumber)", mode = { "n", "v" }, desc = "renumber bullets" },
@@ -58,8 +59,7 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = ft,
       callback = function()
-        vim.api.nvim_buf_set_keymap(0, "n", "o", "o", { noremap = true })
-        vim.api.nvim_buf_set_keymap(0, "n", "O", "O", { noremap = true })
+        -- vim.api.nvim_buf_set_keymap(0, "n", "o", "o", { noremap = true })
       end,
     })
   end,
