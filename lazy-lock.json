@@ -59,6 +59,7 @@
   "sidekick.nvim": { "branch": "main", "commit": "cb8485afa3be2221f06c66abcebff053572c2644" },
   "smart-splits.nvim": { "branch": "master", "commit": "652fbde8a997b9c9d32030dfaf2e7e1319dda7a3" },
   "sqlite.lua": { "branch": "master", "commit": "50092d60feb242602d7578398c6eb53b4a8ffe7b" },
+  "supermaven-nvim": { "branch": "main", "commit": "07d20fce48a5629686aefb0a7cd4b25e33947d50" },
   "table-nvim": { "branch": "main", "commit": "c044fd37169eb10376962b0d0cec5f94d58ca626" },
   "telescope-file-browser.nvim": { "branch": "master", "commit": "3610dc7dc91f06aa98b11dca5cc30dfa98626b7e" },
   "telescope-frecency.nvim": { "branch": "master", "commit": "cca6e5ab82428b7942b147e10c59a0f37df0eb93" },
