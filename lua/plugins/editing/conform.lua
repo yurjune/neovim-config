@@ -21,6 +21,7 @@ return {
         html = { "prettier" },
         json = { "prettier" },
         yaml = { "prettier" },
+        toml = { "taplo" },
         -- markdown = { "prettier" },
         graphql = { "prettier" },
         lua = { "stylua" },

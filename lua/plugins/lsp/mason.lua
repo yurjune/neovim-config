@@ -41,6 +41,7 @@ return {
         "stylua",
         "isort",
         "black",
+        "taplo",
         -- Linters
         "pylint",
         "eslint_d",
