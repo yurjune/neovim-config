@@ -1,5 +1,9 @@
 return {
-  cmd = { "vscode-html-language-server", "--stdio" },
+  cmd = {
+    -- Mason: html-lsp
+    "vscode-html-language-server",
+    "--stdio",
+  },
   filetypes = { "html" },
   root_markers = { "package.json", ".git" },
   settings = {

@@ -21,7 +21,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 return {
-  cmd = { "svelteserver", "--stdio" },
+  cmd = {
+    -- Mason: svelte-language-server
+    "svelteserver",
+    "--stdio",
+  },
   filetypes = { "svelte" },
   root_markers = {
     "package.json",

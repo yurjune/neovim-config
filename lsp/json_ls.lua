@@ -1,5 +1,6 @@
 return {
   cmd = {
+    -- Mason: json-lsp
     "vscode-json-language-server",
     "--stdio",
   },

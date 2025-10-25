@@ -1,6 +1,7 @@
 -- language server for css, scss, less
 return {
   cmd = {
+    -- Mason: css-lsp
     "vscode-css-language-server",
     "--stdio",
   },
