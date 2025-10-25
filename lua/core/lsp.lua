@@ -9,6 +9,7 @@ vim.lsp.enable({
   "tailwindcss",
   "sqls",
   "css_lsp",
+  "some_sass",
 })
 
 local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })

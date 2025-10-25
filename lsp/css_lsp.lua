@@ -6,7 +6,7 @@ return {
   },
   filetypes = {
     "css",
-    "scss",
+    -- "scss",
     -- "less",
   },
   root_markers = {
@@ -19,12 +19,6 @@ return {
       lint = {
         -- at-rules means rules starting with @
         -- if ignore, ignore unknown at-rules like @tailwind
-        unknownAtRules = "ignore",
-      },
-    },
-    scss = {
-      validate = true,
-      lint = {
         unknownAtRules = "ignore",
       },
     },
