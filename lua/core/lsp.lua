@@ -10,6 +10,7 @@ vim.lsp.enable({
   "sqls",
   "css_lsp",
   "css_variables",
+  "css_modules",
   "some_sass",
 })
 
