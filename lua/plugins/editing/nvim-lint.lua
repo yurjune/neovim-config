@@ -19,23 +19,49 @@ return {
       rust = { "clippy" },
     }
 
-    local debounce_timer = vim.loop.new_timer()
-
-    -- Auto linting trigger
-    vim.api.nvim_create_autocmd({
+    local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+    local lint_condition = {
       "BufEnter", -- 버퍼로 들어갈 때
       "BufWritePost", -- 버퍼 내용을 파일에 저장할 때
       "TextChanged", -- 노말 모드에서 텍스트가 변경될 때
       "InsertLeave", -- 삽입 모드에서 나갈 때
-    }, {
-      group = vim.api.nvim_create_augroup("lint", { clear = true }),
+    }
+
+    -- Auto linting trigger
+    local lint_debounce_timer = vim.loop.new_timer()
+    vim.api.nvim_create_autocmd(lint_condition, {
+      group = lint_augroup,
       callback = function()
-        if debounce_timer == nil then
+        if lint_debounce_timer == nil then
           return
         end
 
-        debounce_timer:stop()
-        debounce_timer:start(300, 0, vim.schedule_wrap(lint.try_lint))
+        lint_debounce_timer:stop()
+        lint_debounce_timer:start(300, 0, vim.schedule_wrap(lint.try_lint))
+      end,
+    })
+
+    -- GitHub Actions workflow linting with actionlint
+    local actionlint_debounce_timer = vim.loop.new_timer()
+    vim.api.nvim_create_autocmd(lint_condition, {
+      group = lint_augroup,
+      pattern = {
+        "*/.github/workflows/*.yml",
+        "*/.github/workflows/*.yaml",
+      },
+      callback = function()
+        if actionlint_debounce_timer == nil then
+          return
+        end
+
+        actionlint_debounce_timer:stop()
+        actionlint_debounce_timer:start(
+          300,
+          0,
+          vim.schedule_wrap(function()
+            lint.try_lint("actionlint")
+          end)
+        )
       end,
     })
 

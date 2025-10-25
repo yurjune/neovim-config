@@ -44,6 +44,7 @@ return {
         -- Linters
         "pylint",
         "eslint_d",
+        "actionlint",
         -- etc
         "js-debug-adapter",
       },
