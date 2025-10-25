@@ -21,12 +21,31 @@ return {
 
     mason_tool_installer.setup({
       ensure_installed = {
-        "prettier", -- prettier formatter
-        "stylua", -- lua formatter
-        "isort", -- python formatter
-        "black", -- python formatter
-        "pylint", -- python linter
-        "eslint_d", -- js linter
+        -- LSP servers
+        "lua-language-server",
+        "typescript-language-server",
+        "rust-analyzer",
+        "emmet-ls",
+        "svelte-language-server",
+        "marksman",
+        "tailwindcss-language-server",
+        "sqls",
+        "css-lsp",
+        "css-variables-language-server",
+        "cssmodules-language-server",
+        "some-sass-language-server",
+        "html-lsp",
+        "json-lsp",
+        -- Formatters
+        "prettier",
+        "stylua",
+        "isort",
+        "black",
+        -- Linters
+        "pylint",
+        "eslint_d",
+        -- etc
+        "js-debug-adapter",
       },
     })
   end,
