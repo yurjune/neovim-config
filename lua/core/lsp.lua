@@ -9,6 +9,7 @@ vim.lsp.enable({
   "tailwindcss",
   "sqls",
   "css_lsp",
+  "css_variables",
   "some_sass",
 })
 
