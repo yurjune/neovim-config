@@ -43,8 +43,9 @@ return {
         "black",
         "taplo",
         -- Linters
-        "pylint",
         "eslint_d",
+        "pylint",
+        "yamllint",
         "actionlint",
         -- etc
         "js-debug-adapter",
