@@ -12,6 +12,7 @@ vim.lsp.enable({
   "css_variables",
   "css_modules",
   "some_sass",
+  "html_ls",
 })
 
 local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
