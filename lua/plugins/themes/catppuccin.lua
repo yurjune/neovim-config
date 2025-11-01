@@ -150,7 +150,7 @@ return {
             fg = colors.lavender,
           },
           NvimTreeStatusLineNC = {
-            bg = "NONE",
+            bg = colors.none,
           },
 
           GitSignsCurrentLineBlame = {
