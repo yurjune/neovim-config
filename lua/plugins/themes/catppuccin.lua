@@ -77,16 +77,30 @@ return {
       },
       custom_highlights = function(colors)
         return {
-          String = { fg = colors.sapphire },
-          CursorLine = { bg = colors.surface0 },
-          CursorLineNr = { fg = vim.g.colors.rose_beige },
-          LineNr = { fg = colors.overlay0 },
+          String = {
+            fg = colors.sapphire,
+          },
+          CursorLine = {
+            bg = colors.surface0,
+          },
+          CursorLineNr = {
+            fg = vim.g.colors.rose_beige,
+          },
+          LineNr = {
+            fg = colors.overlay0,
+          },
 
           -- for neovide
-          Normal = { bg = vim.g.colors.bg },
-          NormalNC = { bg = vim.g.colors.bg },
+          Normal = { -- active window
+            bg = vim.g.colors.bg,
+          },
+          NormalNC = { -- inactive window
+            bg = vim.g.colors.bg,
+          },
           -- for leetcode.nvim
-          NormalSB = { bg = vim.g.colors.bg },
+          NormalSB = { -- status bar
+            bg = vim.g.colors.bg,
+          },
 
           PanelHeading = {
             fg = colors.lavender,
@@ -105,13 +119,23 @@ return {
             bg = colors.yellow,
           },
 
-          CmpBorder = { fg = colors.yellow },
+          CmpBorder = {
+            fg = colors.yellow,
+          },
 
-          NavicText = { fg = vim.g.colors.rose_beige },
+          NavicText = {
+            fg = vim.g.colors.rose_beige,
+          },
 
-          NvimTreeFolderName = { fg = colors.lavender },
-          NvimTreeOpenedFolderName = { fg = colors.lavender },
-          NvimTreeEmptyFolderName = { fg = colors.lavender },
+          NvimTreeFolderName = {
+            fg = colors.lavender,
+          },
+          NvimTreeOpenedFolderName = {
+            fg = colors.lavender,
+          },
+          NvimTreeEmptyFolderName = {
+            fg = colors.lavender,
+          },
 
           GitSignsCurrentLineBlame = {
             fg = colors.overlay1,
