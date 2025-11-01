@@ -86,15 +86,15 @@ return {
 
           Search = {
             fg = colors.mantle,
-            bg = colors.pink,
+            bg = colors.rosewater,
           },
           CurSearch = {
             fg = colors.mantle,
-            bg = colors.red,
+            bg = colors.yellow,
           },
           IncSearch = {
             fg = colors.mantle,
-            bg = colors.sky,
+            bg = colors.rosewater,
           },
 
           -- -- for neovide
