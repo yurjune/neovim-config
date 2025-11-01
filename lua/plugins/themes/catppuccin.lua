@@ -86,6 +86,9 @@ return {
           CursorLineNr = {
             fg = vim.g.colors.rose_beige,
           },
+          Folded = {
+            bg = "#3a4254",
+          },
           LineNr = {
             fg = colors.overlay0,
           },
@@ -115,8 +118,10 @@ return {
             fg = colors.lavender,
             bg = colors.none,
           },
-          PmenuThumb = {
+          PmenuThumb = { -- scrollbar in popup menu
             bg = colors.yellow,
+          },
+          PmenuSel = { -- selected item in popup menu
           },
 
           CmpBorder = {
@@ -131,6 +136,9 @@ return {
             fg = colors.lavender,
           },
           NvimTreeOpenedFolderName = {
+            fg = colors.lavender,
+          },
+          NvimTreeOpenedFolderIcon = {
             fg = colors.lavender,
           },
           NvimTreeEmptyFolderName = {

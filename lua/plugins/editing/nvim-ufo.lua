@@ -48,10 +48,6 @@ return {
       end,
     })
 
-    vim.api.nvim_set_hl(0, "Folded", { -- cursor line highlight
-      bg = "#3a4254",
-    })
-
     vim.keymap.set("n", "zr", ufo.openFoldsExceptKinds, { desc = "Open folds except kinds" })
     vim.keymap.set("n", "zR", ufo.openAllFolds, { desc = "Open all folds" })
     vim.keymap.set("n", "zm", ufo.closeFoldsWith, { desc = "Close folds with" }) -- closeAllFolds == closeFoldsWith(0)
