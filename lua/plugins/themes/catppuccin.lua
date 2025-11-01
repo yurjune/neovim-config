@@ -80,14 +80,17 @@ return {
           String = {
             fg = colors.sapphire,
           },
+          Visual = {
+            bg = vim.g.colors_transparent.cursorline,
+          },
           CursorLine = {
-            bg = colors.surface0,
+            bg = vim.g.colors_transparent.cursorline,
           },
           CursorLineNr = {
             fg = vim.g.colors.rose_beige,
           },
           Folded = {
-            bg = "#3a4254",
+            bg = vim.g.colors_transparent.cursorline,
           },
           LineNr = {
             fg = colors.overlay0,
@@ -106,17 +109,17 @@ return {
             bg = colors.sky,
           },
 
-          -- for neovide
-          Normal = { -- active window
-            bg = vim.g.colors.bg,
-          },
-          NormalNC = { -- inactive window
-            bg = vim.g.colors.bg,
-          },
-          -- for leetcode.nvim
-          NormalSB = { -- status bar
-            bg = vim.g.colors.bg,
-          },
+          -- -- for neovide
+          -- Normal = { -- current window
+          --   bg = vim.g.colors.bg,
+          -- },
+          -- NormalNC = { -- not current window,
+          --   bg = vim.g.colors.bg,
+          -- },
+          -- -- for leetcode.nvim
+          -- NormalSB = { -- status bar
+          --   bg = vim.g.colors.bg,
+          -- },
 
           PanelHeading = {
             fg = colors.lavender,
@@ -135,6 +138,7 @@ return {
             bg = colors.yellow,
           },
           PmenuSel = { -- selected item in popup menu
+            bg = vim.g.colors_transparent.cursorline,
           },
 
           CmpBorder = {
@@ -143,6 +147,10 @@ return {
 
           NavicText = {
             fg = vim.g.colors.rose_beige,
+          },
+
+          TelescopeSelection = {
+            bg = vim.g.colors_transparent.cursorline,
           },
 
           NvimTreeFolderName = {
@@ -156,6 +164,9 @@ return {
           },
           NvimTreeEmptyFolderName = {
             fg = colors.lavender,
+          },
+          NvimTreeStatusLineNC = {
+            bg = "NONE",
           },
 
           IlluminatedWordRead = {

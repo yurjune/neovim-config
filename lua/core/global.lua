@@ -4,6 +4,10 @@ vim.g.colors = {
   rose_beige = "#f5e0dc",
 }
 
+vim.g.colors_transparent = {
+  cursorline = "#2a2a2a",
+}
+
 -- check leetcode.nvim arg option
 vim.g.leetcode = vim.fn.argv(0, -1) == "leet" and true or false
 vim.g.sidekick_buf_pattern = "term://*"

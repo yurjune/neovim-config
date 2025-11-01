@@ -39,7 +39,7 @@ vim.opt.foldcolumn = "0"
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- cursor
-vim.opt.cursorline = true -- highlight the current cursor line
+vim.opt.cursorline = false -- highlight the current cursor line
 vim.opt.guicursor = {
   "n-v-c-sm:block",
   "i-ci-ve:ver25",
