@@ -133,10 +133,21 @@ return {
             fg = colors.yellow,
           },
 
+          -- Telescope
           TelescopeSelection = {
-            bg = vim.g.colors_transparent.cursorline,
+            fg = colors.yellow,
+            bg = colors.none,
           },
+          TelescopeSelectionCaret = {
+            bg = colors.none,
+          },
+          TelescopeMatching = {},
 
+          -- NvimTree
+          NvimTreeCursorLine = {
+            fg = colors.yellow,
+            bg = colors.none,
+          },
           NvimTreeFolderName = {
             fg = colors.lavender,
           },
