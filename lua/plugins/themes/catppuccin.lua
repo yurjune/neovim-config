@@ -80,18 +80,6 @@ return {
           String = {
             fg = colors.sapphire,
           },
-          Visual = {
-            bg = vim.g.colors_transparent.cursorline,
-          },
-          CursorLine = {
-            bg = vim.g.colors_transparent.cursorline,
-          },
-          CursorLineNr = {
-            fg = vim.g.colors.rose_beige,
-          },
-          Folded = {
-            bg = vim.g.colors_transparent.cursorline,
-          },
           LineNr = {
             fg = colors.overlay0,
           },
@@ -145,10 +133,6 @@ return {
             fg = colors.yellow,
           },
 
-          NavicText = {
-            fg = vim.g.colors.rose_beige,
-          },
-
           TelescopeSelection = {
             bg = vim.g.colors_transparent.cursorline,
           },
@@ -167,19 +151,6 @@ return {
           },
           NvimTreeStatusLineNC = {
             bg = "NONE",
-          },
-
-          IlluminatedWordRead = {
-            bg = "NONE",
-            underline = true,
-          },
-          IlluminatedWordWrite = {
-            bg = "NONE",
-            underline = true,
-          },
-          IlluminatedWordText = {
-            bg = "NONE",
-            underline = true,
           },
 
           GitSignsCurrentLineBlame = {

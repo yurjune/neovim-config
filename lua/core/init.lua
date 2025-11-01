@@ -1,4 +1,5 @@
 require("core.global")
+require("core.highlight")
 require("core.diagnostics")
 require("core.lsp")
 require("core.options")

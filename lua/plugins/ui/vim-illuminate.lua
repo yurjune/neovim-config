@@ -16,5 +16,19 @@ return {
         "notify",
       },
     })
+
+    -- 즉시 설정
+    vim.api.nvim_set_hl(0, "IlluminatedWordRead", {
+      bg = "NONE",
+      underline = true,
+    })
+    vim.api.nvim_set_hl(0, "IlluminatedWordWrite", {
+      bg = "NONE",
+      underline = true,
+    })
+    vim.api.nvim_set_hl(0, "IlluminatedWordText", {
+      bg = "NONE",
+      underline = true,
+    })
   end,
 }

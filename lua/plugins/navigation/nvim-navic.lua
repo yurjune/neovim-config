@@ -17,5 +17,9 @@ return {
         vim.opt_local.winbar = winbarTxt
       end,
     })
+
+    vim.api.nvim_set_hl(0, "NavicText", {
+      fg = vim.g.colors.rose_beige,
+    })
   end,
 }
