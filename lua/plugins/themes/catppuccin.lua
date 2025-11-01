@@ -93,6 +93,19 @@ return {
             fg = colors.overlay0,
           },
 
+          Search = {
+            fg = colors.mantle,
+            bg = colors.pink,
+          },
+          CurSearch = {
+            fg = colors.mantle,
+            bg = colors.red,
+          },
+          IncSearch = {
+            fg = colors.mantle,
+            bg = colors.sky,
+          },
+
           -- for neovide
           Normal = { -- active window
             bg = vim.g.colors.bg,
