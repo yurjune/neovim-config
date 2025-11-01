@@ -158,6 +158,19 @@ return {
             fg = colors.lavender,
           },
 
+          IlluminatedWordRead = {
+            bg = "NONE",
+            underline = true,
+          },
+          IlluminatedWordWrite = {
+            bg = "NONE",
+            underline = true,
+          },
+          IlluminatedWordText = {
+            bg = "NONE",
+            underline = true,
+          },
+
           GitSignsCurrentLineBlame = {
             fg = colors.overlay1,
             italic = true,
