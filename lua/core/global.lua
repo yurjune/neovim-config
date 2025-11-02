@@ -5,7 +5,9 @@ vim.g.colors = {
 }
 
 vim.g.colors_transparent = {
-  cursorline = "#2a2a2a",
+  -- cursorline = "#2a2a2a",
+  -- cursorline = "#1a3a52",
+  cursorline = "#1a2332",
 }
 
 -- check leetcode.nvim arg option
