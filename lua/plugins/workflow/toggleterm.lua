@@ -41,14 +41,33 @@ vim.api.nvim_create_user_command("TestCurrentFileCoverage", function()
   }):toggle()
 end, { desc = "Get test coverage of current file in toggleterm" })
 
-local tmux_term = Terminal:new({
-  cmd = "tmux new -A -s toggle",
-  close_on_exit = false,
-  direction = "float",
-})
+local function get_project_root()
+  -- Prefer VCS/project markers, fall back to cwd.
+  local root = vim.fs.root(0, { ".git", "package.json", "pyproject.toml", "go.mod", "Cargo.toml" })
+  return root or vim.fn.getcwd()
+end
+
+local function tmux_session_name(root)
+  local base = vim.fs.basename(root)
+  local hash = vim.fn.sha256(root):sub(1, 8)
+  return ("toggle_%s_%s"):format(base, hash)
+end
+
+local tmux_terms_by_root = {}
 
 local function toggle_tmux_session()
-  tmux_term:toggle()
+  local root = get_project_root()
+  local term = tmux_terms_by_root[root]
+  if not term then
+    term = Terminal:new({
+      cmd = "tmux new -A -s " .. tmux_session_name(root),
+      dir = root,
+      close_on_exit = false,
+      direction = "float",
+    })
+    tmux_terms_by_root[root] = term
+  end
+  term:toggle()
 end
 
 vim.keymap.set({ "n", "t" }, "<D-g>", toggle_tmux_session, { desc = "Toggle tmux session in toggleterm" })
