@@ -1,3 +1,2 @@
-return {
-  "nvim-lua/plenary.nvim", -- lua functions that many plugins use
-}
+require("plugins.packpath")
+require("plugins.loader")

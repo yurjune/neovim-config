@@ -1,17 +1,18 @@
-return {
-  "anuvyklack/windows.nvim",
-  dependencies = { "anuvyklack/middleclass" },
-  config = function()
-    require("windows").setup({
-      autowidth = {
-        enable = false,
-      },
-      ignore = {
-        buftype = { "quickfix" },
-        -- filetype = { "NvimTree" },
-      },
-    })
+vim.pack.add({
+  "https://github.com/anuvyklack/windows.nvim",
+  "https://github.com/anuvyklack/middleclass",
+})
+vim.cmd.packadd("windows.nvim")
+vim.cmd.packadd("middleclass")
 
-    vim.keymap.set("n", "<leader>wn", "<Cmd>WindowsMaximize<CR>", { desc = "Maximize window limitly" })
-  end,
-}
+require("windows").setup({
+  autowidth = {
+    enable = false,
+  },
+  ignore = {
+    buftype = { "quickfix" },
+    -- filetype = { "NvimTree" },
+  },
+})
+
+vim.keymap.set("n", "<leader>wn", "<Cmd>WindowsMaximize<CR>", { desc = "Maximize window limitly" })
