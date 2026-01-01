@@ -1,10 +1,5 @@
 -- A framework for interacting with tests within NeoVim
 -- disabled by default since its test results are not accurate
-
-if vim.g.neotest_enabled ~= 1 then
-  return
-end
-
 vim.pack.add({
   "https://github.com/nvim-neotest/neotest",
   "https://github.com/nvim-neotest/nvim-nio",

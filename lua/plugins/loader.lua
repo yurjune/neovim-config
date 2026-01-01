@@ -68,7 +68,7 @@ local packages = {
 
   -- Debug
   "plugins.debug.nvim-dap",
-  "plugins.debug.neotest",
+  -- "plugins.debug.neotest",
 
   -- Markdown
   "plugins.markdown.markview",
