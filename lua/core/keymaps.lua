@@ -34,6 +34,8 @@ vim.keymap.set("n", "gh", function()
   end
 end, { desc = "Focus on floating window" })
 
+vim.keymap.set("n", "'", "`", { noremap = true, desc = "Go to mark" })
+
 vim.keymap.set("n", "<leader>md", function()
   local lnum = vim.fn.line(".")
   local curbuf = vim.api.nvim_get_current_buf()
