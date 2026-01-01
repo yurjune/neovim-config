@@ -7,7 +7,7 @@ vim.cmd.packadd("toggleterm.nvim")
 require("toggleterm").setup({
   size = 22,
   -- 숫자 + 단축키로 여러 터미널 세션을 관리할 수 있다.
-  open_mapping = { [[<D-g>]], [[<M-g>]] },
+  open_mapping = nil,
   start_in_insert = true,
   insert_mappings = true, -- whether or not the open mapping applies in insert mode
   terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
@@ -40,3 +40,16 @@ vim.api.nvim_create_user_command("TestCurrentFileCoverage", function()
     direction = "float",
   }):toggle()
 end, { desc = "Get test coverage of current file in toggleterm" })
+
+local tmux_term = Terminal:new({
+  cmd = "tmux new -A -s toggle",
+  close_on_exit = false,
+  direction = "float",
+})
+
+local function toggle_tmux_session()
+  tmux_term:toggle()
+end
+
+vim.keymap.set({ "n", "t" }, "<D-g>", toggle_tmux_session, { desc = "Toggle tmux session in toggleterm" })
+vim.keymap.set({ "n", "t" }, "<M-g>", toggle_tmux_session, { desc = "Toggle tmux session in toggleterm" })
