@@ -39,7 +39,7 @@ bufferline.setup({
       return "" .. count
     end,
   },
-  -- highlights = highlights,
+  highlights = highlights,
 })
 
 vim.keymap.set("n", "<D-S-h>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Go to prev buffer" })
