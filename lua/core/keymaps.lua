@@ -34,7 +34,7 @@ vim.keymap.set("n", "gh", function()
   end
 end, { desc = "Focus on floating window" })
 
-vim.keymap.set("n", "'", "`", { noremap = true, desc = "Go to mark" })
+vim.keymap.set("n", "'", "`", { noremap = true, desc = "Go to last cursor position" })
 
 vim.keymap.set("n", "<leader>md", function()
   local lnum = vim.fn.line(".")
@@ -75,12 +75,12 @@ end, { desc = "Delete all marks on current line" })
 
 vim.keymap.set("n", "<leader>mc", function()
   vim.cmd("delmarks!")
-  vim.notify("a-z marks in current buffer cleared", vim.log.levels.INFO)
+  vim.notify("a-z marks in current buffer cleared", vim.log.levels.INFO, { title = "Marks" })
 end, { desc = "Clear a-z marks in current buffer" })
 
 vim.keymap.set("n", "<leader>mC", function()
   vim.cmd("delmarks A-Z")
-  vim.notify("A-Z marks cleared", vim.log.levels.INFO)
+  vim.notify("A-Z marks cleared", vim.log.levels.INFO, { title = "Marks" })
 end, { desc = "Clear A-Z marks" })
 
 -- Copy current file paths
