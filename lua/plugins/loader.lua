@@ -77,8 +77,6 @@ local packages = {
 
   -- Etc
   "plugins.etc.image",
-  "plugins.etc.vim-dadbod",
-  -- "plugins.etc.nvim-dbee",
   "plugins.etc.leetcode",
 }
 
