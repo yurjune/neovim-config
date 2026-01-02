@@ -43,6 +43,7 @@ local packages = {
   "plugins.navigation.which-key",
   "plugins.navigation.smart-splits",
   "plugins.navigation.nvim-tree",
+  "plugins.navigation.oil",
   "plugins.navigation.telescope",
   "plugins.navigation.marks",
   "plugins.navigation.nvim-navic",
