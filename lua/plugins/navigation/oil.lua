@@ -31,6 +31,10 @@ require("oil").setup({
     ["g."] = { "actions.toggle_hidden", mode = "n" },
     ["g\\"] = { "actions.toggle_trash", mode = "n" },
   },
+  -- Oil will automatically delete hidden buffers after this delay
+  -- You can set the delay to false to disable cleanup entirely
+  -- Note that the cleanup process only starts when none of the oil buffers are currently displayed
+  cleanup_delay_ms = 0,
   lsp_file_methods = {
     -- Enable or disable LSP file operations
     enabled = true,
