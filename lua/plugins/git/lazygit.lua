@@ -1,3 +1,4 @@
+-- A plugin that provides a Git TUI interface.
 -- need to install lazygit: brew install jesseduffield/lazygit/lazygit
 vim.pack.add({
   "https://github.com/kdheepak/lazygit.nvim",

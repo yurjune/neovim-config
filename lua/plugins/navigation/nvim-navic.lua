@@ -1,3 +1,4 @@
+-- A plugin for displaying code context in statusline or winbar.
 vim.pack.add({ "https://github.com/SmiteshP/nvim-navic" })
 vim.cmd.packadd("nvim-navic")
 

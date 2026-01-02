@@ -1,3 +1,4 @@
+-- A plugin for inline code completion
 if vim.g.leetcode then
   return
 end

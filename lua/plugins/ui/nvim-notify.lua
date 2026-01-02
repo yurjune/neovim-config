@@ -1,3 +1,4 @@
+-- A plugin for displaying notifications.
 vim.pack.add({ "https://github.com/rcarriga/nvim-notify" })
 vim.cmd.packadd("nvim-notify")
 

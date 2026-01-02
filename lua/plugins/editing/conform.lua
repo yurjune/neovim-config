@@ -1,3 +1,5 @@
+-- A plugin for code formatting
+-- e.g) auto format on save
 if vim.g.leetcode then
   return
 end

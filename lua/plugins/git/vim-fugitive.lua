@@ -1,3 +1,4 @@
+-- A plugin that provides Git commands inside Vim.
 vim.pack.add({
   "https://github.com/tpope/vim-fugitive",
 })

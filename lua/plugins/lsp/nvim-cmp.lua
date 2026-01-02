@@ -1,4 +1,4 @@
--- A completion engine plugin
+-- A plugin that provides a completion engine.
 vim.pack.add({
   -- tells LSP servers that nvim-cmp can handle advanced features (auto-imports, snippets, etc.)
   -- without this: useState won't appear unless you manually write 'import { useState } from "react"'

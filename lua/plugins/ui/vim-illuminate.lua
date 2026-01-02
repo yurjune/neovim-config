@@ -1,3 +1,4 @@
+-- A plugin that highlights references to the word under the cursor.
 vim.pack.add({ "https://github.com/RRethy/vim-illuminate" })
 vim.cmd.packadd("vim-illuminate")
 

@@ -1,3 +1,4 @@
+--- Automatically completes the closed brace of any pair such as {} ,(), []
 vim.pack.add({
   "https://github.com/windwp/nvim-autopairs",
   "https://github.com/hrsh7th/nvim-cmp",

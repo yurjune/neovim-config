@@ -1,3 +1,4 @@
+-- A plugin for visualizing and managing marks
 vim.pack.add({ "https://github.com/chentoast/marks.nvim" })
 vim.cmd.packadd("marks.nvim")
 

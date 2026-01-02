@@ -1,3 +1,4 @@
+-- A plugin for automatic bullet list management.
 vim.pack.add({
   "https://github.com/bullets-vim/bullets.vim",
 })

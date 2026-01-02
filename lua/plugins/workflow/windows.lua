@@ -1,3 +1,4 @@
+-- A plugin that expands the current window
 vim.pack.add({
   "https://github.com/anuvyklack/windows.nvim",
   "https://github.com/anuvyklack/middleclass",

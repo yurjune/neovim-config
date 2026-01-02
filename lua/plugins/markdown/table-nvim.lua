@@ -1,3 +1,4 @@
+-- A plugin for creating and formatting tables.
 vim.pack.add({
   "https://github.com/SCJangra/table-nvim",
 })

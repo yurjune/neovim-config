@@ -1,3 +1,4 @@
+-- A plugin for startup dashboard
 vim.pack.add({ "https://github.com/goolord/alpha-nvim" })
 
 vim.cmd.packadd("alpha-nvim")

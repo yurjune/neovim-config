@@ -1,3 +1,4 @@
+-- A plugin that expands current window
 vim.pack.add({
   "https://github.com/szw/vim-maximizer",
 })

@@ -1,3 +1,4 @@
+--- An asynchronous linter plugin
 if vim.g.leetcode then
   return
 end

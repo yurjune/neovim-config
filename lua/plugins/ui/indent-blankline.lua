@@ -1,3 +1,4 @@
+-- A plugin for indentation guides
 vim.pack.add({ "https://github.com/lukas-reineke/indent-blankline.nvim" })
 vim.cmd.packadd("indent-blankline.nvim")
 

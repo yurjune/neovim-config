@@ -1,3 +1,4 @@
+-- A plugin to practice LeetCode problems inside Neovim.
 if not vim.g.leetcode then
   return
 end

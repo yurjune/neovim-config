@@ -1,3 +1,4 @@
+-- A plugin for seamless pane navigation
 vim.pack.add({ "https://github.com/mrjones2014/smart-splits.nvim" })
 
 vim.cmd.packadd("smart-splits.nvim")

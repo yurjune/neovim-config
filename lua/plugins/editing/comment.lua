@@ -1,3 +1,4 @@
+-- A plugin for commenting code
 vim.pack.add({
   "https://github.com/numToStr/Comment.nvim",
   "https://github.com/JoosepAlviste/nvim-ts-context-commentstring",

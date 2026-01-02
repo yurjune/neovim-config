@@ -1,3 +1,4 @@
+-- A plugin to manipulate surrounding characters.
 vim.pack.add({
   "https://github.com/echasnovski/mini.surround",
 })

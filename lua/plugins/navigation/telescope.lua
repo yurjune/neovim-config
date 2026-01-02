@@ -1,3 +1,4 @@
+-- A plugin that provides finders and pickers
 vim.pack.add({
   "https://github.com/nvim-telescope/telescope.nvim",
   "https://github.com/nvim-lua/plenary.nvim",

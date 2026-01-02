@@ -1,3 +1,4 @@
+--- All about "surroundings": parentheses, brackets, quotes, XML tags, and more
 vim.pack.add({
   "https://github.com/kylechui/nvim-surround",
 })

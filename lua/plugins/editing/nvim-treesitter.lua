@@ -1,3 +1,5 @@
+-- A plugin for parser generator
+-- 구문을 분석하여 하이라이팅과 다양한 코드 조작 기능 제공
 vim.pack.add({
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/windwp/nvim-ts-autotag",

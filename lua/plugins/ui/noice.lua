@@ -1,3 +1,4 @@
+-- A plugin that replaces the UI for messages, cmdline and the popupmenu.
 vim.pack.add({
   "https://github.com/folke/noice.nvim",
   "https://github.com/MunifTanjim/nui.nvim",

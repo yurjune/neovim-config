@@ -1,3 +1,4 @@
+-- A plugin for smooth scrolling
 if vim.g.neovide then
   return
 end

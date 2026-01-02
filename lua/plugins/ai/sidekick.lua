@@ -1,3 +1,6 @@
+-- A plugin for AI programming assistant
+-- Provides a UI for interacting with AI tools
+-- Provides Next edit suggestions feature
 vim.pack.add({
   "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
   "https://github.com/folke/sidekick.nvim",
