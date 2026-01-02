@@ -168,6 +168,10 @@
       "rev": "1f19dacd945a7b1a57f29f32b2d7168384df3d36",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
+    "nvim-lsp-file-operations": {
+      "rev": "9744b738183a5adca0f916527922078a965515ed",
+      "src": "https://github.com/antosha417/nvim-lsp-file-operations"
+    },
     "nvim-navic": {
       "rev": "f5eba192f39b453675d115351808bd51276d9de5",
       "src": "https://github.com/SmiteshP/nvim-navic"

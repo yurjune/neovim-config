@@ -38,6 +38,7 @@ local packages = {
   -- LSP/completion
   "plugins.lsp.mason",
   "plugins.lsp.nvim-cmp",
+  "plugins.lsp.nvim-lsp-file-operations",
 
   -- Navigation (telescope before LSP keymaps fire)
   "plugins.navigation.which-key",
