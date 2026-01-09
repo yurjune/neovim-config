@@ -72,7 +72,8 @@ local packages = {
   -- "plugins.debug.neotest",
 
   -- Markdown
-  "plugins.markdown.markview",
+  -- "plugins.markdown.markview",
+  "plugins.markdown.render-markdown",
   "plugins.markdown.table-nvim",
   "plugins.markdown.bullets",
 
