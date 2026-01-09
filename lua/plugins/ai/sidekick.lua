@@ -76,7 +76,7 @@ end, { expr = true, desc = "Goto/Apply Next Edit Suggestion" })
 
 vim.keymap.set("n", "<leader>an", function()
   require("sidekick.cli").toggle({
-    name = "codex",
+    name = "claude",
     focus = true,
   })
 end, { desc = "Sidekick Toggle CLI" })
