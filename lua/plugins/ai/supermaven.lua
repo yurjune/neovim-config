@@ -27,7 +27,7 @@ sp.setup({
   disable_keymaps = false, -- disables built in keymaps for more manual control
 })
 
-vim.keymap.set("n", "<leader>ct", function()
+vim.keymap.set("n", "<leader>cc", function()
   if api.is_running() then
     vim.notify("Supermaven disabled", vim.log.levels.INFO, { title = "Supermaven" })
   else
