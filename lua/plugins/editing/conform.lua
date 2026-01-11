@@ -13,7 +13,10 @@ local conform = require("conform")
 
 conform.setup({
   formatters_by_ft = {
-    -- "eslint_d" 를 추가해야 린트 결과를 포맷팅
+    -- ESLint works with conform.nvim because:
+    -- 1. ESLint provides `--fix` flag for auto-fixing
+    -- 2. conform.nvim internally runs `eslint_d --fix` on single files
+    -- 3. It supports stdin/stdout processing for per-file formatting
     javascript = { "prettier", "eslint_d" },
     typescript = { "prettier", "eslint_d" },
     javascriptreact = { "prettier", "eslint_d" },
