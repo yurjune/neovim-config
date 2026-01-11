@@ -1,0 +1,12 @@
+{
+  "name": "custom-snippets",
+  "version": "1.0.0",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "rust",
+        "path": "./rust.json"
+      }
+    ]
+  }
+}
