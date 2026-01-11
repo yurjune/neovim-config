@@ -41,6 +41,19 @@ vim.api.nvim_create_user_command("TestCurrentFileCoverage", function()
   }):toggle()
 end, { desc = "Get test coverage of current file in toggleterm" })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "rust",
+  callback = function()
+    vim.keymap.set("n", "<leader>cb", function()
+      Terminal:new({
+        cmd = "cargo run",
+        close_on_exit = false,
+        direction = "float",
+      }):toggle()
+    end, { desc = "Cargo run", buffer = true })
+  end,
+})
+
 local function get_project_root()
   -- Prefer VCS/project markers, fall back to cwd.
   local root = vim.fs.root(0, { ".git", "package.json", "pyproject.toml", "go.mod", "Cargo.toml" })
