@@ -2,11 +2,13 @@
 -- 구문을 분석하여 하이라이팅과 다양한 코드 조작 기능 제공
 vim.pack.add({
   "https://github.com/nvim-treesitter/nvim-treesitter",
-  "https://github.com/windwp/nvim-ts-autotag",
+  "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
   "https://github.com/nvim-treesitter/nvim-treesitter-context",
+  "https://github.com/windwp/nvim-ts-autotag",
   "https://github.com/Vimjas/vim-python-pep8-indent",
 })
 vim.cmd.packadd("nvim-treesitter")
+vim.cmd.packadd("nvim-treesitter-textobjects")
 vim.cmd.packadd("nvim-ts-autotag")
 vim.cmd.packadd("nvim-treesitter-context")
 vim.cmd.packadd("vim-python-pep8-indent")
@@ -70,6 +72,32 @@ treesitter.setup({
       node_incremental = "<C-space>",
       scope_incremental = false,
       node_decremental = "<bs>",
+    },
+  },
+
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true, -- Automatically jump forward to find the next textobject
+      keymaps = {
+        -- Can be used with operators: daf (delete), caf (change), yaf (yank), etc.
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ai"] = "@conditional.outer", -- if statement
+        ["ii"] = "@conditional.inner",
+        ["aa"] = "@parameter.outer", -- parameter with type
+        ["ia"] = "@parameter.inner", -- parameter name only
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- Add jumps to jumplist
+      goto_next_start = {
+        ["]f"] = "@function.outer",
+      },
+      goto_previous_start = {
+        ["[f"] = "@function.outer",
+      },
     },
   },
 })
