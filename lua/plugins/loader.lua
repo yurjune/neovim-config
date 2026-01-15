@@ -80,6 +80,7 @@ local packages = {
   -- Etc
   "plugins.etc.image",
   "plugins.etc.leetcode",
+  "plugins.etc.csvview",
 }
 
 for _, name in ipairs(packages) do
