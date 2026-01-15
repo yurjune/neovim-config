@@ -59,6 +59,14 @@ sidekick.setup({
   },
 })
 
+-- Auto enter insert mode when entering terminal buffer
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = vim.g.sidekick_buf_pattern,
+  callback = function()
+    vim.cmd("startinsert")
+  end,
+})
+
 vim.keymap.set({ "i", "n" }, "<tab>", function()
   -- if there is a next edit, jump to it, otherwise apply it if any
   if require("sidekick").nes_jump_or_apply() then
