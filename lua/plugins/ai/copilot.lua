@@ -24,8 +24,8 @@ require("copilot").setup({
       accept = "<Tab>",
       accept_word = false,
       accept_line = false,
-      next = "<D-j>",
-      prev = "<D-k>",
+      -- next = "<M-j>",
+      -- prev = "<M-k>",
       dismiss = "<C-]>",
     },
     filetypes = {

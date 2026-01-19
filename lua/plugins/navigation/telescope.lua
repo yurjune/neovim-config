@@ -140,8 +140,6 @@ pcall(telescope.load_extension, "fzf") -- Optimize search performance
 pcall(telescope.load_extension, "frecency")
 pcall(telescope.load_extension, "file_browser")
 
--- keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
-keymap.set("n", "<D-p>", builtin.find_files, { desc = "Telescope find files" })
 keymap.set("n", "<M-p>", builtin.find_files, { desc = "Telescope find files" })
 
 keymap.set("n", "<leader>fr", builtin.resume, { desc = "Telescope resume last picker" })
