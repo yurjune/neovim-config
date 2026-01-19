@@ -14,6 +14,7 @@ vim.lsp.enable({
   "some_sass",
   "html_ls",
   "json_ls",
+  "clangd",
 })
 
 local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })

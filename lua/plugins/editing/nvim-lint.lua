@@ -18,6 +18,8 @@ lint.linters_by_ft = {
   svelte = { "eslint_d" },
   python = { "pylint" },
   rust = { "clippy" },
+  c = { "clangtidy" }, -- brew install llvm
+  cpp = { "clangtidy" },
   -- yaml = { "yamllint" },
 }
 

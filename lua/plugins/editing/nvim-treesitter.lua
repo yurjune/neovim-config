@@ -36,7 +36,8 @@ treesitter.setup({
     "vim", -- vimscript
     "dockerfile",
     "python",
-    -- "c",
+    "c",
+    "cpp",
     -- "regex",
     -- "graphql",
     -- "svelte",
