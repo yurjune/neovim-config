@@ -4,7 +4,8 @@ vim.g.mapleader = " " -- bind spacebar to leader key
 vim.keymap.set("n", "<M-c>", '"+y')
 vim.keymap.set("v", "<M-c>", '"+y')
 vim.keymap.set("n", "<M-v>", '"+p')
-vim.keymap.set({ "i", "v" }, "<M-v>", "<c-r>+")
+vim.keymap.set("i", "<M-v>", "<c-r>+")
+vim.keymap.set("v", "<M-v>", '"+p')
 vim.keymap.set("c", "<M-v>", "<c-r>+")
 vim.keymap.set("t", "<M-v>", [[<C-\><C-n>"+pi]])
 
