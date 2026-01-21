@@ -6,7 +6,7 @@ return {
     "--header-insertion=iwyu",
     "--completion-style=detailed",
     "--function-arg-placeholders",
-    "--fallback-style=llvm",
+    "--fallback-style=llvm", -- fallback when no .clangd on root
   },
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
   root_markers = {

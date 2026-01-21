@@ -37,6 +37,14 @@ conform.setup({
     cpp = { "clang_format" },
   },
 
+  formatters = {
+    clang_format = {
+      prepend_args = {
+        "--style={BasedOnStyle: llvm, AllowShortFunctionsOnASingleLine: None}",
+      },
+    },
+  },
+
   -- prefer format_after_save then format_on_save since save with formatting always blocks UI
   -- process: save -> format -> resave
   -- ref. https://github.com/stevearc/conform.nvim/issues/401#issuecomment-2108453243
