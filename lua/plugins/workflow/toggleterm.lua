@@ -19,7 +19,7 @@ require("toggleterm").setup({
   -- This field is only relevant if direction is set to 'float'
   float_opts = {
     border = "curved", -- 'single' | 'double' | 'shadow' | 'curved'
-    width = 200,
+    width = 180,
     height = 45,
   },
 })
