@@ -33,8 +33,8 @@ conform.setup({
     lua = { "stylua" },
     python = { "isort", "black" },
     rust = { "rustfmt" },
-    c = { "clang_format", "clang-tidy" }, -- brew install llvm
-    cpp = { "clang_format", "clang-tidy" },
+    c = { "clang_format" }, -- brew install llvm
+    cpp = { "clang_format" },
   },
 
   -- prefer format_after_save then format_on_save since save with formatting always blocks UI
