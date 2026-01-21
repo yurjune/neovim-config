@@ -154,10 +154,10 @@ from_vscode.load({
 })
 
 -- Keymaps of luasnip about tabstop/placeholder(ex. $1, $2)
-vim.keymap.set({ "i", "s" }, "<C-f>", function()
-  return luasnip.jumpable(1) and "<Plug>luasnip-jump-next" or "<C-f>"
+vim.keymap.set({ "i", "s" }, "<C-;>", function()
+  return luasnip.jumpable(1) and "<Plug>luasnip-jump-next" or "<C-;>"
 end, { expr = true })
 
-vim.keymap.set({ "i", "s" }, "<C-d>", function()
-  return luasnip.jumpable(-1) and "<Plug>luasnip-jump-prev" or "<C-d>"
-end, { expr = true })
+-- vim.keymap.set({ "i", "s" }, "<C-d>", function()
+--   return luasnip.jumpable(-1) and "<Plug>luasnip-jump-prev" or "<C-d>"
+-- end, { expr = true })
