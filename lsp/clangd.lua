@@ -22,4 +22,10 @@ return {
     offsetEncoding = { "utf-16" },
   },
   settings = {},
+  on_attach = function(client)
+    if vim.g.leetcode then
+      client.stop()
+      return
+    end
+  end,
 }

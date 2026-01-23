@@ -23,12 +23,18 @@ local conf = require("telescope.config")
 
 leetcode.setup({
   arg = "leet",
-  lang = "python3",
+  lang = "cpp",
   plugins = {
     non_standalone = false,
   },
   logging = true,
-  injector = {},
+  injector = {
+    ["cpp"] = {
+      imports = function()
+        return { "#include <vector>", "#include <string>", "using namespace std;" }
+      end,
+    },
+  },
   console = {
     open_on_runcode = true,
     dir = "row",
