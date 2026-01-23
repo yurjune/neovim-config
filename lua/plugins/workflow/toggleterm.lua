@@ -98,3 +98,17 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Compile current dir and run program", buffer = true })
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "cpp",
+  callback = function()
+    vim.keymap.set("n", "<leader>cb", function()
+      local dir = vim.fn.expand("%:p:h")
+      Terminal:new({
+        cmd = string.format("cd %s && g++ *.cpp && ./a.out && rm a.out", vim.fn.shellescape(dir)),
+        close_on_exit = false,
+        direction = "float",
+      }):toggle()
+    end, { desc = "Compile current dir and run program", buffer = true })
+  end,
+})
