@@ -12,6 +12,9 @@ vim.g.colors_transparent = {
 
 -- check leetcode.nvim arg option
 vim.g.leetcode = vim.fn.argv(0, -1) == "leet" and true or false
+vim.g.leetcode_lsp_off = vim.g.leetcode
+vim.g.leetcode_cmp_off = vim.g.leetcode
+
 vim.g.sidekick_buf_pattern = "term://*"
 
 -- default providers

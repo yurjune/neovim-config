@@ -38,7 +38,7 @@ cmp.setup({
     if vim.tbl_contains(exlcude_ft, filetype) then
       return false
     end
-    if vim.g.leetcode then
+    if vim.g.leetcode_cmp_off then
       return false
     end
     return true
