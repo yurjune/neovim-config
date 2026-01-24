@@ -1,15 +1,9 @@
 vim.g.mapleader = " " -- bind spacebar to leader key
 
 -- Clipboard keymaps
-vim.keymap.set("n", "<D-c>", '"+y')
-vim.keymap.set("v", "<D-c>", '"+y')
-vim.keymap.set("n", "<D-v>", '"+p')
-vim.keymap.set("i", "<D-v>", "<c-r>+")
-vim.keymap.set("v", "<D-v>", '"+p')
-vim.keymap.set("c", "<D-v>", "<c-r>+")
-vim.keymap.set("t", "<D-v>", [[<C-\><C-n>"+pi]])
+vim.keymap.set({ "n", "v" }, "<M-c>", '"+y')
+vim.keymap.set("t", "<M-v>", [[<C-\><C-n>"+pi]]) -- for paste bug in sidekick terminal by <D-v> paste
 
--- Keymaps using command
 vim.keymap.set("n", "<M-s>", "<cmd>w<CR>", { desc = "Save current file" })
 vim.keymap.set("n", "<M-a>", "ggVG", { desc = "Select all lines" })
 
