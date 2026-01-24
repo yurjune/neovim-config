@@ -48,14 +48,7 @@ treesitter.setup({
   modules = {},
   highlight = {
     enable = true,
-    disable = function(lang)
-      -- disable python since treesitter issues
-      -- will be fixed if nvim-treesitter is updated
-      if lang == "python" then
-        return true
-      end
-      return false
-    end,
+    disable = {},
   },
   indent = {
     enable = true,
