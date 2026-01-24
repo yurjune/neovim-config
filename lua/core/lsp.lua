@@ -101,16 +101,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     --     return "<Tab>"
     --   end
     -- end, { expr = true, desc = "Apply the currently displayed completion suggestion" })
-
-    -- next completion
-    vim.keymap.set("i", "<M-j>", function()
-      vim.lsp.inline_completion.select({})
-    end, { desc = "Show next inline completion suggestion" })
-
-    -- prev completion
-    vim.keymap.set("i", "<M-K>", function()
-      vim.lsp.inline_completion.select({ count = -1 })
-    end, { desc = "Show previous inline completion suggestion" })
   end,
 })
 
