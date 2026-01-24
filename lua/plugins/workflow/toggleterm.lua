@@ -70,7 +70,7 @@ local function toggle_tmux_session()
   term:toggle()
 end
 
-vim.keymap.set({ "n", "t" }, "<M-g>", toggle_tmux_session, { desc = "Toggle tmux session in toggleterm" })
+vim.keymap.set({ "n", "t" }, "<D-g>", toggle_tmux_session, { desc = "Toggle tmux session in toggleterm" })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "rust",

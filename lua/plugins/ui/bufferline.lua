@@ -44,8 +44,8 @@ bufferline.setup({
   highlights = highlights,
 })
 
-vim.keymap.set("n", "<M-S-h>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Go to prev buffer" })
-vim.keymap.set("n", "<M-S-l>", "<cmd>BufferLineCycleNext<CR>", { desc = "Go to next buffer" })
+vim.keymap.set("n", "<D-H>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Go to prev buffer" })
+vim.keymap.set("n", "<D-L>", "<cmd>BufferLineCycleNext<CR>", { desc = "Go to next buffer" })
 
 local function close_buffer()
   local current_buf = vim.api.nvim_get_current_buf()
@@ -58,7 +58,6 @@ local function close_all_buffers()
   bufferline.close_others()
   vim.notify("Cleared all buffers.", vim.log.levels.INFO)
 end
-vim.keymap.set("n", "<D-W>", close_all_buffers, { desc = "Clear buffers except current buffer and nvim-tree" })
 vim.keymap.set("n", "<M-W>", close_all_buffers, { desc = "Clear buffers except current buffer and nvim-tree" })
 
 vim.keymap.set("n", "<leader>bh", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer backward" })

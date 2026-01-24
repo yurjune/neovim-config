@@ -160,8 +160,8 @@ nvimtree.setup({
   },
 })
 
-vim.keymap.set("n", "<M-e>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
-vim.keymap.set("n", "<M-b>", toggle_tree_keep_focus, { desc = "Toggle nvim tree" })
+vim.keymap.set("n", "<D-e>", toggle_focus_tree, { desc = "Toggle focus nvim tree" })
+vim.keymap.set("n", "<D-b>", toggle_tree_keep_focus, { desc = "Toggle nvim tree" })
 vim.keymap.set("n", "<leader>e1", set_tree_width(42), { desc = "NvimTree width 42" })
 vim.keymap.set("n", "<leader>e2", set_tree_width(50), { desc = "NvimTree width 50" })
 vim.keymap.set("n", "<leader>e3", set_tree_width(60), { desc = "NvimTree width 60" })
