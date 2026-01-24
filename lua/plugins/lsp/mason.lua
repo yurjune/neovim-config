@@ -23,33 +23,38 @@ mason.setup({
 
 mason_tool_installer.setup({
   ensure_installed = {
-    -- LSP servers
-    "lua-language-server",
+    -- TS/JS
     "typescript-language-server",
-    "rust-analyzer",
-    "emmet-ls",
+    "prettier",
+    "eslint_d",
+    "js-debug-adapter",
     "svelte-language-server",
-    "marksman",
-    "tailwindcss-language-server",
-    "sqls",
+    -- C/C++
+    "clangd",
+    -- Rust
+    "rust-analyzer",
+    -- Python
+    "pylint",
+    "isort",
+    "black",
+    -- Lua
+    "lua-language-server",
+    "stylua",
+    -- html
+    "html-lsp",
+    "emmet-ls",
+    -- CSS
     "css-lsp",
     "css-variables-language-server",
     "cssmodules-language-server",
     "some-sass-language-server",
-    "html-lsp",
+    "tailwindcss-language-server",
+    -- etc
+    "marksman",
+    "sqls",
     "json-lsp",
-    -- Formatters
-    "prettier",
-    "stylua",
-    "isort",
-    "black",
     "taplo",
-    -- Linters
-    "eslint_d",
-    "pylint",
     "yamllint",
     "actionlint",
-    -- etc
-    "js-debug-adapter",
   },
 })
