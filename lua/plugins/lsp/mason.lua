@@ -34,6 +34,7 @@ mason_tool_installer.setup({
     -- Rust
     "rust-analyzer",
     -- Python
+    "pyright",
     "pylint",
     "isort",
     "black",

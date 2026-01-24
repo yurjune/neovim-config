@@ -15,6 +15,7 @@ vim.lsp.enable({
   "html_ls",
   "json_ls",
   "clangd",
+  "pyright",
 })
 
 local lsp_group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true })
