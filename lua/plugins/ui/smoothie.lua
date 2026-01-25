@@ -1,8 +1,3 @@
--- A plugin for smooth scrolling
-if vim.g.neovide then
-  return
-end
-
 vim.pack.add({ "https://github.com/psliwka/vim-smoothie" })
 vim.cmd.packadd("vim-smoothie")
 

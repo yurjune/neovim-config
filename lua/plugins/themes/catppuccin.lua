@@ -97,18 +97,6 @@ require("catppuccin").setup({
         bg = colors.rosewater,
       },
 
-      -- -- for neovide
-      -- Normal = { -- current window
-      --   bg = vim.g.colors.bg,
-      -- },
-      -- NormalNC = { -- not current window,
-      --   bg = vim.g.colors.bg,
-      -- },
-      -- -- for leetcode.nvim
-      -- NormalSB = { -- status bar
-      --   bg = vim.g.colors.bg,
-      -- },
-
       PanelHeading = {
         fg = colors.lavender,
         bg = colors.none,
