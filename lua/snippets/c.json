@@ -1,0 +1,12 @@
+{
+  "header": {
+    "prefix": "_header",
+    "body": [
+      "#include <stdio.h>",
+      "#include <stdlib.h>",
+      "#include <string.h>",
+      ""
+    ],
+    "description": "Include common C headers (stdio, stdlib, string)"
+  }
+}

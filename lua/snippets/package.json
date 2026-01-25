@@ -6,6 +6,14 @@
       {
         "language": "rust",
         "path": "./rust.json"
+      },
+      {
+        "language": "c",
+        "path": "./c.json"
+      },
+      {
+        "language": "h",
+        "path": "./c.json"
       }
     ]
   }
