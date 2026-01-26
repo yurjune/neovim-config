@@ -100,8 +100,8 @@ local function make_difficulty_picker(title, difficulties)
         end,
       }),
       layout_config = {
-        width = 0.2,
-        height = 0.2,
+        width = 0.3,
+        height = 0.4,
       },
       sorter = conf.values.generic_sorter({}),
       attach_mappings = function(prompt_bufnr)
