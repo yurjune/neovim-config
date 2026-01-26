@@ -23,8 +23,8 @@ return {
   },
   settings = {},
   on_attach = function(client)
-    if vim.g.leetcode_lsp_off then
-      client.stop()
+    if vim.g.leetcode and vim.g.leetcode_lsp_off then
+      client:stop()
       return
     end
   end,
