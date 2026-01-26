@@ -29,10 +29,8 @@ mason_tool_installer.setup({
     "eslint_d",
     "js-debug-adapter",
     "svelte-language-server",
-    -- C/C++
-    "clangd",
-    -- Rust
-    "rust-analyzer",
+    -- C/C++: managed manually
+    -- Rust: managed by rustup
     -- Python
     "pyright",
     "pylint",
