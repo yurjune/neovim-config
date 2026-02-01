@@ -131,14 +131,3 @@ vim.keymap.set("n", "<leader>ld", function()
 
   make_difficulty_picker("Leetcode select difficulty", difficulties)
 end, { desc = "Leetcode problem list" })
-
-vim.keymap.set("n", "<leader>lr", function()
-  local difficulties = {
-    { name = "all", cmd = "Leet random" },
-    { name = "easy", cmd = "Leet random difficulty=easy" },
-    { name = "medium", cmd = "Leet random difficulty=medium" },
-    { name = "hard", cmd = "Leet random difficulty=hard" },
-  }
-
-  make_difficulty_picker("Leetcode random problem", difficulties)
-end, { desc = "Leetcode random problem" })
