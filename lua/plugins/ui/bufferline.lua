@@ -68,9 +68,3 @@ vim.keymap.set("n", "<leader>bd", function()
 end, { desc = "Pick a buffer to close" })
 
 vim.keymap.set("n", "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", { desc = "Buffer Pin/Unpin" })
-
-for i = 1, 9 do
-  vim.keymap.set("n", "<C-" .. i .. ">", function()
-    bufferline.go_to(i, true)
-  end, { desc = "Go to buffer " .. i })
-end
