@@ -31,7 +31,7 @@ leetcode.setup({
   injector = {
     ["cpp"] = {
       imports = function()
-        return { "#include <vector>", "#include <string>", "using namespace std;" }
+        return { "#include <vector>", "#include <algorithm>", "using namespace std;" }
       end,
     },
   },
@@ -85,6 +85,9 @@ vim.keymap.set("n", "<leader>lc", "<cmd>Leet console<CR>", { desc = "Open Leetco
 vim.keymap.set("n", "<leader>lS", "<cmd>Leet submit<CR>", { desc = "Submit Leetcode answer" })
 vim.keymap.set("n", "<leader>lL", "<cmd>Leet last_submit<CR>", { desc = "Load Leetcode last submit" })
 
+vim.keymap.set("n", "<leader>ll", "<cmd>Leet list<CR>", { desc = "Leetcode all problems" })
+vim.keymap.set("n", "<leader>lr", "<cmd>Leet reset<CR>", { desc = "Reset editor" })
+
 local function make_difficulty_picker(title, difficulties)
   pickers
     .new({}, {
@@ -119,7 +122,7 @@ local function make_difficulty_picker(title, difficulties)
     :find() -- trigger picker ui
 end
 
-vim.keymap.set("n", "<leader>ll", function()
+vim.keymap.set("n", "<leader>ld", function()
   local difficulties = {
     { name = "all", cmd = "Leet list" },
     { name = "easy", cmd = "Leet list difficulty=easy" },
@@ -127,16 +130,5 @@ vim.keymap.set("n", "<leader>ll", function()
     { name = "hard", cmd = "Leet list difficulty=hard" },
   }
 
-  make_difficulty_picker("Leetcode problem list", difficulties)
+  make_difficulty_picker("Leetcode select difficulty", difficulties)
 end, { desc = "Leetcode problem list" })
-
-vim.keymap.set("n", "<leader>lr", function()
-  local difficulties = {
-    { name = "all", cmd = "Leet random" },
-    { name = "easy", cmd = "Leet random difficulty=easy" },
-    { name = "medium", cmd = "Leet random difficulty=medium" },
-    { name = "hard", cmd = "Leet random difficulty=hard" },
-  }
-
-  make_difficulty_picker("Leetcode random problem", difficulties)
-end, { desc = "Leetcode random problem" })
