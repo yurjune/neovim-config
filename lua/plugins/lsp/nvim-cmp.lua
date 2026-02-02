@@ -34,14 +34,11 @@ return {
         if vim.tbl_contains(exlcude_ft, filetype) then
           return false
         end
-        if vim.g.leetcode then
-          return false
-        end
         return true
       end,
 
       -- sources for autocompletion (order matters - higher priority first)
-      sources = cmp.config.sources({
+      sources = vim.g.leetcode and {} or cmp.config.sources({
         { name = "nvim_lsp" }, -- from cmp-nvim-lsp
         { name = "buffer" }, -- from cmp-buffer
         { name = "luasnip" }, -- from cmp_luasnip
