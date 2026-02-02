@@ -4,6 +4,7 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local lualine = require("lualine")
+    local ok_lazy, lazy_status = pcall(require, "lazy.status")
 
     -- configure lualine with modified theme
     lualine.setup({
@@ -24,7 +25,16 @@ return {
             shorting_target = 40, -- 경로가 길 경우 줄이는 기준 길이
           },
         },
-        lualine_x = { "filetype" },
+        lualine_x = ok_lazy and {
+          {
+            lazy_status.updates,
+            cond = lazy_status.has_updates,
+            color = { fg = "#ff9e64" },
+          },
+          { "filetype" },
+        } or {
+          { "filetype" },
+        },
         lualine_y = { "location" },
         lualine_z = { "progress" },
       },
