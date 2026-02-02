@@ -1,3 +1,5 @@
--- A plugin for vim.ui.input, vim.ui.select ui enhancement
-vim.pack.add({ "https://github.com/stevearc/dressing.nvim" })
-vim.cmd.packadd("dressing.nvim")
+-- A plugin to improve basic UI of neovim
+-- integrates with plugins which use vim.ui.input, vim.ui.select
+return {
+  "stevearc/dressing.nvim",
+}
