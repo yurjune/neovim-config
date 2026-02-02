@@ -1,24 +1,26 @@
 -- A plugin for displaying code context in statusline or winbar.
-vim.pack.add({ "https://github.com/SmiteshP/nvim-navic" })
-vim.cmd.packadd("nvim-navic")
+return {
+  "SmiteshP/nvim-navic",
+  config = function()
+    local navic = require("nvim-navic")
 
-local navic = require("nvim-navic")
+    navic.setup({
+      highlight = true,
+    })
 
-navic.setup({
-  highlight = true,
-})
+    vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "LspAttach" }, {
+      callback = function()
+        if not navic.is_available() then
+          return
+        end
 
-vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "LspAttach" }, {
-  callback = function()
-    if not navic.is_available() then
-      return
-    end
+        local winbarTxt = "%{%v:lua.require'nvim-navic'.get_location()%}"
+        vim.opt_local.winbar = winbarTxt
+      end,
+    })
 
-    local winbarTxt = "%{%v:lua.require'nvim-navic'.get_location()%}"
-    vim.opt_local.winbar = winbarTxt
+    vim.api.nvim_set_hl(0, "NavicText", {
+      fg = vim.g.colors.rose_beige,
+    })
   end,
-})
-
-vim.api.nvim_set_hl(0, "NavicText", {
-  fg = vim.g.colors.rose_beige,
-})
+}

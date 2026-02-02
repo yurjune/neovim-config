@@ -1,10 +1,12 @@
 -- A plugin for rendering Markdown.
-vim.pack.add({
-  "https://github.com/OXY2DEV/markview.nvim",
-})
-vim.cmd.packadd("markview.nvim")
+return {
+  "OXY2DEV/markview.nvim",
+  lazy = false,
+  enabled = false,
+  config = function(_, opts)
+    local markview = require("markview")
+    markview.setup(opts)
 
-local markview = require("markview")
-markview.setup({})
-
-vim.keymap.set("n", "<leader>mt", "<cmd>Markview toggle<cr>", { desc = "Toggle markdown preview" })
+    vim.keymap.set("n", "<leader>mt", "<cmd>Markview toggle<cr>", { desc = "Toggle markdown preview" })
+  end,
+}
