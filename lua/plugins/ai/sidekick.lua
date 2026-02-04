@@ -37,7 +37,7 @@ return {
       win = {
         layout = "right",
         split = {
-          width = 80,
+          width = 70,
           height = 20,
         },
         keys = {

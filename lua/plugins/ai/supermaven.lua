@@ -1,7 +1,7 @@
 -- A plugin for inline code completion
 return {
   "supermaven-inc/supermaven-nvim",
-  enabled = true,
+  enabled = false,
   event = "InsertEnter",
   cond = function()
     return not vim.g.leetcode
