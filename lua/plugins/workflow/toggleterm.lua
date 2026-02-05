@@ -107,7 +107,7 @@ return {
           local dir = vim.fn.expand("%:p:h")
           Terminal
             :new({
-              cmd = string.format("cd %s && g++ *.cpp && ./a.out && rm a.out", vim.fn.shellescape(dir)),
+              cmd = string.format("cd %s && g++ -std=c++20 *.cpp && ./a.out && rm a.out", vim.fn.shellescape(dir)),
               close_on_exit = false,
               direction = "float",
             })
