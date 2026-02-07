@@ -45,6 +45,7 @@ return {
         "python",
         "c",
         "cpp",
+        "sql",
         -- "regex",
         -- "graphql",
         -- "svelte",
