@@ -105,13 +105,15 @@ return {
       callback = function()
         vim.keymap.set("n", "<leader>cb", function()
           local dir = vim.fn.expand("%:p:h")
-          Terminal
-            :new({
-              cmd = string.format("cd %s && g++ -std=c++20 *.cpp && ./a.out && rm a.out", vim.fn.shellescape(dir)),
-              close_on_exit = false,
-              direction = "float",
-            })
-            :toggle()
+          Terminal:new({
+            cmd = string.format(
+              "cd %s && g++ -std=c++20 %s && ./a.out && rm a.out",
+              vim.fn.shellescape(dir),
+              vim.fn.expand("%:p")
+            ),
+            close_on_exit = false,
+            direction = "float",
+          }):toggle()
         end, { desc = "Compile current dir and run program", buffer = true })
       end,
     })
