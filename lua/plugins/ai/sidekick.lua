@@ -89,7 +89,7 @@ return {
       "<leader>an",
       function()
         require("sidekick.cli").toggle({
-          name = "claude",
+          name = "codex",
           focus = true,
         })
       end,
