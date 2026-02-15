@@ -37,7 +37,11 @@ return {
       formatters = {
         clang_format = {
           prepend_args = {
-            "--style={BasedOnStyle: llvm, AllowShortFunctionsOnASingleLine: None}",
+            "--style={"
+              .. "BasedOnStyle: llvm, "
+              .. "AllowShortFunctionsOnASingleLine: None, "
+              .. "AllowShortIfStatementsOnASingleLine: true"
+              .. "}",
           },
         },
       },
