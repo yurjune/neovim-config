@@ -32,6 +32,7 @@ return {
         rust = { "rustfmt" },
         c = { "clang_format" }, -- brew install llvm
         cpp = { "clang_format" },
+        sql = { "sql_formatter" }, -- npm i -g sql_formatter
       },
 
       formatters = {
