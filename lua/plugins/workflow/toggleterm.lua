@@ -24,21 +24,37 @@ return {
     })
 
     local Terminal = require("toggleterm.terminal").Terminal
-    vim.api.nvim_create_user_command("TestCurrentFile", function()
+    vim.api.nvim_create_user_command("JestCurrentFile", function()
       Terminal:new({
         cmd = "npx jest " .. vim.fn.shellescape(vim.fn.expand("%")),
         close_on_exit = false,
         direction = "float",
       }):toggle()
-    end, { desc = "Run test current file in toggleterm" })
+    end, { desc = "[Jest] Run test current file" })
 
-    vim.api.nvim_create_user_command("TestCurrentFileCoverage", function()
+    vim.api.nvim_create_user_command("JestCurrentFileCoverage", function()
       Terminal:new({
         cmd = "npx jest " .. vim.fn.shellescape(vim.fn.expand("%")) .. " --coverage",
         close_on_exit = false,
         direction = "float",
       }):toggle()
-    end, { desc = "Get test coverage of current file in toggleterm" })
+    end, { desc = "[Jest] Get test coverage of current file" })
+
+    vim.api.nvim_create_user_command("VitestCurrentFile", function()
+      Terminal:new({
+        cmd = "npx vitest " .. vim.fn.shellescape(vim.fn.expand("%")),
+        close_on_exit = false,
+        direction = "float",
+      }):toggle()
+    end, { desc = "[Vitest] Run test current file" })
+
+    vim.api.nvim_create_user_command("VitestCurrentFileCoverage", function()
+      Terminal:new({
+        cmd = "npx vitest " .. vim.fn.shellescape(vim.fn.expand("%")) .. " --coverage",
+        close_on_exit = false,
+        direction = "float",
+      }):toggle()
+    end, { desc = "[Vitest] Get test coverage of current file" })
 
     local function get_project_root()
       -- Prefer VCS/project markers, fall back to cwd.
