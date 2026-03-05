@@ -1,3 +1,18 @@
+local eslint_roots = {
+  "eslint.config.js",
+  "eslint.config.cjs",
+  "eslint.config.mjs",
+  "eslint.config.ts",
+  "eslint.config.cts",
+  "eslint.config.mts",
+  ".eslintrc",
+  ".eslintrc.json",
+  ".eslintrc.js",
+  ".eslintrc.cjs",
+  ".eslintrc.yaml",
+  ".eslintrc.yml",
+}
+
 -- A plugin for formatting code
 return {
   "stevearc/conform.nvim",
@@ -7,7 +22,7 @@ return {
   end,
   config = function()
     local conform = require("conform")
-
+    local util = require("conform.util")
     conform.setup({
       formatters_by_ft = {
         -- ESLint works with conform.nvim because:
@@ -45,6 +60,11 @@ return {
               .. "AllowShortLoopsOnASingleLine: true"
               .. "}",
           },
+        },
+        -- execute eslint when eslint config exists
+        eslint_d = {
+          cwd = util.root_file(eslint_roots),
+          require_cwd = true,
         },
       },
 
