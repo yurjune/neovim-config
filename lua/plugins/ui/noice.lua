@@ -39,6 +39,10 @@ return {
         ["vim.lsp.util.stylize_markdown"] = true,
         ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
       },
+      hover = {
+        enabled = true,
+        silent = true, -- suppress "No information available" notifications
+      },
     },
     views = {
       cmdline_popup = {
