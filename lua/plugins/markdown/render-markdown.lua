@@ -6,13 +6,20 @@ return {
   },
   config = function()
     local rm = require("render-markdown")
-    require("render-markdown").setup({
+
+    rm.setup({
       enabled = true,
       debounce = 20, -- reduce debounce ms for proper render on fast current line move
       render_modes = { "n", "c", "t", "i", "v", "V" },
       completions = {
         lsp = {
           enabled = true,
+        },
+      },
+      win_options = {
+        conceallevel = {
+          default = vim.o.conceallevel,
+          rendered = 2,
         },
       },
       latex = {
