@@ -29,7 +29,6 @@ return {
         local filetype = vim.bo.filetype
         local exlcude_ft = {
           "TelescopePrompt",
-          "markdown",
         }
         if vim.tbl_contains(exlcude_ft, filetype) then
           return false
@@ -38,6 +37,7 @@ return {
       end,
 
       -- sources for autocompletion (order matters - higher priority first)
+      -- :CmpStatus to debug
       sources = vim.g.leetcode and {} or cmp.config.sources({
         { name = "nvim_lsp" }, -- from cmp-nvim-lsp
         { name = "buffer" }, -- from cmp-buffer
@@ -117,6 +117,14 @@ return {
           winhighlight = "Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
         },
       },
+    })
+
+    cmp.setup.filetype("markdown", {
+      sources = cmp.config.sources({
+        -- for obsidian.nvim
+        { name = "obsidian" },
+        { name = "obsidian_tags" },
+      }),
     })
 
     -- Apply completions in command line
