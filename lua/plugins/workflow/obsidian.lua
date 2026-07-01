@@ -19,6 +19,10 @@ return {
         name = "personal",
         path = "~/obsidian/Jerry",
       },
+      {
+        name = "company",
+        path = "~/obsidian/yhpark",
+      },
     },
     completion = {
       nvim_cmp = true,
