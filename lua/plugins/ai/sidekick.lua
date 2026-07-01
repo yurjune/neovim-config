@@ -4,11 +4,11 @@
 return {
   "folke/sidekick.nvim",
   dependencies = {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    after = "nvim-treesitter",
-    requires = "nvim-treesitter/nvim-treesitter",
-    branch = "master",
-    -- branch = "main",  -- prepare for update.
+    {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      branch = "main",
+      dependencies = { "nvim-treesitter/nvim-treesitter" },
+    },
   },
   lazy = false,
   opts = {

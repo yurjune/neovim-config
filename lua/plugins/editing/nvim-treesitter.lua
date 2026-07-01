@@ -1,16 +1,18 @@
 -- A plugin for parser generator
--- 구문을 분석하여 하이라이팅과 다양한 코드 조작 기능 제공
+-- analyze syntax: support highlighting, various code edit
 return {
   "nvim-treesitter/nvim-treesitter",
-  branhch = "master",
-  -- branch = "main",  -- prepare for update
-  event = { "BufReadPre", "BufNewFile" },
+  branch = "main",
+  lazy = false, -- This plugin does not support lazy-loading
   -- whenever this plugin is updated, all language parsers will be updated
   build = ":TSUpdate",
   dependencies = {
     "windwp/nvim-ts-autotag",
     "nvim-treesitter/nvim-treesitter-context",
-    "nvim-treesitter/nvim-treesitter-textobjects",
+    {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      branch = "main",
+    },
     {
       -- nvim-treesitter 에서는 중첩 함수의 return 이후 indent가 이상적으로 동작하지 않음(들여쓰기 레벨이 초기화)
       -- check current indent method by this command: set indentexpr?
@@ -20,91 +22,101 @@ return {
   },
 
   config = function()
-    local treesitter = require("nvim-treesitter.configs")
+    local treesitter = require("nvim-treesitter")
     local context = require("treesitter-context")
+    local textobjects = require("nvim-treesitter-textobjects")
 
-    treesitter.setup({
-      -- ensure these language parsers are installed
-      ensure_installed = {
-        "lua",
-        "vimdoc",
-        "query", -- treesitter query
-        "markdown",
-        "markdown_inline",
-        "json",
-        "yaml",
-        "bash",
-        "html",
-        "css",
-        "javascript",
-        "typescript",
-        "tsx", -- includes jsx
-        "rust",
-        "vim", -- vimscript
-        "dockerfile",
-        "python",
-        "c",
-        "cpp",
-        "sql",
-        -- "regex",
-        -- "graphql",
-        -- "svelte",
-      },
-      auto_install = true,
-      sync_install = false,
-      ignore_install = {},
-      modules = {},
-      highlight = {
-        enable = true,
-        disable = {},
-      },
-      indent = {
-        enable = true,
-        disable = {
-          "python", -- to use external python indent plugin
-        },
-      },
-      fold = { enable = true },
+    local ensure_installed = {
+      "lua",
+      "vimdoc",
+      "query", -- treesitter query
+      "markdown",
+      "markdown_inline",
+      "json",
+      "yaml",
+      "bash",
+      "html",
+      "css",
+      "javascript",
+      "typescript",
+      "tsx", -- includes jsx
+      "rust",
+      "vim", -- vimscript
+      "dockerfile",
+      "python",
+      "c",
+      "cpp",
+      "sql",
+      -- "regex",
+      -- "graphql",
+      -- "svelte",
+    }
 
-      -- 코드 구문 구조에 따라 선택 영역을 점진적으로 확장하거나 축소
-      incremental_selection = {
-        enable = false,
-        keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
-          scope_incremental = false,
-          node_decremental = "<bs>",
-        },
-      },
+    treesitter.setup()
 
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true, -- Automatically jump forward to find the next textobject
-          keymaps = {
-            -- Can be used with operators: daf (delete), caf (change), yaf (yank), etc.
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
-            ["ai"] = "@conditional.outer", -- if statement
-            ["ii"] = "@conditional.inner",
-            ["aa"] = "@parameter.outer", -- parameter with type
-            ["ia"] = "@parameter.inner", -- parameter name only
-          },
-        },
-        move = {
-          enable = true,
-          set_jumps = true, -- Add jumps to jumplist
-          goto_next_start = {
-            ["]f"] = "@function.outer",
-          },
-          goto_previous_start = {
-            ["[f"] = "@function.outer",
-          },
-        },
+    if vim.fn.executable("tree-sitter") == 1 then
+      local installed = treesitter.get_installed()
+      local missing_parsers = vim.tbl_filter(function(parser)
+        return not vim.tbl_contains(installed, parser)
+      end, ensure_installed)
+
+      if #missing_parsers > 0 then
+        treesitter.install(missing_parsers)
+      end
+    end
+
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("treesitter-start", { clear = true }),
+      callback = function()
+        pcall(vim.treesitter.start)
+
+        vim.wo.foldmethod = "expr"
+        vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+
+        if vim.bo.filetype ~= "python" then
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
+      end,
+    })
+
+    textobjects.setup({
+      select = {
+        lookahead = true, -- Automatically jump forward to find the next textobject
+      },
+      move = {
+        set_jumps = true, -- Add jumps to jumplist
       },
     })
 
-    -- 현재 코드 줄의 컨텍스트를 sticky하게 표시합니다.
+    local select = require("nvim-treesitter-textobjects.select")
+    vim.keymap.set({ "x", "o" }, "af", function()
+      select.select_textobject("@function.outer", "textobjects")
+    end, { desc = "Select outer function" })
+    vim.keymap.set({ "x", "o" }, "if", function()
+      select.select_textobject("@function.inner", "textobjects")
+    end, { desc = "Select inner function" })
+    vim.keymap.set({ "x", "o" }, "ai", function()
+      select.select_textobject("@conditional.outer", "textobjects")
+    end, { desc = "Select outer conditional" })
+    vim.keymap.set({ "x", "o" }, "ii", function()
+      select.select_textobject("@conditional.inner", "textobjects")
+    end, { desc = "Select inner conditional" })
+    vim.keymap.set({ "x", "o" }, "aa", function()
+      select.select_textobject("@parameter.outer", "textobjects")
+    end, { desc = "Select outer parameter" })
+    vim.keymap.set({ "x", "o" }, "ia", function()
+      select.select_textobject("@parameter.inner", "textobjects")
+    end, { desc = "Select inner parameter" })
+
+    local move = require("nvim-treesitter-textobjects.move")
+    vim.keymap.set({ "n", "x", "o" }, "]f", function()
+      move.goto_next_start("@function.outer", "textobjects")
+    end, { desc = "Next function start" })
+    vim.keymap.set({ "n", "x", "o" }, "[f", function()
+      move.goto_previous_start("@function.outer", "textobjects")
+    end, { desc = "Previous function start" })
+
+    -- show current line context sticky
     context.setup({
       enable = true,
       max_lines = 2,

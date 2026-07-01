@@ -30,7 +30,7 @@ vim.opt.foldlevel = 99
 -- foldmethod means how to determine the folds and its level, ex) indent, expr, syntax, manual, diff, marker
 vim.opt.foldmethod = "expr"
 -- 각 라인의 폴딩 레벨을 결정하는 표현식을 지정, works on only foldmethod = expr
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- 항상 N칸 폭의 foldcolumn 을 표시, auto:N 이면 최대 N칸 폭의 foldcolumn 을 표시
 vim.opt.foldcolumn = "0"
 
