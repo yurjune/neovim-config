@@ -23,6 +23,8 @@ return {
 
   config = function()
     local treesitter = require("nvim-treesitter")
+    local treesitter_config = require("nvim-treesitter.config")
+    local treesitter_install = require("nvim-treesitter.install")
     local context = require("treesitter-context")
     local textobjects = require("nvim-treesitter-textobjects")
 
@@ -55,13 +57,13 @@ return {
     treesitter.setup()
 
     if vim.fn.executable("tree-sitter") == 1 then
-      local installed = treesitter.get_installed()
+      local installed = treesitter_config.get_installed()
       local missing_parsers = vim.tbl_filter(function(parser)
         return not vim.tbl_contains(installed, parser)
       end, ensure_installed)
 
       if #missing_parsers > 0 then
-        treesitter.install(missing_parsers)
+        treesitter_install.install(missing_parsers, { summary = true })
       end
     end
 
