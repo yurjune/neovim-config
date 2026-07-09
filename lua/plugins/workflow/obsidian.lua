@@ -12,7 +12,7 @@ return {
     -- remove these in 4.0.0
     legacy_commands = false,
     ui = {
-      enable = true,
+      enable = false, -- prevent collsion with render-markdown.nvim
     },
     workspaces = {
       {
