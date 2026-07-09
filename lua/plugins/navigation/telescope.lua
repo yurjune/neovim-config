@@ -110,22 +110,6 @@ return {
             end,
           }),
         },
-        marks = {
-          sorter = sorters.new({
-            -- if returns -1, it will be filtered
-            -- show only uppercase marks
-            scoring_function = function(_, _, line, _)
-              local mark = line:match("^%s*([%w'`])")
-              if not mark then
-                return -1
-              end
-              if mark:match("[A-Z]") then
-                return mark:byte()
-              end
-              return -1
-            end,
-          }),
-        },
       },
       extensions = {
         fzf = {
