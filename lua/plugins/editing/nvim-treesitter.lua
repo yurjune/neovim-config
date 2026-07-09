@@ -49,9 +49,9 @@ return {
       "c",
       "cpp",
       "sql",
-      -- "regex",
-      -- "graphql",
-      -- "svelte",
+      "regex",
+      "graphql",
+      "svelte",
     }
 
     treesitter.setup()
