@@ -2,7 +2,6 @@
 -- If .vscode/launch.json is present, nvim-dap will use it when dap.continue() is called.
 return {
   "mfussenegger/nvim-dap",
-  after = "dapui",
   event = "VeryLazy",
   dependencies = {
     "rcarriga/nvim-dap-ui",
@@ -223,10 +222,7 @@ return {
     end
 
     -- attach dapui events to dap
-    dap.listeners.before.attach.dapui_config = function()
-      dapui.open()
-    end
-    dap.listeners.before.launch.dapui_config = function()
+    dap.listeners.after.event_initialized["dapui_config"] = function()
       dapui.open()
     end
     dap.listeners.before.event_terminated.dapui_config = function()
