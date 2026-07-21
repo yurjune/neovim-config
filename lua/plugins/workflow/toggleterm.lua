@@ -78,7 +78,8 @@ return {
       term:toggle()
     end
 
-    vim.keymap.set({ "n", "t" }, "<D-g>", toggle_tmux_session, { desc = "Toggle tmux session in toggleterm" })
+    -- override default C-g keymap
+    vim.keymap.set({ "n", "t" }, "<C-g>", toggle_tmux_session, { desc = "Toggle tmux session in toggleterm" })
 
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "rust",
