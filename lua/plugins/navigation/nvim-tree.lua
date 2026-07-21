@@ -48,10 +48,8 @@ return {
   dependencies = "nvim-tree/nvim-web-devicons",
   cmd = { "NvimTreeToggle", "NvimTreeOpen" },
   keys = {
-    { "<D-e>", toggle_focus_tree, mode = { "n", "v" }, desc = "Toggle focus nvim tree" },
-    { "<M-e>", toggle_focus_tree, mode = { "n", "v" }, desc = "Toggle focus nvim tree" },
-    { "<D-b>", toggle_tree_keep_focus, mode = { "n", "v" }, desc = "Toggle nvim tree" },
-    { "<M-b>", toggle_tree_keep_focus, mode = { "n", "v" }, desc = "Toggle nvim tree" },
+    { "<leader>ee", toggle_focus_tree, mode = { "n", "v" }, desc = "Toggle focus nvim tree" },
+    { "<leader>bb", toggle_tree_keep_focus, mode = { "n", "v" }, desc = "Toggle nvim tree" },
     { "<leader>e1", set_tree_width(42), desc = "NvimTree width 42" },
     { "<leader>e2", set_tree_width(50), desc = "NvimTree width 50" },
     { "<leader>e3", set_tree_width(60), desc = "NvimTree width 60" },
