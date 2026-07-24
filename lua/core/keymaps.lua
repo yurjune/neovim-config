@@ -1,3 +1,5 @@
+vim.keymap.set("t", "<M-v>", [[<C-\><C-n>"+pi]]) -- for paste bug in sidekick terminal by <D-v> paste
+
 vim.keymap.set("n", "<M-s>", "<cmd>w<CR>", { desc = "Save current file" })
 vim.keymap.set("n", "<M-a>", "ggVG", { desc = "Select all lines" })
 
