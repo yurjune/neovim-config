@@ -11,7 +11,9 @@ local function call_hammerspoon(method)
     "-c",
     command,
   }, {
-    detach = true, -- prevent killing hs process when exit
+    -- Close stdin so `hs` exits after running the command.
+    -- Otherwise, each call leaves another `hs` process running.
+    stdin = "null",
   })
 end
 
