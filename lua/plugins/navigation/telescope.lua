@@ -142,12 +142,10 @@ return {
     pcall(telescope.load_extension, "frecency")
     pcall(telescope.load_extension, "file_browser")
 
-    keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
-    keymap.set("n", "<leader>fr", builtin.resume, { desc = "Telescope resume last picker" })
+    keymap.set("n", "<leader>fh", builtin.find_files, { desc = "Telescope find files" })
+
     keymap.set("n", "<leader>fl", builtin.live_grep, { desc = "Telescope live grep" })
-
-    keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "Telescope grep string under cursor" })
-
+    keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "Telescope grep word under cursor" })
     keymap.set("v", "<leader>fs", function()
       local visual_selection = function()
         vim.cmd('noau normal! "vy"')
@@ -159,23 +157,22 @@ return {
       builtin.grep_string({ search = visual_selection() })
     end, { desc = "Telescope grep selected" })
 
+    keymap.set("n", "<leader>fg", builtin.git_status, { desc = "Telescope git status" })
+    keymap.set("n", "<leader>fG", builtin.git_bcommits, { desc = "Telescope git file commits" })
+
+    keymap.set("n", "<leader>fr", builtin.resume, { desc = "Telescope resume last picker" })
     keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "Telescope old files" })
     keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
     keymap.set("n", "<leader>fm", builtin.marks, { desc = "Telescope marks" })
 
-    keymap.set("n", "<leader>fg", builtin.git_status, { desc = "Telescope git status" })
-    keymap.set("n", "<leader>fG", builtin.git_bcommits, { desc = "Telescope git file commits" })
-
-    keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
-    keymap.set("n", "<leader>fc", builtin.commands, { desc = "Telescope commands" })
-
     keymap.set("n", "<leader>ft", "<cmd>TodoTelescope keywords=TODO<CR>", { desc = "Telescope TODOs only" })
     keymap.set("n", "<leader>fT", "<cmd>TodoTelescope<CR>", { desc = "Telescope all todos" })
 
+    keymap.set("n", "<leader>fc", builtin.commands, { desc = "Telescope commands" })
+    keymap.set("n", "<leader>fn", "<cmd>Telescope notify<CR>", { desc = "Telescope notifications" })
+
     keymap.set("n", "<space>fe", function()
       telescope.extensions.file_browser.file_browser()
-    end, { desc = "Telescope file browser" })
-
-    keymap.set("n", "<leader>fn", "<cmd>Telescope notify<CR>", { desc = "Telescope notifications" })
+    end, { desc = "Telescope file explorer" })
   end,
 }
