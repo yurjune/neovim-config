@@ -2,6 +2,9 @@
 -- need to install lazygit: brew install jesseduffield/lazygit/lazygit
 return {
   "kdheepak/lazygit.nvim",
+  init = function()
+    vim.g.lazygit_floating_window_scaling_factor = 0.9
+  end,
   cmd = {
     "LazyGit",
     "LazyGitConfig",
