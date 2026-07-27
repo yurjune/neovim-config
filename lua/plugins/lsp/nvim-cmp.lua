@@ -81,8 +81,8 @@ return {
             maxwidth = 100,
             ellipsis_char = "...",
             symbol_map = {
-              Copilot = "", -- integrate with copilot.cmp
-              Supermaven = "", -- integrate with supermaven.nvim
+              Copilot = "", -- integrate with copilot.cmp
+              Supermaven = "", -- integrate with supermaven.nvim
             },
           })(entry, item)
 
