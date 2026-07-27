@@ -8,11 +8,6 @@ return {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
     },
-    {
-      "nvim-telescope/telescope-frecency.nvim",
-      dependencies = { "kkharji/sqlite.lua" },
-      version = "^0.9.0",
-    },
     "nvim-telescope/telescope-file-browser.nvim",
   },
   config = function()
@@ -118,9 +113,6 @@ return {
           override_file_sorter = true, -- replace file sort engine
           case_mode = "ignore_case", -- ignore_case, smart_case, respect_case
         },
-        frecency = {
-          show_scores = true, -- not working now
-        },
         file_browser = {
           theme = "ivy",
           -- disables netrw and use telescope-file-browser in its place
@@ -139,7 +131,6 @@ return {
 
     -- load extensions
     pcall(telescope.load_extension, "fzf") -- Optimize search performance
-    pcall(telescope.load_extension, "frecency")
     pcall(telescope.load_extension, "file_browser")
 
     keymap.set("n", "<leader>fh", builtin.find_files, { desc = "Telescope find files" })
