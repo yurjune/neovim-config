@@ -1,7 +1,7 @@
 -- A plugin to explore files with tree ui
 -- Type g? in tree buffer to see all key mappings
 
-local function toggle_focus_tree()
+local function toggle_tree_focus()
   local current_buf = vim.api.nvim_get_current_buf()
   local buf_name = vim.api.nvim_buf_get_name(current_buf)
   if string.match(buf_name, "NvimTree") then
@@ -11,7 +11,7 @@ local function toggle_focus_tree()
   end
 end
 
-local function toggle_tree_keep_focus()
+local function toggle_tree_visibility()
   local prev_win = vim.api.nvim_get_current_win()
   local tree_is_open = require("nvim-tree.view").is_visible()
 
@@ -48,11 +48,16 @@ return {
   dependencies = "nvim-tree/nvim-web-devicons",
   cmd = { "NvimTreeToggle", "NvimTreeOpen" },
   keys = {
-    { "<leader>ee", toggle_focus_tree, mode = { "n", "v" }, desc = "Toggle focus nvim tree" },
-    { "<leader>bb", toggle_tree_keep_focus, mode = { "n", "v" }, desc = "Toggle nvim tree" },
-    { "<leader>e1", set_tree_width(42), desc = "NvimTree width 42" },
-    { "<leader>e2", set_tree_width(50), desc = "NvimTree width 50" },
-    { "<leader>e3", set_tree_width(60), desc = "NvimTree width 60" },
+    { "<leader>be", toggle_tree_visibility, mode = { "n", "v" }, desc = "Toggle nvim tree" },
+    {
+      "<leader>bf",
+      toggle_tree_focus,
+      mode = { "n", "v" },
+      desc = "Toggle focus between nvim-tree and previous window",
+    },
+    { "<leader>b1", set_tree_width(42), desc = "NvimTree width 42" },
+    { "<leader>b2", set_tree_width(50), desc = "NvimTree width 50" },
+    { "<leader>b3", set_tree_width(60), desc = "NvimTree width 60" },
   },
   config = function()
     local nvimtree = require("nvim-tree")
