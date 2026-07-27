@@ -8,7 +8,6 @@ return {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
     },
-    "nvim-telescope/telescope-file-browser.nvim",
   },
   config = function()
     local telescope = require("telescope")
@@ -16,7 +15,6 @@ return {
     local layout = require("telescope.actions.layout")
     local builtin = require("telescope.builtin")
     local sorters = require("telescope.sorters")
-    local fb_actions = require("telescope._extensions.file_browser.actions")
     local keymap = vim.keymap
 
     telescope.setup({
@@ -91,25 +89,11 @@ return {
           fuzzy = true, -- activate fuzzy matching
           case_mode = "ignore_case", -- ignore_case, smart_case, respect_case
         },
-        file_browser = {
-          theme = "ivy",
-          -- disables netrw and use telescope-file-browser in its place
-          hijack_netrw = true,
-          mappings = {
-            ["i"] = {
-              ["<C-.>"] = fb_actions.toggle_hidden,
-            },
-            ["n"] = {
-              ["h"] = fb_actions.toggle_hidden,
-            },
-          },
-        },
       },
     })
 
     -- load extensions
     pcall(telescope.load_extension, "fzf") -- Optimize search performance
-    pcall(telescope.load_extension, "file_browser")
 
     keymap.set("n", "<leader>fh", builtin.find_files, { desc = "Telescope find files" })
 
@@ -139,9 +123,5 @@ return {
 
     keymap.set("n", "<leader>fc", builtin.commands, { desc = "Telescope commands" })
     keymap.set("n", "<leader>fn", "<cmd>Telescope notify<CR>", { desc = "Telescope notifications" })
-
-    keymap.set("n", "<space>fe", function()
-      telescope.extensions.file_browser.file_browser()
-    end, { desc = "Telescope file explorer" })
   end,
 }
