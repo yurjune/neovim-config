@@ -14,7 +14,6 @@ return {
     local telescope = require("telescope")
     local actions = require("telescope.actions")
     local layout = require("telescope.actions.layout")
-    local action_state = require("telescope.actions.state")
     local builtin = require("telescope.builtin")
     local sorters = require("telescope.sorters")
     local fb_actions = require("telescope._extensions.file_browser.actions")
@@ -51,18 +50,13 @@ return {
         },
         preview = {
           treesitter = false, -- Disable Treesitter for lighter preview
-          file_size_limit = 5,
         },
         path_display = { -- truncate(default), smart, shorten, hidden
           "smart",
         },
         mappings = {
           i = {
-            -- Disable normal mode intensionally
-            ["<ESC>"] = actions.close,
-            -- ["<C-p>"] = actions.cycle_history_prev,
-            -- ["<C-n>"] = actions.cycle_history_next,
-
+            ["<ESC>"] = actions.close, -- Disable normal mode intensionally
             ["<C-?>"] = actions.which_key,
             ["<C-b>"] = actions.results_scrolling_up,
             ["<C-f>"] = actions.results_scrolling_down,
@@ -70,25 +64,8 @@ return {
             ["<C-d>"] = actions.preview_scrolling_down,
             ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
             ["<C-o>"] = layout.toggle_preview,
-          },
-          n = {
-            ["?"] = actions.which_key,
-            ["H"] = actions.move_to_top,
-            ["M"] = actions.move_to_middle,
-            ["L"] = actions.move_to_bottom,
-            ["X"] = function(prompt_bufnr)
-              local entry = action_state.get_selected_entry()
-              -- entry에 bufnr이 있는지 확인 (buffer picker에서만 존재)
-              if entry and entry.bufnr then
-                actions.delete_buffer(prompt_bufnr)
-              end
-            end,
-            ["<C-b>"] = actions.results_scrolling_up,
-            ["<C-f>"] = actions.results_scrolling_down,
-            ["<C-u>"] = actions.preview_scrolling_up,
-            ["<C-d>"] = actions.preview_scrolling_down,
-            ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-            ["<C-o>"] = layout.toggle_preview,
+            -- ["<C-p>"] = actions.cycle_history_prev,
+            -- ["<C-n>"] = actions.cycle_history_next,
           },
         },
       },
@@ -112,8 +89,6 @@ return {
       extensions = {
         fzf = {
           fuzzy = true, -- activate fuzzy matching
-          override_generic_sorter = true, -- replace default sort engine
-          override_file_sorter = true, -- replace file sort engine
           case_mode = "ignore_case", -- ignore_case, smart_case, respect_case
         },
         file_browser = {
