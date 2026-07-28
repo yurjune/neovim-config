@@ -57,3 +57,7 @@ vim.keymap.set("n", "<leader>sb", function()
 
   notify_scrollbind("All windows", scrollbind_enabled)
 end, { desc = "Toggle synchronized scrolling" })
+
+vim.keymap.set("n", "<leader>nn", function()
+  vim.cmd("nohlsearch") -- aka noh
+end, { desc = "Clear search highlight" })
