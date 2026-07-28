@@ -1,8 +1,8 @@
 -- Switch input source when leaving or entering insert mode or a specific buffer
 -- Needs specific config in Hammerspoon
 
-local hs_cli = "/usr/local/bin/hs"
 local hs_module = "nvimInputSource"
+local hs_cli = vim.fn.exepath("hs")
 
 local function call_hammerspoon(method)
   local command = hs_module .. "." .. method .. "()" -- ex) nvimInputSource.enterInsert()
