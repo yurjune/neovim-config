@@ -43,14 +43,24 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 
 vim.api.nvim_create_autocmd("BufLeave", {
   group = augroup,
-  pattern = vim.g.sidekick_buf_pattern,
-  desc = "Save input source and switch to English",
-  callback = save_and_switch_to_english,
+  pattern = "*",
+  desc = "Save input source and switch to English when entering sidekick buffer",
+  callback = function(args)
+    local is_sidekick_buf = vim.bo[args.buf].filetype == vim.g.sidekick_buf_filetype
+    if is_sidekick_buf then
+      save_and_switch_to_english()
+    end
+  end,
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
   group = augroup,
-  pattern = vim.g.sidekick_buf_pattern,
-  desc = "Restore saved input source",
-  callback = restore_saved_input_source,
+  pattern = "*",
+  desc = "Restore saved input source when leaving sidekick buffer",
+  callback = function(args)
+    local is_sidekick_buf = vim.bo[args.buf].filetype == vim.g.sidekick_buf_filetype
+    if is_sidekick_buf then
+      restore_saved_input_source()
+    end
+  end,
 })

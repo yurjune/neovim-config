@@ -16,7 +16,7 @@ vim.g.colors_transparent = {
 vim.g.leetcode = vim.fn.argv(0, -1) == "leet" and true or false
 vim.g.leetcode_lsp_off = vim.g.leetcode
 
-vim.g.sidekick_buf_pattern = "term://*"
+vim.g.sidekick_buf_filetype = "sidekick_terminal"
 
 -- default providers
 -- set zero to turn off

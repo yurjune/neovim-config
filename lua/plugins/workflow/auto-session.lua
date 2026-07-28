@@ -25,7 +25,7 @@ return {
       for _, win in ipairs(vim.api.nvim_list_wins()) do
         local buf = vim.api.nvim_win_get_buf(win)
 
-        if vim.fn.match(vim.fn.bufname(buf), vim.g.sidekick_buf_pattern) ~= -1 then
+        if vim.bo[buf].filetype == vim.g.sidekick_buf_filetype then
           vim.api.nvim_win_close(win, true)
         end
       end
