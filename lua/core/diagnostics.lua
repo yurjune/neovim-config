@@ -34,11 +34,3 @@ vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Show line
 vim.keymap.set("n", "<leader>db", function()
   require("telescope.builtin").diagnostics({ bufnr = 0 })
 end, { desc = "Show current buffer diagnostics" })
-
-vim.keymap.set("n", "<leader>dw", function()
-  require("telescope.builtin").diagnostics({
-    bufnr = nil, -- 0은 현재 버퍼
-    severity = nil, -- nil 이면 모든 심각도 수준
-    root_dir = nil, -- nil이면 모든 파일 포함 (전체 워크스페이스)
-  })
-end, { desc = "Show workspace diagnostics" })

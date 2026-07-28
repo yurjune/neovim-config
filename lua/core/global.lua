@@ -7,20 +7,11 @@ vim.g.colors = {
 }
 
 vim.g.colors_transparent = {
-  -- cursorline = "#2a2a2a",
-  -- cursorline = "#1a3a52",
   cursorline = "#1a2332",
 }
 
 -- check leetcode.nvim arg option
-vim.g.leetcode = vim.fn.argv(0, -1) == "leet" and true or false
+vim.g.leetcode = vim.fn.argv(0, -1) == "leet"
 vim.g.leetcode_lsp_off = vim.g.leetcode
 
 vim.g.sidekick_buf_filetype = "sidekick_terminal"
-
--- default providers
--- set zero to turn off
-vim.g.loaded_node_provider = 0
-vim.g.loaded_python3_provider = 0
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_ruby_provider = 0
