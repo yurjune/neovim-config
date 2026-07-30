@@ -47,7 +47,9 @@ return {
         rust = { "rustfmt" },
         c = { "clang_format" }, -- brew install llvm
         cpp = { "clang_format" },
-        sql = { "sql_formatter" }, -- npm i -g sql_formatter
+        sql = function()
+          return vim.g.disable_sql_formatting and {} or { "sql_formatter" }
+        end,
       },
 
       formatters = {
