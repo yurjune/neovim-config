@@ -16,16 +16,15 @@ return {
     },
     workspaces = {
       {
-        name = "personal",
+        name = "jerry",
         path = "~/obsidian/Jerry",
       },
       {
-        name = "company",
+        name = "yhpark",
         path = "~/obsidian/yhpark",
       },
     },
     completion = {
-      nvim_cmp = true,
       min_chars = 1,
     },
     link = {
