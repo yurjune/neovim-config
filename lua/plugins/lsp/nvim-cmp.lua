@@ -158,5 +158,26 @@ return {
     -- vim.keymap.set({ "i", "s" }, "<C-d>", function()
     --   return luasnip.jumpable(-1) and "<Plug>luasnip-jump-prev" or "<C-d>"
     -- end, { expr = true })
+
+    vim.keymap.set("n", "<leader>pf", function()
+      vim.api.nvim_feedkeys("o", "n", false)
+      vim.schedule(function()
+        luasnip.snip_expand(luasnip.snippet({ trig = "console_log_keymap" }, {
+          luasnip.text_node('console.log("'),
+          luasnip.insert_node(1),
+          luasnip.text_node('"'),
+          luasnip.insert_node(0),
+          luasnip.text_node(")"),
+        }))
+      end)
+    end, { desc = "Insert console.log on the next line" })
+
+    vim.keymap.set("n", "<leader>pv", function()
+      local word = vim.fn.expand("<cword>")
+      local text = 'console.log("' .. word .. '", ' .. word .. ");"
+
+      vim.fn.setreg("+", text, "V")
+      vim.notify("Copied: " .. text, vim.log.levels.INFO)
+    end, { desc = "Copy console.log to clipboard" })
   end,
 }
