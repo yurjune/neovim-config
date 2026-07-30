@@ -13,7 +13,8 @@ return {
       "text",
     }
 
-    vim.g.bullets_outline_levels = { "num", "abc", "rom", "num" }
+    vim.g.bullets_outline_levels = { "num", "abc", "num" }
+    vim.g.bullets_enable_roman_list = 0 -- disable Roman numeral parsing: so c. continues as d.
     vim.g.bullets_auto_indent_after_colon = 1 -- if 1: apply indent on next line when bullet line ends with colon(:)
     vim.g.bullets_delete_last_bullet_if_empty = 1 -- remove bullet and indent when line break on empty bullet
     vim.g.bullets_renumber_on_change = 0 -- if 1: renumber ordered list bullet changes
