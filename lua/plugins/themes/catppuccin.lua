@@ -37,10 +37,8 @@ return {
           background = true,
         },
       },
-      default_integrations = true,
       auto_integrations = false,
       integrations = {
-        alpha = true,
         -- bufferline: configured in bufferline.lua
         cmp = true, -- nvim-cmp
         dap = true, -- nvim-dap
@@ -50,22 +48,15 @@ return {
           enabled = true,
           lsp = false,
         },
-        indent_blankline = {
-          enabled = true,
-          scope_color = "yellow", -- catppuccin color (eg. `lavender`) Default: text
-          colored_indent_levels = false,
-        },
         -- lualine: configured in lualine.lua
         markview = true,
         mason = true,
-        navic = { -- nvim-navic
-          enabled = true,
-        },
         neotest = true,
         noice = true,
         notify = true, -- nvim-notify
         nvim_surround = true,
         nvimtree = true,
+        render_markdown = true,
         telescope = {
           enabled = true,
         },
@@ -169,6 +160,6 @@ return {
       end,
     })
 
-    vim.cmd.colorscheme("catppuccin")
+    vim.cmd.colorscheme("catppuccin-nvim")
   end,
 }
