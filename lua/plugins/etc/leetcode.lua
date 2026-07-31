@@ -6,7 +6,7 @@ return {
     return vim.g.leetcode
   end,
   dependencies = {
-    "nvim-telescope/telescope.nvim",
+    "ibhagwan/fzf-lua",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
   },
@@ -45,7 +45,7 @@ return {
       show_stats = true,
     },
     picker = {
-      provider = nil,
+      provider = "fzf-lua",
     },
     keys = {
       toggle = { "q" },
@@ -61,11 +61,7 @@ return {
 
   config = function(_, opts)
     local leetcode = require("leetcode")
-    local pickers = require("telescope.pickers")
-    local finders = require("telescope.finders")
-    local actions = require("telescope.actions")
-    local action_state = require("telescope.actions.state")
-    local conf = require("telescope.config")
+    local fzf = require("fzf-lua")
 
     leetcode.setup(opts)
 
@@ -88,37 +84,30 @@ return {
     vim.keymap.set("n", "<leader>lr", "<cmd>Leet reset<CR>", { desc = "Reset editor" })
 
     local function make_difficulty_picker(title, difficulties)
-      pickers
-        .new({}, {
-          prompt_title = title,
-          finder = finders.new_table({
-            results = difficulties,
-            entry_maker = function(entry)
-              return {
-                value = entry,
-                display = entry.name,
-                ordinal = entry.name, -- 사용자 입력에 대한 필터링 기준
-              }
-            end,
-          }),
-          layout_config = {
-            width = 0.3,
-            height = 0.4,
-          },
-          sorter = conf.values.generic_sorter({}),
-          attach_mappings = function(prompt_bufnr)
-            -- replace default enter action with custom action
-            actions.select_default:replace(function()
-              actions.close(prompt_bufnr)
-              local selection = action_state.get_selected_entry()
-              if selection then
-                vim.api.nvim_command(selection.value.cmd)
-              end
-            end)
-            return true
+      local entries = {}
+      local commands = {}
+
+      for _, difficulty in ipairs(difficulties) do
+        entries[#entries + 1] = difficulty.name
+        commands[difficulty.name] = difficulty.cmd
+      end
+
+      fzf.fzf_exec(entries, {
+        prompt = title .. "> ",
+        winopts = {
+          width = 0.3,
+          height = 0.4,
+          preview = { hidden = true },
+        },
+        actions = {
+          ["default"] = function(selected)
+            local command = commands[selected[1]]
+            if command then
+              vim.cmd(command)
+            end
           end,
-        })
-        :find() -- trigger picker ui
+        },
+      })
     end
 
     vim.keymap.set("n", "<leader>ld", function()

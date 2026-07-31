@@ -43,6 +43,7 @@ return {
         cmp = true, -- nvim-cmp
         dap = true, -- nvim-dap
         dap_ui = true,
+        fzf = true,
         gitsigns = true,
         illuminate = { -- vim-illuminate
           enabled = true,

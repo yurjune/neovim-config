@@ -32,5 +32,5 @@ vim.diagnostic.config({
 vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
 
 vim.keymap.set("n", "<leader>db", function()
-  require("telescope.builtin").diagnostics({ bufnr = 0 })
+  require("fzf-lua").diagnostics_document()
 end, { desc = "Show current buffer diagnostics" })
