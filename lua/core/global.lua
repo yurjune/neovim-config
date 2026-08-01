@@ -1,6 +1,7 @@
 vim.g.mapleader = " " -- bind spacebar to leader key
 
 vim.g.colors = {
+  white = "#ffffff",
   bg = "#282c34",
   pink = "#ffc2c2",
   rose_beige = "#f5e0dc",
