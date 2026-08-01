@@ -39,11 +39,10 @@ return {
         },
       },
       keymap = {
-        -- for fzf-native
-        builtin = {
+        fzf = {
           true,
-          ["<C-d>"] = "preview-page-down",
-          ["<C-u>"] = "preview-page-up",
+          ["ctrl-d"] = "preview-page-down",
+          ["ctrl-u"] = "preview-page-up",
         },
       },
     })
