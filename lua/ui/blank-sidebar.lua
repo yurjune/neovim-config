@@ -29,11 +29,9 @@ function M.open()
   vim.bo[buf].modifiable = false
   vim.bo[buf].buflisted = false
 
-  local win = vim.api.nvim_open_win(buf, false, {
-    split = "left",
-    win = previous,
-    width = M.width,
-  })
+  vim.cmd("topleft " .. M.width .. "vsplit")
+  local win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_buf(win, buf)
 
   vim.wo[win].number = false
   vim.wo[win].relativenumber = false
