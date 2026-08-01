@@ -39,7 +39,6 @@ return {
       },
       auto_integrations = false,
       integrations = {
-        -- bufferline: configured in bufferline.lua
         cmp = true, -- nvim-cmp
         dap = true, -- nvim-dap
         dap_ui = true,
@@ -58,9 +57,6 @@ return {
         nvim_surround = true,
         nvimtree = true,
         render_markdown = true,
-        telescope = {
-          enabled = true,
-        },
         treesitter_context = true,
         ufo = true, -- nvim-ufo
         which_key = true,
