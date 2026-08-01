@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- Keep equalalways disabled so fixed-width side windows are preserved.
 -- Re-equalize the remaining editor windows after layout changes.
 vim.opt.equalalways = false
-vim.api.nvim_create_autocmd({ "WinNew", "WinClosed", "BufWinEnter" }, {
+vim.api.nvim_create_autocmd({ "WinNew", "WinClosed" }, {
   desc = "Equalize editor windows after layout changes",
   group = vim.api.nvim_create_augroup("window-layout", { clear = true }),
   callback = function()
