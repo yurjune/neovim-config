@@ -49,7 +49,6 @@ return {
         lualine_z = {},
       },
       extensions = {
-        "nvim-tree",
         "quickfix",
         "nvim-dap-ui",
         "toggleterm",
