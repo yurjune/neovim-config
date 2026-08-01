@@ -78,7 +78,7 @@ function M.toggle()
 end
 
 function M.setup()
-  vim.keymap.set("n", "<leader>bs", M.toggle, { desc = "Toggle blank sidebar" })
+  vim.keymap.set("n", "<leader>bb", M.toggle, { desc = "Toggle blank sidebar" })
 end
 
 return M

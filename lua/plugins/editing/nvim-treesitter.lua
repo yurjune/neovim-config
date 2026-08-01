@@ -119,7 +119,7 @@ return {
       trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
     })
 
-    vim.keymap.set("n", "<leader>gg", function()
+    vim.keymap.set("n", "<leader>hh", function()
       context.go_to_context(1)
     end, { desc = "Go to first nearest context" })
   end,

@@ -34,3 +34,7 @@ vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Show line
 vim.keymap.set("n", "<leader>db", function()
   require("fzf-lua").diagnostics_document()
 end, { desc = "Show current buffer diagnostics" })
+
+vim.keymap.set("n", "<leader>dw", function()
+  require("fzf-lua").diagnostics_workspace()
+end, { desc = "Show workspace diagnostics" })

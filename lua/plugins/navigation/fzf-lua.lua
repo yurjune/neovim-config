@@ -50,16 +50,15 @@ return {
     })
 
     vim.keymap.set("n", "<leader>fh", fzf.files, { desc = "FzfLua find files" })
+    vim.keymap.set("n", "<leader>fj", fzf.git_status, { desc = "FzfLua git status" })
+
+    vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "FzfLua buffers" })
 
     vim.keymap.set("n", "<leader>fl", fzf.live_grep, { desc = "FzfLua live grep" })
     vim.keymap.set("n", "<leader>fw", fzf.grep_cword, { desc = "FzfLua grep word under cursor" })
-    vim.keymap.set("v", "<leader>fs", fzf.grep_visual, { desc = "FzfLua grep selected" })
+    vim.keymap.set("v", "<leader>fw", fzf.grep_visual, { desc = "FzfLua grep selected" })
 
-    vim.keymap.set("n", "<leader>fg", fzf.git_status, { desc = "FzfLua git status" })
-    vim.keymap.set("n", "<leader>fG", fzf.git_bcommits, { desc = "FzfLua git file commits" })
-
-    vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "FzfLua buffers" })
-    vim.keymap.set("n", "<leader>ft", "<cmd>TodoFzfLua<CR>", { desc = "FzfLua all todos" })
+    vim.keymap.set("n", "<leader>fg", fzf.git_bcommits, { desc = "FzfLua git file commits" })
     vim.keymap.set("n", "<leader>fr", fzf.resume, { desc = "FzfLua resume last picker" })
 
     vim.keymap.set("n", "<leader>fn", function()
