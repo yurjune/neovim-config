@@ -7,7 +7,6 @@ return {
   -- whenever this plugin is updated, all language parsers will be updated
   build = ":TSUpdate",
   dependencies = {
-    "windwp/nvim-ts-autotag",
     "nvim-treesitter/nvim-treesitter-context",
     {
       "nvim-treesitter/nvim-treesitter-textobjects",
@@ -27,6 +26,8 @@ return {
     local treesitter_install = require("nvim-treesitter.install")
     local context = require("treesitter-context")
     local textobjects = require("nvim-treesitter-textobjects")
+
+    treesitter.setup()
 
     local ensure_installed = {
       "lua",
@@ -54,8 +55,7 @@ return {
       "svelte",
     }
 
-    treesitter.setup()
-
+    -- install uninstalled parsers only
     if vim.fn.executable("tree-sitter") == 1 then
       local installed = treesitter_config.get_installed()
       local missing_parsers = vim.tbl_filter(function(parser)
@@ -70,14 +70,7 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       group = vim.api.nvim_create_augroup("treesitter-start", { clear = true }),
       callback = function()
-        pcall(vim.treesitter.start)
-
-        vim.wo.foldmethod = "expr"
-        vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-
-        if vim.bo.filetype ~= "python" then
-          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-        end
+        pcall(vim.treesitter.start) -- turn on code highlighting
       end,
     })
 
@@ -121,20 +114,12 @@ return {
     -- show current line context sticky
     context.setup({
       enable = true,
-      max_lines = 2,
+      max_lines = 1,
       trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
     })
 
-    vim.keymap.set("n", "<leader>g1", function()
+    vim.keymap.set("n", "<leader>gg", function()
       context.go_to_context(1)
     end, { desc = "Go to first nearest context" })
-
-    vim.keymap.set("n", "<leader>g2", function()
-      context.go_to_context(2)
-    end, { desc = "Go to second nearest context" })
-
-    vim.keymap.set("n", "<leader>g3", function()
-      context.go_to_context(3)
-    end, { desc = "Go to third nearest context" })
   end,
 }
