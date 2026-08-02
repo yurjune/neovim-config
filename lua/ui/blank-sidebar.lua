@@ -1,8 +1,11 @@
 -- Keep a narrow, empty window on the left as a visual sidebar.
 local M = {}
-
-M.width = 42
 M.filetype = "blank-sidebar"
+
+local NARROW_WIDTH = 21
+local WIDE_WIDTH = 42
+
+vim.g.BlankSidebarWidth = vim.g.BlankSidebarWidth or WIDE_WIDTH
 
 local function find_window()
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
@@ -14,8 +17,14 @@ local function find_window()
 end
 
 function M.open()
+  local width = vim.g.BlankSidebarWidth
+
   local existing = find_window()
   if existing then
+    if vim.api.nvim_win_get_width(existing) ~= width then
+      vim.api.nvim_win_set_width(existing, width)
+      vim.cmd("wincmd =")
+    end
     return existing
   end
 
@@ -29,7 +38,7 @@ function M.open()
   vim.bo[buf].modifiable = false
   vim.bo[buf].buflisted = false
 
-  vim.cmd("topleft " .. M.width .. "vsplit")
+  vim.cmd("topleft " .. width .. "vsplit")
   local win = vim.api.nvim_get_current_win()
   vim.api.nvim_win_set_buf(win, buf)
 
@@ -73,6 +82,19 @@ function M.toggle()
   else
     M.open()
   end
+end
+
+function M.toggle_width()
+  local width = vim.g.BlankSidebarWidth == NARROW_WIDTH and WIDE_WIDTH or NARROW_WIDTH
+  vim.g.BlankSidebarWidth = width
+
+  local sidebar = find_window()
+  if sidebar then
+    vim.api.nvim_win_set_width(sidebar, width)
+    vim.cmd("wincmd =")
+  end
+
+  return width
 end
 
 function M.open_tree(opts)
@@ -160,6 +182,7 @@ end
 
 function M.setup()
   vim.keymap.set("n", "<leader>bb", M.toggle, { desc = "Toggle blank sidebar" })
+  vim.keymap.set("n", "<leader>bw", M.toggle_width, { desc = "Toggle blank sidebar width" })
 
   vim.keymap.set("n", "<leader>pt", function()
     M.toggle_tree({
