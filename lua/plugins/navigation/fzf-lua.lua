@@ -10,6 +10,7 @@ return {
 
     fzf.setup({
       "fzf-native",
+      fzf_colors = true,
       fzf_opts = {
         ["--cycle"] = true,
       },

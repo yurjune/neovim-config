@@ -122,6 +122,11 @@ return {
             fg = colors.yellow,
           },
 
+          FzfLuaFzfMatch = {
+            fg = colors.red,
+            bold = true,
+          },
+
           -- Telescope
           TelescopeSelection = {
             fg = colors.yellow,
