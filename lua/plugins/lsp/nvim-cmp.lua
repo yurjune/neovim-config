@@ -117,9 +117,7 @@ return {
 
     cmp.setup.filetype("markdown", {
       sources = cmp.config.sources({
-        -- for obsidian.nvim
-        { name = "obsidian" },
-        { name = "obsidian_tags" },
+        { name = "nvim_lsp" },
       }),
     })
 
