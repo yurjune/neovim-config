@@ -1,2 +1,2 @@
-require("ui.blank-sidebar").setup()
+require("ui.sidebar").setup()
 require("ui.winbar")
