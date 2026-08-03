@@ -4,8 +4,25 @@ M.filetype = "blank-sidebar"
 
 local SIDEBAR_WIDTHS = { 21, 42, 63 }
 local DEFAULT_WIDTH = 42
+local SIDEBAR_MODE = {
+  blank = "blank",
+  tree = "tree",
+}
+local SIDEBAR_NAMESPACE = vim.api.nvim_create_namespace("blank-sidebar")
 
 vim.g.BlankSidebarWidth = vim.g.BlankSidebarWidth or DEFAULT_WIDTH
+
+local function get_mode(buf)
+  return vim.b[buf].blank_sidebar_mode or SIDEBAR_MODE.blank
+end
+
+local function set_mode(buf, mode)
+  vim.bo[buf].modifiable = true
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "" })
+  vim.bo[buf].modifiable = false
+  vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_NAMESPACE, 0, -1)
+  vim.b[buf].blank_sidebar_mode = mode
+end
 
 local function find_window()
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
@@ -37,6 +54,7 @@ function M.open()
   vim.bo[buf].filetype = M.filetype
   vim.bo[buf].modifiable = false
   vim.bo[buf].buflisted = false
+  vim.b[buf].blank_sidebar_mode = SIDEBAR_MODE.blank
 
   vim.cmd("topleft " .. width .. "vsplit")
   local win = vim.api.nvim_get_current_win()
@@ -127,7 +145,7 @@ end
 function M.open_tree(opts)
   opts = opts or {}
   local buf = vim.api.nvim_win_get_buf(M.open())
-  local namespace = vim.api.nvim_create_namespace("blank-sidebar-project-tree")
+  set_mode(buf, SIDEBAR_MODE.tree)
 
   local command = {
     "env",
@@ -162,9 +180,9 @@ function M.open_tree(opts)
       fg = "#94e2d5",
       bold = true,
     })
-    vim.api.nvim_buf_clear_namespace(buf, namespace, 0, -1)
+    vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_NAMESPACE, 0, -1)
     for row, columns in pairs(ranges) do
-      vim.api.nvim_buf_set_extmark(buf, namespace, row - 1, columns[1], {
+      vim.api.nvim_buf_set_extmark(buf, SIDEBAR_NAMESPACE, row - 1, columns[1], {
         end_col = columns[2],
         hl_group = "BlankSidebarDirectory",
       })
@@ -180,7 +198,6 @@ function M.open_tree(opts)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
   vim.bo[buf].modifiable = false
   highlight_directories(directory_ranges)
-  vim.b[buf].tree_visible = true
 end
 
 function M.close_tree()
@@ -190,17 +207,16 @@ function M.close_tree()
   end
 
   local buf = vim.api.nvim_win_get_buf(sidebar)
-  local namespace = vim.api.nvim_create_namespace("blank-sidebar-project-tree")
-  vim.bo[buf].modifiable = true
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "" })
-  vim.bo[buf].modifiable = false
-  vim.api.nvim_buf_clear_namespace(buf, namespace, 0, -1)
-  vim.b[buf].tree_visible = false
+  if get_mode(buf) ~= SIDEBAR_MODE.tree then
+    return
+  end
+
+  set_mode(buf, SIDEBAR_MODE.blank)
 end
 
 function M.toggle_tree(opts)
   local sidebar = find_window()
-  if sidebar and vim.b[vim.api.nvim_win_get_buf(sidebar)].tree_visible then
+  if sidebar and get_mode(vim.api.nvim_win_get_buf(sidebar)) == SIDEBAR_MODE.tree then
     M.close_tree()
   else
     M.open_tree(opts)
