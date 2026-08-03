@@ -9,6 +9,30 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.keymap.set(mode, lhs, rhs, opts)
     end
 
+    -- Find where the text starts after a Markdown list marker or task checkbox.
+    local function get_list_content_col(line)
+      local content_start = line:match("^%s*[-+*]%s+()")
+
+      if not content_start then
+        local number
+        number, content_start = line:match("^%s*(%d+)[.)]%s+()")
+        if number and #number > 9 then
+          content_start = nil
+        end
+      end
+
+      if not content_start then
+        return nil
+      end
+
+      local task_content_start = line:sub(content_start):match("^%[[ xX]%]%s+()")
+      if task_content_start then
+        content_start = content_start + task_content_start - 1
+      end
+
+      return content_start - 1
+    end
+
     local function add_surround(char, count)
       -- nvim-surround puts markers on separate lines for a linewise selection.
       -- Change it to a characterwise selection to keep Markdown markers inline.
@@ -21,6 +45,9 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.cmd.normal({ args = { vim.keycode("<Esc>") }, bang = true })
         local first_line = vim.api.nvim_buf_get_lines(0, first_row - 1, first_row, false)[1]
         local first_col = math.max(vim.fn.match(first_line, [[\S]]), 0)
+        if first_row == last_row then
+          first_col = get_list_content_col(first_line) or first_col
+        end
         vim.api.nvim_win_set_cursor(0, { first_row, first_col })
         vim.cmd("normal! v")
 
