@@ -1,5 +1,8 @@
 vim.g.mapleader = " " -- bind spacebar to leader key
 
+-- Disable legacy SQL omnifunc mappings that override insert-mode arrow keys.
+vim.g.omni_sql_no_default_maps = 1
+
 vim.g.colors = {
   white = "#ffffff",
   bg = "#282c34",
