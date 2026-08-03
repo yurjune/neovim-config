@@ -30,30 +30,30 @@ return {
     treesitter.setup()
 
     local ensure_installed = {
+      "bash",
+      "c",
+      "cpp",
+      "css",
+      "dockerfile",
+      "graphql",
+      "html",
+      "javascript",
+      "json",
       "lua",
-      "vimdoc",
-      "query", -- treesitter query
       "markdown",
       "markdown_inline",
       "mermaid",
-      "json",
-      "yaml",
-      "bash",
-      "html",
-      "css",
-      "javascript",
-      "typescript",
-      "tsx", -- includes jsx
-      "rust",
-      "vim", -- vimscript
-      "dockerfile",
       "python",
-      "c",
-      "cpp",
-      "sql",
+      "query", -- treesitter query
       "regex",
-      "graphql",
+      "rust",
+      "sql",
       "svelte",
+      "tsx", -- includes jsx
+      "typescript",
+      "vim", -- vimscript
+      "vimdoc",
+      "yaml",
     }
 
     -- install uninstalled parsers only
