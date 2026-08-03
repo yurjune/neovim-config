@@ -28,7 +28,7 @@ local function setup_highlights()
     undercurl = false,
   })
   vim.api.nvim_set_hl(0, "WinBarNC", {
-    fg = vim.g.colors.gold,
+    fg = "#7f849c",
     bold = true,
     underline = false,
     undercurl = false,
@@ -47,10 +47,6 @@ local function setup_highlights()
   })
   vim.api.nvim_set_hl(0, "WinBarProgress", {
     fg = vim.g.colors.gold,
-    bold = true,
-  })
-  vim.api.nvim_set_hl(0, "WinBarInactiveFilename", {
-    fg = "#7f849c",
     bold = true,
   })
   vim.api.nvim_set_hl(0, "WinBarModified", {
@@ -172,7 +168,7 @@ setup_highlights()
 -- Show the current buffer's filename and diagnostic counts in the window bar.
 _G.get_winbar = function()
   if vim.bo.filetype == sidebar_ft then
-    return ""
+    return vim.fn.expand("%:t")
   end
 
   local focused = is_focused()
