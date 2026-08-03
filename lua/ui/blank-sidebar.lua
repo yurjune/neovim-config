@@ -2,10 +2,10 @@
 local M = {}
 M.filetype = "blank-sidebar"
 
-local NARROW_WIDTH = 21
-local WIDE_WIDTH = 42
+local SIDEBAR_WIDTHS = { 21, 42, 63 }
+local DEFAULT_WIDTH = 42
 
-vim.g.BlankSidebarWidth = vim.g.BlankSidebarWidth or WIDE_WIDTH
+vim.g.BlankSidebarWidth = vim.g.BlankSidebarWidth or DEFAULT_WIDTH
 
 local function find_window()
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
@@ -84,8 +84,7 @@ function M.toggle()
   end
 end
 
-function M.toggle_width()
-  local width = vim.g.BlankSidebarWidth == NARROW_WIDTH and WIDE_WIDTH or NARROW_WIDTH
+local function set_width(width)
   vim.g.BlankSidebarWidth = width
 
   local sidebar = find_window()
@@ -95,6 +94,34 @@ function M.toggle_width()
   end
 
   return width
+end
+
+function M.decrease_width()
+  local current = vim.g.BlankSidebarWidth
+  local width = SIDEBAR_WIDTHS[1]
+
+  for index = #SIDEBAR_WIDTHS, 1, -1 do
+    if SIDEBAR_WIDTHS[index] < current then
+      width = SIDEBAR_WIDTHS[index]
+      break
+    end
+  end
+
+  return set_width(width)
+end
+
+function M.increase_width()
+  local current = vim.g.BlankSidebarWidth
+  local width = SIDEBAR_WIDTHS[#SIDEBAR_WIDTHS]
+
+  for _, candidate in ipairs(SIDEBAR_WIDTHS) do
+    if candidate > current then
+      width = candidate
+      break
+    end
+  end
+
+  return set_width(width)
 end
 
 function M.open_tree(opts)
@@ -182,7 +209,8 @@ end
 
 function M.setup()
   vim.keymap.set("n", "<leader>bb", M.toggle, { desc = "Toggle blank sidebar" })
-  vim.keymap.set("n", "<leader>bw", M.toggle_width, { desc = "Toggle blank sidebar width" })
+  vim.keymap.set("n", "<leader>bq", M.decrease_width, { desc = "Decrease blank sidebar width" })
+  vim.keymap.set("n", "<leader>bw", M.increase_width, { desc = "Increase blank sidebar width" })
 
   vim.keymap.set("n", "<leader>pt", function()
     M.toggle_tree({
@@ -191,6 +219,7 @@ function M.setup()
         ".next",
         "node_modules",
         ".git",
+        ".pnpm-store",
       },
     })
   end, { desc = "Toggle project tree" })
