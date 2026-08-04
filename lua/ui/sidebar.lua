@@ -54,6 +54,7 @@ local function open_window()
 
   local existing = find_window()
   if existing then
+    vim.wo[existing].winfixbuf = true
     if vim.api.nvim_win_get_width(existing) ~= width then
       vim.api.nvim_win_set_width(existing, width)
       vim.cmd("wincmd =")
@@ -79,6 +80,7 @@ local function open_window()
   vim.wo[win].relativenumber = false
   vim.wo[win].signcolumn = "no"
   vim.wo[win].winfixwidth = true
+  vim.wo[win].winfixbuf = true
   vim.wo[win].statusline = " "
   vim.wo[win].cursorline = false
 
