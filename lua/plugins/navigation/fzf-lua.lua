@@ -46,8 +46,6 @@ return {
       keymap = {
         fzf = {
           true,
-          ["tab"] = "accept",
-          ["ctrl-r"] = "toggle+down",
           ["ctrl-d"] = "preview-page-down",
           ["ctrl-u"] = "preview-page-up",
         },
@@ -65,6 +63,7 @@ return {
 
     vim.keymap.set("n", "<leader>fg", fzf.git_bcommits, { desc = "FzfLua git file commits" })
     vim.keymap.set("n", "<leader>fr", fzf.resume, { desc = "FzfLua resume last picker" })
+    vim.keymap.set("n", "<leader>fq", fzf.quickfix, { desc = "FzfLua quickfix list" })
 
     vim.keymap.set("n", "<leader>fs", fzf.lsp_document_symbols, { desc = "FzfLua document symbols" })
     vim.keymap.set("n", "<leader>fn", function()
