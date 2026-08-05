@@ -35,6 +35,7 @@ return {
       "cpp",
       "css",
       "dockerfile",
+      "embedded_template", -- ejs
       "graphql",
       "html",
       "javascript",
