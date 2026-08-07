@@ -1,23 +1,12 @@
 local severity = vim.diagnostic.severity
 local sidebar_ft = require("ui.sidebar").filetype
+local mode = require("ui.mode")
 
 local diagnostics = {
   { level = severity.ERROR, label = "E", highlight = "WinBarDiagnosticError" },
   { level = severity.WARN, label = "W", highlight = "WinBarDiagnosticWarn" },
   { level = severity.INFO, label = "I", highlight = "WinBarDiagnosticInfo" },
   { level = severity.HINT, label = "H", highlight = "WinBarDiagnosticHint" },
-}
-
-local modes = {
-  n = { label = "NORMAL", highlight = "WinBarModeNormal", color = "#89b4fa" },
-  i = { label = "INSERT", highlight = "WinBarModeInsert", color = "#a6e3a1" },
-  c = { label = "COMMAND", highlight = "WinBarModeCommand", color = "#fab387" },
-  t = { label = "TERMINAL", highlight = "WinBarModeTerminal", color = "#94e2d5" },
-  v = { label = "VISUAL", highlight = "WinBarModeVisual", color = "#cba6f7" },
-  b = { label = "V_BLOCK", highlight = "WinBarModeVisualBlock", color = "#f5c2e7" },
-  r = { label = "REPLACE", highlight = "WinBarModeReplace", color = "#f38ba8" },
-  s = { label = "SELECT", highlight = "WinBarModeSelect", color = "#b4befe" },
-  ["?"] = { label = "?", highlight = "WinBarModeUnknown", color = "#7f849c" },
 }
 
 local function setup_highlights()
@@ -33,13 +22,6 @@ local function setup_highlights()
     underline = false,
     undercurl = false,
   })
-
-  for _, mode in pairs(modes) do
-    vim.api.nvim_set_hl(0, mode.highlight, {
-      fg = mode.color,
-      bold = true,
-    })
-  end
 
   vim.api.nvim_set_hl(0, "WinBarLocation", {
     fg = vim.g.colors.white,
@@ -78,17 +60,7 @@ local function get_location()
 end
 
 local function get_mode()
-  local mode = vim.fn.mode()
-
-  if mode == "\22" then -- Ctrl-V: blockwise Visual
-    mode = "b"
-  elseif mode == "\19" then -- Ctrl-S: blockwise Select
-    mode = "s"
-  else
-    mode = mode:lower()
-  end
-
-  local mode_info = modes[mode] or modes["?"]
+  local mode_info = mode.get()
 
   return highlight(mode_info.label, mode_info.highlight)
 end
