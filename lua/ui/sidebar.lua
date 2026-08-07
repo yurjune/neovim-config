@@ -49,15 +49,21 @@ local function find_window()
   end
 end
 
+-- sidebar는 폭을 지정해 열면 equalalways가 적용되지 않으므로, 고정 폭을 유지하면서 나머지 창을 수동으로 균등화한다.
+local function equalize_editor_windows()
+  vim.cmd("wincmd =")
+end
+
 local function open_window()
   local width = vim.g.SidebarWidth
 
   local existing = find_window()
   if existing then
+    vim.wo[existing].winfixwidth = true
     vim.wo[existing].winfixbuf = true
     if vim.api.nvim_win_get_width(existing) ~= width then
       vim.api.nvim_win_set_width(existing, width)
-      vim.cmd("wincmd =")
+      equalize_editor_windows()
     end
     return existing, false
   end
@@ -83,6 +89,8 @@ local function open_window()
   vim.wo[win].winfixbuf = true
   vim.wo[win].statusline = " "
   vim.wo[win].cursorline = false
+
+  equalize_editor_windows()
 
   -- Restore previous window focus
   vim.api.nvim_set_current_win(previous)
@@ -118,6 +126,7 @@ function M.close()
   end
 
   vim.api.nvim_win_close(sidebar, true)
+  equalize_editor_windows()
 end
 
 function M.toggle()
@@ -134,7 +143,7 @@ local function set_width(width)
   local sidebar = find_window()
   if sidebar then
     vim.api.nvim_win_set_width(sidebar, width)
-    vim.cmd("wincmd =")
+    equalize_editor_windows()
   end
 
   return width

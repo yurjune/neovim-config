@@ -44,6 +44,33 @@ return {
   },
   config = function(_, opts)
     require("sidekick").setup(opts)
+
+    -- Sidekick은 폭을 지정해 열면 equalalways가 적용되지 않으므로, 고정 폭을 유지하면서 나머지 창을 수동으로 균등화한다.
+    vim.api.nvim_create_autocmd({ "BufWinEnter", "WinClosed" }, {
+      desc = "Equalize editor windows when Sidekick opens or closes",
+      group = vim.api.nvim_create_augroup("sidekick-layout", { clear = true }),
+      callback = function(args)
+        local buf
+
+        if args.event == "WinClosed" then
+          local win = tonumber(args.match)
+          if win and vim.api.nvim_win_is_valid(win) then
+            buf = vim.api.nvim_win_get_buf(win)
+          end
+        else
+          buf = args.buf
+        end
+
+        if not buf or vim.bo[buf].filetype ~= vim.g.sidekick_buf_filetype then
+          return
+        end
+
+        -- Sidekick이 split을 연 뒤 winfixwidth를 설정하므로 다음 이벤트 루프에서 실행한다.
+        vim.schedule(function()
+          vim.cmd("wincmd =")
+        end)
+      end,
+    })
   end,
   keys = {
     {
