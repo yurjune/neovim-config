@@ -1,4 +1,6 @@
 -- A plugin to persist and toggle multiple terminals during an editing session
+local layout = require("ui.layout")
+
 return {
   "akinsho/toggleterm.nvim",
   version = "*",
@@ -11,8 +13,8 @@ return {
       direction = "float", -- 'vertical' | 'horizontal' | 'tab' | 'float'
       float_opts = {
         border = "curved",
-        width = 180,
-        height = 45,
+        width = layout.toggleterm.width,
+        height = layout.toggleterm.height,
       },
     })
 

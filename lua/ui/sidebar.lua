@@ -2,8 +2,10 @@
 local M = {}
 M.filetype = "sidebar"
 
-local SIDEBAR_WIDTHS = { 21, 42, 63 }
-local DEFAULT_WIDTH = 42
+local layout = require("ui.layout")
+local SIDEBAR_WIDTHS = layout.sidebar
+local DEFAULT_WIDTH = SIDEBAR_WIDTHS[2]
+
 local SIDEBAR_MODE = {
   blank = "blank",
   tree = "tree",
