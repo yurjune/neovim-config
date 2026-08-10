@@ -181,6 +181,7 @@ function M.open_tree(opts)
     cwd = cwd,
     target_win = target_win,
     current_file = current_file,
+    close = M.close_tree,
   })
 end
 
