@@ -270,10 +270,42 @@ function M.focus_tree_file(file)
   reveal_tree_row(win, row)
 end
 
+function M.open_tree_file()
+  local win = find_window()
+  if not win or get_mode() ~= SIDEBAR_MODE.tree then
+    return
+  end
+
+  local buf = vim.api.nvim_win_get_buf(win)
+  local state = tree_states[buf]
+  if not state then
+    return
+  end
+
+  local row = vim.api.nvim_win_get_cursor(win)[1]
+  local path = state.paths[row]
+  if not path then
+    return
+  end
+
+  path = vim.fs.normalize(vim.fs.joinpath(state.cwd, path))
+  if vim.fn.isdirectory(path) == 1 then
+    return
+  end
+  if not vim.api.nvim_win_is_valid(state.target_win) then
+    vim.notify("The tree's target window is no longer available", vim.log.levels.WARN, { title = "Sidebar" })
+    return
+  end
+
+  vim.api.nvim_set_current_win(state.target_win)
+  vim.api.nvim_cmd({ cmd = "edit", args = { path } }, {})
+end
+
 function M.open_tree(opts)
   opts = opts or tree_options
   tree_options = opts
 
+  local target_win = vim.api.nvim_get_current_win()
   local current_file = vim.api.nvim_buf_get_name(0)
   if current_file ~= "" then
     current_file = vim.fs.normalize(current_file)
@@ -285,11 +317,17 @@ function M.open_tree(opts)
   set_mode(buf, SIDEBAR_MODE.tree)
 
   local output, paths, directory_ranges = read_tree(opts)
-  tree_states[buf] = { paths = paths, cwd = cwd }
+  tree_states[buf] = { paths = paths, cwd = cwd, target_win = target_win }
 
   vim.bo[buf].modifiable = true
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
   vim.bo[buf].modifiable = false
+  for _, key in ipairs({ "<CR>", "<Tab>" }) do
+    vim.keymap.set("n", key, M.open_tree_file, {
+      buffer = buf,
+      desc = "Open tree file",
+    })
+  end
   highlight_tree(buf, directory_ranges)
   M.focus_tree_file(current_file)
 end
@@ -318,6 +356,16 @@ function M.toggle_tree(opts)
 end
 
 function M.setup()
+  vim.api.nvim_create_autocmd("BufEnter", {
+    desc = "Track the current file in the sidebar tree",
+    group = vim.api.nvim_create_augroup("sidebar-tree-tracking", { clear = true }),
+    callback = function(args)
+      if vim.bo[args.buf].filetype ~= M.filetype then
+        M.focus_tree_file(vim.api.nvim_buf_get_name(args.buf))
+      end
+    end,
+  })
+
   vim.keymap.set("n", "<leader>bb", M.toggle, { desc = "Toggle sidebar" })
 
   for index, width in ipairs(SIDEBAR_WIDTHS) do
