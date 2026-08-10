@@ -2,7 +2,7 @@
 -- The layout is selected by the number of available columns.
 local layouts = {
   compact = {
-    sidebar = { 12, 24, 36, 48 },
+    sidebar = { 12, 24, 36, 48, 60, 72 },
     sidekick = 55,
     toggleterm = {
       width = 160,
@@ -10,7 +10,7 @@ local layouts = {
     },
   },
   wide = {
-    sidebar = { 20, 40, 60, 80 },
+    sidebar = { 20, 40, 60, 80, 100, 120 },
     sidekick = 70,
     toggleterm = {
       width = 180,
