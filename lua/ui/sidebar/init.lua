@@ -143,6 +143,13 @@ local function set_width(width)
   return width
 end
 
+function M.focus_tree()
+  local win = find_window()
+  if win and get_mode() == SIDEBAR_MODE.tree then
+    vim.api.nvim_set_current_win(win)
+  end
+end
+
 function M.focus_tree_file(file)
   local win = find_window()
   if not win or get_mode() ~= SIDEBAR_MODE.tree then
@@ -224,6 +231,7 @@ function M.setup()
 
   vim.keymap.set("n", "<leader>pt", function()
     M.toggle_tree(tree.default_options)
+    vim.schedule(M.focus_tree)
   end, { desc = "Toggle project tree" })
 end
 
