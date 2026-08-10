@@ -15,6 +15,8 @@ local SIDEBAR_NAME = {
   [SIDEBAR_MODE.tree] = "Tree",
 }
 local SIDEBAR_NAMESPACE = vim.api.nvim_create_namespace("sidebar")
+local SIDEBAR_CURRENT_FILE_NAMESPACE = vim.api.nvim_create_namespace("sidebar-current-file")
+
 local DEFAULT_TREE_OPTIONS = {
   hidden = true,
   filter = {
@@ -25,6 +27,7 @@ local DEFAULT_TREE_OPTIONS = {
   },
 }
 local tree_options = DEFAULT_TREE_OPTIONS
+local tree_states = {}
 
 vim.g.SidebarWidth = vim.g.SidebarWidth or DEFAULT_WIDTH
 vim.g.SidebarMode = vim.g.SidebarMode or SIDEBAR_MODE.blank
@@ -38,6 +41,8 @@ local function set_mode(buf, mode)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "" })
   vim.bo[buf].modifiable = false
   vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_NAMESPACE, 0, -1)
+  vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_CURRENT_FILE_NAMESPACE, 0, -1)
+  tree_states[buf] = nil
   vim.api.nvim_buf_set_name(buf, SIDEBAR_NAME[mode])
   vim.g.SidebarMode = mode
 end
@@ -127,6 +132,7 @@ function M.close()
     vim.cmd("belowright new")
   end
 
+  tree_states[vim.api.nvim_win_get_buf(sidebar)] = nil
   vim.api.nvim_win_close(sidebar, true)
   equalize_editor_windows()
 end
@@ -206,7 +212,7 @@ local function find_current_file_row(paths, current_file, cwd)
   end
 end
 
-local function highlight_tree(buf, directory_ranges, current_file_row)
+local function highlight_tree(buf, directory_ranges)
   vim.api.nvim_set_hl(0, "SidebarDirectory", {
     fg = "#94e2d5",
     bold = true,
@@ -224,12 +230,6 @@ local function highlight_tree(buf, directory_ranges, current_file_row)
       hl_group = "SidebarDirectory",
     })
   end
-  if current_file_row then
-    vim.api.nvim_buf_set_extmark(buf, SIDEBAR_NAMESPACE, current_file_row - 1, 0, {
-      line_hl_group = "SidebarCurrentFile",
-      priority = 200,
-    })
-  end
 end
 
 local function reveal_tree_row(win, row)
@@ -241,6 +241,33 @@ local function reveal_tree_row(win, row)
   vim.api.nvim_win_call(win, function()
     vim.cmd("normal! zz")
   end)
+end
+
+function M.focus_tree_file(file)
+  file = file or vim.api.nvim_buf_get_name(0)
+
+  local win = find_window()
+  if not win or get_mode() ~= SIDEBAR_MODE.tree then
+    return
+  end
+
+  local buf = vim.api.nvim_win_get_buf(win)
+  local state = tree_states[buf]
+  if not state then
+    return
+  end
+
+  local current_file = file ~= "" and vim.fs.normalize(file) or ""
+  local row = find_current_file_row(state.paths, current_file, state.cwd)
+
+  vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_CURRENT_FILE_NAMESPACE, 0, -1)
+  if row then
+    vim.api.nvim_buf_set_extmark(buf, SIDEBAR_CURRENT_FILE_NAMESPACE, row - 1, 0, {
+      line_hl_group = "SidebarCurrentFile",
+      priority = 200,
+    })
+  end
+  reveal_tree_row(win, row)
 end
 
 function M.open_tree(opts)
@@ -258,13 +285,13 @@ function M.open_tree(opts)
   set_mode(buf, SIDEBAR_MODE.tree)
 
   local output, paths, directory_ranges = read_tree(opts)
-  local current_file_row = find_current_file_row(paths, current_file, cwd)
+  tree_states[buf] = { paths = paths, cwd = cwd }
 
   vim.bo[buf].modifiable = true
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
   vim.bo[buf].modifiable = false
-  highlight_tree(buf, directory_ranges, current_file_row)
-  reveal_tree_row(win, current_file_row)
+  highlight_tree(buf, directory_ranges)
+  M.focus_tree_file(current_file)
 end
 
 function M.close_tree()
