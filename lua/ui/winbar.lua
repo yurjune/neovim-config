@@ -61,8 +61,9 @@ end
 
 local function get_mode()
   local mode_info = mode.get()
+  local label = "-- " .. mode_info.label .. " --"
 
-  return highlight(mode_info.label, mode_info.highlight)
+  return highlight(label, mode_info.highlight)
 end
 
 local function get_progress()
