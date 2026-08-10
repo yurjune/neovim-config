@@ -53,9 +53,6 @@ vim.opt.guicursor = {
   "a:blinkwait480-blinkoff480-blinkon480",
 }
 
--- status-bar
-vim.opt.laststatus = 0
-
 -- Persist undo history across Neovim sessions
 vim.opt.undofile = true
 
