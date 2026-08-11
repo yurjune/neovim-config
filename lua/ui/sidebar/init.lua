@@ -166,14 +166,6 @@ function M.focus_tree_file(file)
   tree.focus_file(win, file)
 end
 
-function M.open_tree_file()
-  local win = find_window()
-  if not win or get_mode() ~= SIDEBAR_MODE.tree then
-    return
-  end
-  tree.open_file(win)
-end
-
 function M.open_tree(opts)
   opts = opts or tree_options
   tree_options = opts
