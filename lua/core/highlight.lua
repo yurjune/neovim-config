@@ -38,8 +38,14 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "ModeChanged", "WinEnter", "BufEnter" }, {
+vim.api.nvim_create_autocmd("ModeChanged", {
   callback = update_cursor_line_number,
+})
+
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+  callback = function()
+    vim.schedule(update_cursor_line_number)
+  end,
 })
 
 update_cursor_line_number()
