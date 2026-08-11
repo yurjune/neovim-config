@@ -37,6 +37,7 @@ return {
       "dockerfile",
       "embedded_template", -- ejs
       "graphql",
+      "groovy",
       "html",
       "javascript",
       "json",
