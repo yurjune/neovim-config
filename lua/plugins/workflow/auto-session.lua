@@ -31,7 +31,7 @@ return {
         close_sidekick_buf,
       },
       post_restore_cmds = {
-        sidebar.open,
+        sidebar.restore,
       },
       no_restore_cmds = {
         sidebar.open,

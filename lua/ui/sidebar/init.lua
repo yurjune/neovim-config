@@ -20,6 +20,7 @@ local tree_options = tree.default_options
 
 vim.g.SidebarWidth = vim.g.SidebarWidth or DEFAULT_WIDTH
 vim.g.SidebarMode = vim.g.SidebarMode or SIDEBAR_MODE.blank
+vim.g.SidebarOpen = vim.g.SidebarOpen == nil and 1 or vim.g.SidebarOpen
 
 local function get_mode()
   return vim.g.SidebarMode
@@ -43,6 +44,12 @@ local function find_window()
   end
 end
 
+function M.restore()
+  if vim.g.SidebarOpen == 1 then
+    M.open()
+  end
+end
+
 -- sidebar는 폭을 지정해 열면 equalalways가 적용되지 않으므로, 고정 폭을 유지하면서 나머지 창을 수동으로 균등화한다.
 local function equalize_editor_windows()
   vim.cmd("wincmd =")
@@ -56,6 +63,8 @@ local function resize_window(win, width)
 end
 
 local function open_window()
+  vim.g.SidebarOpen = 1
+
   local width = vim.g.SidebarWidth
 
   local existing = find_window()
@@ -115,6 +124,8 @@ function M.open()
 end
 
 function M.close()
+  vim.g.SidebarOpen = 0
+
   local sidebar = find_window()
   if not sidebar then
     return
