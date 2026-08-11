@@ -5,19 +5,21 @@ local test_filetypes = { "javascript", "javascriptreact", "typescript", "typescr
 return {
   "nvim-neotest/neotest",
   -- disabled since it's test results are not accurate
-  enabled = false,
+  enabled = true,
   dependencies = {
     "nvim-neotest/nvim-nio",
     "nvim-lua/plenary.nvim",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
     "nvim-neotest/neotest-jest",
+    "marilari88/neotest-vitest",
   },
   ft = test_filetypes,
   config = function()
     require("neotest").setup({
       adapters = {
-        require("neotest-jest"),
+        -- require("neotest-jest"),
+        require("neotest-vitest"),
       },
     })
   end,
