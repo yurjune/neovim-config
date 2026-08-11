@@ -6,6 +6,7 @@ local layout = require("ui.layout")
 local tree = require("ui.sidebar.tree")
 local SIDEBAR_WIDTHS = layout.sidebar
 local DEFAULT_WIDTH = SIDEBAR_WIDTHS[2]
+local TREE_WIDTH = SIDEBAR_WIDTHS[3]
 
 local SIDEBAR_MODE = {
   blank = "blank",
@@ -16,7 +17,6 @@ local SIDEBAR_NAME = {
   [SIDEBAR_MODE.tree] = "Tree",
 }
 local tree_options = tree.default_options
-local tree_base_widths = {}
 
 vim.g.SidebarWidth = vim.g.SidebarWidth or DEFAULT_WIDTH
 vim.g.SidebarMode = vim.g.SidebarMode or SIDEBAR_MODE.blank
@@ -53,16 +53,6 @@ local function resize_window(win, width)
     vim.api.nvim_win_set_width(win, width)
     equalize_editor_windows()
   end
-end
-
-local function fit_tree_width(minimum, content_width)
-  local required = math.max(minimum, content_width)
-  for _, width in ipairs(SIDEBAR_WIDTHS) do
-    if width >= required then
-      return width
-    end
-  end
-  return math.max(minimum, SIDEBAR_WIDTHS[#SIDEBAR_WIDTHS])
 end
 
 local function open_window()
@@ -138,7 +128,6 @@ function M.close()
 
   local buf = vim.api.nvim_win_get_buf(sidebar)
   tree.clear(buf)
-  tree_base_widths[buf] = nil
   vim.api.nvim_win_close(sidebar, true)
   equalize_editor_windows()
 end
@@ -156,10 +145,6 @@ local function set_width(width)
 
   local sidebar = find_window()
   if sidebar then
-    local buf = vim.api.nvim_win_get_buf(sidebar)
-    if tree_base_widths[buf] then
-      tree_base_widths[buf] = width
-    end
     resize_window(sidebar, width)
   end
 
@@ -202,9 +187,8 @@ function M.open_tree(opts)
 
   local win = open_window()
   local buf = vim.api.nvim_win_get_buf(win)
-  local base_width = tree_base_widths[buf] or vim.api.nvim_win_get_width(win)
-  tree_base_widths[buf] = base_width
   set_mode(buf, SIDEBAR_MODE.tree)
+  resize_window(win, TREE_WIDTH)
 
   tree.render({
     win = win,
@@ -214,9 +198,6 @@ function M.open_tree(opts)
     target_win = target_win,
     current_file = current_file,
     close = M.close_tree,
-    resize = function(content_width)
-      resize_window(win, fit_tree_width(base_width, content_width))
-    end,
   })
 end
 
@@ -231,12 +212,8 @@ function M.close_tree()
     return
   end
 
-  local base_width = tree_base_widths[buf]
   set_mode(buf, SIDEBAR_MODE.blank)
-  tree_base_widths[buf] = nil
-  if base_width then
-    resize_window(sidebar, base_width)
-  end
+  resize_window(sidebar, vim.g.SidebarWidth)
 end
 
 function M.toggle_tree(opts)

@@ -61,14 +61,6 @@ local function read(opts)
   return output, paths, directory_ranges
 end
 
-local function get_content_width(output, entry_count)
-  local width = 0
-  for row = 1, entry_count do
-    width = math.max(width, vim.fn.strdisplaywidth(output[row]))
-  end
-  return width
-end
-
 local function find_file_row(paths, file, cwd)
   if file == "" then
     return
@@ -192,7 +184,6 @@ end
 
 function M.render(args)
   local output, paths, directory_ranges = read(args.opts)
-  args.resize(get_content_width(output, #paths))
   states[args.buf] = {
     paths = paths,
     cwd = args.cwd,
