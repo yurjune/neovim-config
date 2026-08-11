@@ -1,10 +1,13 @@
 local mode = require("ui.mode")
 
-vim.opt.laststatus = 3
+vim.opt.laststatus = 2
 vim.opt.showmode = false
 vim.opt.statusline = "%{%v:lua.get_statusline()%}"
 
 local function setup_highlights()
+  vim.api.nvim_set_hl(0, "StatusLineNC", {
+    link = "Normal", -- hide inactivated window's statusline
+  })
   vim.api.nvim_set_hl(0, "StatusLineLocation", {
     fg = vim.g.colors.white,
     bold = true,
@@ -50,6 +53,12 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 setup_highlights()
 
 _G.get_statusline = function()
+  local actual_win = tonumber(vim.g.actual_curwin)
+
+  if actual_win and vim.api.nvim_get_current_win() ~= actual_win then
+    return ""
+  end
+
   return " "
     .. get_mode()
     .. "%="
@@ -58,4 +67,3 @@ _G.get_statusline = function()
     .. highlight(get_progress(), "StatusLineProgress")
     .. " "
 end
-
