@@ -7,6 +7,8 @@ return {
   },
   config = function()
     local fzf = require("fzf-lua")
+    local ignore_file_option = "--ignore-file "
+      .. vim.fn.shellescape(vim.fn.stdpath("config") .. "/lua/plugins/navigation/fzf.ignore")
 
     fzf.setup({
       "fzf-native",
@@ -30,21 +32,28 @@ return {
         },
       },
       files = {
-        hidden = true,
-        no_ignore = true,
-        file_ignore_patterns = {
-          "^%.git/",
-          "node_modules/",
-        },
+        hidden = false,
+        no_ignore = true, -- ignore project config
+        fd_opts = table.concat({
+          "--color=never",
+          "--type f",
+          "--type l",
+          ignore_file_option,
+        }, " "),
       },
       grep = {
-        hidden = true,
-        no_ignore = true,
-        rg_opts = "--column --line-number --no-heading --color=always --ignore-case --max-columns=4096 -e",
-        file_ignore_patterns = {
-          "^%.git/",
-          "node_modules/",
-        },
+        hidden = false,
+        no_ignore = true, -- ignore project config
+        rg_opts = table.concat({
+          "--column",
+          "--line-number",
+          "--no-heading",
+          "--color=always",
+          "--ignore-case",
+          "--max-columns=4096",
+          ignore_file_option,
+          "-e",
+        }, " "),
       },
       keymap = {
         fzf = {

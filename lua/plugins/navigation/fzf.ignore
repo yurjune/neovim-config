@@ -1,0 +1,9 @@
+# Include hidden paths
+!.env
+!.env.*
+!.github/
+!.github/**
+!.gitignore
+
+# Exclude paths
+
