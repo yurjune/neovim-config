@@ -151,6 +151,17 @@ function M.focus_file(win, file)
   reveal_row(win, row, file_col, leftcol)
 end
 
+function M.focus_target(win)
+  if not win or not vim.api.nvim_win_is_valid(win) then
+    return
+  end
+
+  local state = states[vim.api.nvim_win_get_buf(win)]
+  if state and vim.api.nvim_win_is_valid(state.target_win) then
+    vim.api.nvim_set_current_win(state.target_win)
+  end
+end
+
 function M.open_file(win)
   if not win or not vim.api.nvim_win_is_valid(win) then
     return
