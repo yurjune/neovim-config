@@ -1,5 +1,7 @@
 -- A framework for interacting with tests within NeoVim
 -- disabled by default since its test results are not accurate
+local test_filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
+
 return {
   "nvim-neotest/neotest",
   -- disabled since it's test results are not accurate
@@ -11,48 +13,92 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "nvim-neotest/neotest-jest",
   },
-  event = "VeryLazy",
+  ft = test_filetypes,
   config = function()
-    local neotest = require("neotest")
-
-    neotest.setup({
+    require("neotest").setup({
       adapters = {
         require("neotest-jest"),
       },
     })
-
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "*",
-      callback = function(args)
-        if vim.bo[args.buf].filetype == "markdown" then
-          return
-        end
-
-        vim.keymap.set("n", "<leader>tr", neotest.run.run, { desc = "Run nearest test", buffer = args.buf })
-        vim.keymap.set("n", "<leader>tf", function()
-          neotest.run.run(vim.fn.expand("%"))
-        end, { desc = "Run all tests in file", buffer = args.buf })
-
-        vim.keymap.set("n", "<leader>tl", neotest.run.run_last, { desc = "Run last test", buffer = args.buf })
-        vim.keymap.set("n", "<leader>ta", function()
-          neotest.run.run(vim.fn.getcwd())
-        end, { desc = "Run all tests in project" })
-
-        vim.keymap.set("n", "<leader>ts", neotest.run.stop, { desc = "Stop running test", buffer = args.buf })
-
-        vim.keymap.set("n", "<leader>tt", neotest.summary.open, { desc = "Display summary", buffer = args.buf })
-        vim.keymap.set("n", "<leader>too", neotest.output.open, { desc = "Display output float", buffer = args.buf })
-        vim.keymap.set("n", "<leader>top", neotest.output_panel.open, { desc = "Display output panel", buffer = args.buf })
-        vim.keymap.set("n", "<leader>toc", neotest.output_panel.clear, { desc = "Clear output", buffer = args.buf })
-
-        -- mark test by using `m` in summary view
-        vim.keymap.set("n", "<leader>tmr", neotest.summary.run_marked, { desc = "Run marked tests", buffer = args.buf })
-        vim.keymap.set("n", "<leader>tmc", neotest.summary.clear_marked, { desc = "Clear marked tests", buffer = args.buf })
-
-        -- watch test by using `w` in summary view
-        vim.keymap.set("n", "<leader>tw", neotest.watch.watch, { desc = "Start watching tests", buffer = args.buf })
-        vim.keymap.set("n", "<leader>twc", neotest.watch.stop, { desc = "Stop watching tests", buffer = args.buf })
-      end,
-    })
   end,
+  keys = {
+    {
+      "<leader>tr",
+      "<cmd>lua require('neotest').run.run()<cr>",
+      desc = "Run nearest test",
+      ft = test_filetypes,
+    },
+    {
+      "<leader>tf",
+      "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>",
+      desc = "Run all tests in file",
+      ft = test_filetypes,
+    },
+    {
+      "<leader>tl",
+      "<cmd>lua require('neotest').run.run_last()<cr>",
+      desc = "Run last test",
+      ft = test_filetypes,
+    },
+    {
+      "<leader>ta",
+      "<cmd>lua require('neotest').run.run(vim.fn.getcwd())<cr>",
+      desc = "Run all tests in project",
+      ft = test_filetypes,
+    },
+    {
+      "<leader>ts",
+      "<cmd>lua require('neotest').run.stop()<cr>",
+      desc = "Stop running test",
+      ft = test_filetypes,
+    },
+    {
+      "<leader>tt",
+      "<cmd>lua require('neotest').summary.open()<cr>",
+      desc = "Display summary",
+      ft = test_filetypes,
+    },
+    {
+      "<leader>too",
+      "<cmd>lua require('neotest').output.open()<cr>",
+      desc = "Display output float",
+      ft = test_filetypes,
+    },
+    {
+      "<leader>top",
+      "<cmd>lua require('neotest').output_panel.open()<cr>",
+      desc = "Display output panel",
+      ft = test_filetypes,
+    },
+    {
+      "<leader>toc",
+      "<cmd>lua require('neotest').output_panel.clear()<cr>",
+      desc = "Clear output",
+      ft = test_filetypes,
+    },
+    {
+      "<leader>tmr",
+      "<cmd>lua require('neotest').summary.run_marked()<cr>",
+      desc = "Run marked tests",
+      ft = "neotest-summary",
+    },
+    {
+      "<leader>tmc",
+      "<cmd>lua require('neotest').summary.clear_marked()<cr>",
+      desc = "Clear marked tests",
+      ft = "neotest-summary",
+    },
+    {
+      "<leader>tw",
+      "<cmd>lua require('neotest').watch.watch()<cr>",
+      desc = "Start watching tests",
+      ft = test_filetypes,
+    },
+    {
+      "<leader>twc",
+      "<cmd>lua require('neotest').watch.stop()<cr>",
+      desc = "Stop watching tests",
+      ft = test_filetypes,
+    },
+  },
 }
