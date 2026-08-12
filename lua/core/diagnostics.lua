@@ -16,12 +16,13 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.INFO] = signs.Info,
       [vim.diagnostic.severity.HINT] = signs.Hint,
     },
-    numhl = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-    },
+    -- Disable diagnostic line-number highlights because CursorLineNr indicates the current mode.
+    -- numhl = {
+    --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+    --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+    --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+    --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+    -- },
   },
   float = {
     border = "rounded",
