@@ -76,15 +76,12 @@ return {
   end,
   keys = {
     {
-      "<leader>an",
+      "<c-.>",
       function()
-        require("sidekick.cli").toggle({
-          name = "codex",
-          focus = true,
-        })
+        require("sidekick.cli").focus()
       end,
-      desc = "Sidekick Toggle CLI",
-      mode = { "n" },
+      mode = { "n", "x", "i", "t" },
+      desc = "Sidekick Switch Focus",
     },
     {
       "<leader>an",
@@ -97,7 +94,7 @@ return {
       mode = { "x" },
     },
     {
-      "<leader>at",
+      "<leader>as",
       function()
         local current_path = vim.fn.expand("%")
         require("sidekick.cli").send({
@@ -108,7 +105,7 @@ return {
       desc = "Send This",
     },
     {
-      "<leader>at",
+      "<leader>as",
       function()
         require("sidekick.cli").send({
           msg = "{this}",
@@ -135,14 +132,6 @@ return {
       end,
       mode = { "n", "x" },
       desc = "Sidekick Select Prompt",
-    },
-    {
-      "<c-.>",
-      function()
-        require("sidekick.cli").focus()
-      end,
-      mode = { "n", "x", "i", "t" },
-      desc = "Sidekick Switch Focus",
     },
   },
 }
