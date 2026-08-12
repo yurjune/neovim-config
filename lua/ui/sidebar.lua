@@ -232,14 +232,17 @@ local function highlight_tree(buf, directory_ranges)
   end
 end
 
-local function reveal_tree_row(win, row)
+local function reveal_tree_row(win, row, col, leftcol)
   if not row then
     return
   end
 
-  vim.api.nvim_win_set_cursor(win, { row, 0 })
+  vim.api.nvim_win_set_cursor(win, { row, col or 0 })
   vim.api.nvim_win_call(win, function()
     vim.cmd("normal! zz")
+    local view = vim.fn.winsaveview()
+    view.leftcol = leftcol or 0
+    vim.fn.winrestview(view)
   end)
 end
 
@@ -259,6 +262,8 @@ function M.focus_tree_file(file)
 
   local current_file = file ~= "" and vim.fs.normalize(file) or ""
   local row = find_current_file_row(state.paths, current_file, state.cwd)
+  local file_col = 0
+  local leftcol = 0
 
   vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_CURRENT_FILE_NAMESPACE, 0, -1)
   if row then
@@ -267,6 +272,9 @@ function M.focus_tree_file(file)
     local start_col = line and line:find(name, 1, true)
     if start_col then
       start_col = start_col - 1
+      file_col = start_col
+      local filename_end = vim.fn.strdisplaywidth(line:sub(1, start_col + #name))
+      leftcol = math.max(0, filename_end - vim.api.nvim_win_get_width(win))
       vim.api.nvim_buf_set_extmark(buf, SIDEBAR_CURRENT_FILE_NAMESPACE, row - 1, start_col, {
         end_col = start_col + #name,
         hl_group = "SidebarCurrentFile",
@@ -274,7 +282,7 @@ function M.focus_tree_file(file)
       })
     end
   end
-  reveal_tree_row(win, row)
+  reveal_tree_row(win, row, file_col, leftcol)
 end
 
 function M.open_tree_file()
