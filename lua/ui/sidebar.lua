@@ -151,20 +151,13 @@ local function set_width(width)
   return width
 end
 
-function M.open_tree(opts)
-  opts = opts or tree_options
-  tree_options = opts
-
-  local win = open_window()
-  local buf = vim.api.nvim_win_get_buf(win)
-  set_mode(buf, SIDEBAR_MODE.tree)
-
+local function build_tree_command(opts, output_options)
   local command = {
     "env",
     "LS_COLORS=di=1",
     "tree",
-    "-C",
   }
+  vim.list_extend(command, output_options)
 
   if opts.depth then
     vim.list_extend(command, { "-L", tostring(opts.depth) })
@@ -176,40 +169,90 @@ function M.open_tree(opts)
     vim.list_extend(command, { "-I", table.concat(opts.filter, "|") })
   end
 
-  local output = vim.fn.systemlist(command)
-  local function parse_directory_line(line)
-    -- `tree -C` wraps directory names with ANSI color codes.
-    local prefix, name, suffix = line:match("^(.-)\27%[[%d;]*m(.-)\27%[[%d;]*m(.*)$")
-    if not name then
-      return line
-    end
+  return command
+end
 
-    return prefix .. name .. suffix, { #prefix, #prefix + #name }
+local function parse_directory_line(line)
+  -- `tree -C` wraps directory names with ANSI color codes.
+  local prefix, name, suffix = line:match("^(.-)\27%[[%d;]*m(.-)\27%[[%d;]*m(.*)$")
+  if not name then
+    return line
   end
 
-  local function highlight_directories(ranges)
-    vim.api.nvim_set_hl(0, "SidebarDirectory", {
-      fg = "#94e2d5",
-      bold = true,
-    })
-    vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_NAMESPACE, 0, -1)
-    for row, columns in pairs(ranges) do
-      vim.api.nvim_buf_set_extmark(buf, SIDEBAR_NAMESPACE, row - 1, columns[1], {
-        end_col = columns[2],
-        hl_group = "SidebarDirectory",
-      })
-    end
-  end
+  return prefix .. name .. suffix, { #prefix, #prefix + #name }
+end
 
+local function read_tree(opts)
+  local output = vim.fn.systemlist(build_tree_command(opts, { "-C" }))
+  local paths = vim.fn.systemlist(build_tree_command(opts, { "-fi", "--noreport" }))
   local directory_ranges = {}
+
   for row, line in ipairs(output) do
     output[row], directory_ranges[row] = parse_directory_line(line)
   end
 
+  return output, paths, directory_ranges
+end
+
+local function find_current_file_row(paths, current_file, cwd)
+  if current_file == "" then
+    return
+  end
+
+  for row, path in ipairs(paths) do
+    if vim.fs.normalize(vim.fs.joinpath(cwd, path)) == current_file then
+      return row
+    end
+  end
+end
+
+local function highlight_tree(buf, directory_ranges, current_file_row)
+  vim.api.nvim_set_hl(0, "SidebarDirectory", {
+    fg = "#94e2d5",
+    bold = true,
+  })
+  vim.api.nvim_set_hl(0, "SidebarCurrentFile", {
+    fg = "#1e1e2e",
+    bg = "#f9e2af",
+    bold = true,
+  })
+  vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_NAMESPACE, 0, -1)
+
+  for row, columns in pairs(directory_ranges) do
+    vim.api.nvim_buf_set_extmark(buf, SIDEBAR_NAMESPACE, row - 1, columns[1], {
+      end_col = columns[2],
+      hl_group = "SidebarDirectory",
+    })
+  end
+  if current_file_row then
+    vim.api.nvim_buf_set_extmark(buf, SIDEBAR_NAMESPACE, current_file_row - 1, 0, {
+      line_hl_group = "SidebarCurrentFile",
+      priority = 200,
+    })
+  end
+end
+
+function M.open_tree(opts)
+  opts = opts or tree_options
+  tree_options = opts
+
+  local current_file = vim.api.nvim_buf_get_name(0)
+  if current_file ~= "" then
+    current_file = vim.fs.normalize(current_file)
+  end
+  local cwd = vim.fn.getcwd()
+
+  local win = open_window()
+  local buf = vim.api.nvim_win_get_buf(win)
+  set_mode(buf, SIDEBAR_MODE.tree)
+
+  local output, paths, directory_ranges = read_tree(opts)
+  local current_file_row = find_current_file_row(paths, current_file, cwd)
+
   vim.bo[buf].modifiable = true
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
   vim.bo[buf].modifiable = false
-  highlight_directories(directory_ranges)
+  highlight_tree(buf, directory_ranges, current_file_row)
 end
 
 function M.close_tree()
