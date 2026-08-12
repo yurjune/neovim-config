@@ -1,5 +1,3 @@
-vim.g.mapleader = " " -- bind spacebar to leader key
-
 -- Clipboard keymaps
 vim.keymap.set({ "n", "v" }, "<M-c>", '"+y')
 vim.keymap.set("t", "<M-v>", [[<C-\><C-n>"+pi]]) -- for paste bug in sidekick terminal by <D-v> paste
