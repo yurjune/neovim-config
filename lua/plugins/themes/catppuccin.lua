@@ -98,6 +98,19 @@ return {
             bg = colors.rosewater,
           },
 
+          Comment = {
+            fg = colors.overlay2,
+            italic = true,
+          },
+          LspInlayHint = {
+            fg = colors.overlay2,
+            italic = false,
+          },
+          GitSignsCurrentLineBlame = {
+            fg = colors.overlay1,
+            italic = true,
+          },
+
           PanelHeading = {
             fg = colors.lavender,
             bg = colors.none,
@@ -151,11 +164,6 @@ return {
           },
           NvimTreeStatusLineNC = {
             bg = colors.none,
-          },
-
-          GitSignsCurrentLineBlame = {
-            fg = colors.overlay1,
-            italic = true,
           },
         }
       end,
