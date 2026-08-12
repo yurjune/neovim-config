@@ -1,3 +1,9 @@
+vim.filetype.add({
+  pattern = {
+    [".*/Jenkinsfile%..*"] = "groovy",
+  },
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function()
