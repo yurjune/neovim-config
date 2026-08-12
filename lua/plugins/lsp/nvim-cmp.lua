@@ -128,7 +128,7 @@ return {
 
     -- authomatically import all vscode like snippets in runtimepath;
     -- ex) friendly-snippets
-    from_vscode.lazy_load()
+    -- from_vscode.lazy_load()
 
     -- import my own custom VSCode snippets
     from_vscode.load({
