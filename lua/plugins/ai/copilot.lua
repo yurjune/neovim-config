@@ -15,10 +15,6 @@ return {
   end,
   config = function()
     require("copilot").setup({
-      -- if you use copilot-cmp, disabled panel and suggestion for better use
-      panel = {
-        enabled = false,
-      },
       suggestion = {
         enabled = true,
         auto_trigger = true,
