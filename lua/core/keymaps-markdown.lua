@@ -1,7 +1,42 @@
--- Keymaps for bold, italic, strikethrough, and inline code in markdown files
--- These keymaps depend on nvim-surround's default mappings: "S" for add, "ds" for delete
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
+  desc = "Heading generate keymaps",
+  callback = function(ev)
+    local function set_heading(level)
+      local line = vim.api.nvim_get_current_line()
+      local heading_end = line:match("^#+%s+()")
+
+      if heading_end then
+        local prefix = level == 0 and "" or string.rep("#", level) .. " "
+        vim.api.nvim_set_current_line(prefix .. line:sub(heading_end))
+      elseif level > 0 then
+        vim.api.nvim_set_current_line(string.rep("#", level) .. " " .. line)
+      end
+    end
+
+    vim.keymap.set("n", "<leader>hx", function()
+      set_heading(0)
+    end, {
+      buffer = ev.buf,
+      desc = "Remove heading",
+    })
+
+    for level = 1, 4 do
+      -- ex) <leader>h3 generates "###"
+      vim.keymap.set("n", "<leader>h" .. level, function()
+        set_heading(level)
+      end, {
+        buffer = ev.buf,
+        desc = ("Create level %d heading"):format(level),
+      })
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  desc = "Keymaps for bold, italic, strikethrough, and inline code in Markdown files",
+  -- These keymaps depend on nvim-surround's default mappings: "S" for add, "ds" for delete
   callback = function(ev)
     local function map(mode, lhs, rhs, opts)
       opts = opts or {}
