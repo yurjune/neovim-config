@@ -22,6 +22,7 @@ return {
         ["--ignore-case"] = true, -- Applies to fzf filtering, not ripgrep searches
       },
       winopts = {
+        on_close = require("etc.switch-input-source").switch_to_english,
         preview = {
           default = "bat", -- use bat instead of neovim buffer
           horizontal = "right:40%",
