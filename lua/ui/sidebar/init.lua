@@ -219,9 +219,11 @@ end
 function M.toggle_tree(opts)
   local sidebar = find_window()
   if sidebar and get_mode() == SIDEBAR_MODE.tree then
+    tree.focus_target(sidebar)
     M.close_tree()
   else
     M.open_tree(opts)
+    vim.schedule(M.focus_tree)
   end
 end
 
@@ -241,7 +243,6 @@ function M.setup()
 
   vim.keymap.set("n", "<leader>pt", function()
     M.toggle_tree(tree.default_options)
-    vim.schedule(M.focus_tree)
   end, { desc = "Toggle project tree" })
 end
 
