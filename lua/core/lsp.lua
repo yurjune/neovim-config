@@ -41,12 +41,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
       end
     end
 
-    local tele_builtin = require("telescope.builtin")
+    local fzf = require("fzf-lua")
 
     map("n", "gl", "gd", "Show local definitions")
-    map("n", "gd", tele_builtin.lsp_definitions, "Show LSP definitions")
-    map("n", "gr", tele_builtin.lsp_references, "Show LSP references")
-    map("n", "gi", tele_builtin.lsp_implementations, "Show LSP implementations")
+    map("n", "gd", fzf.lsp_definitions, "Show LSP definitions")
+    map("n", "gr", fzf.lsp_references, "Show LSP references")
+    map("n", "gi", fzf.lsp_implementations, "Show LSP implementations")
     map("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
     map("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename")
     map({ "n", "v" }, "<leader>q", vim.lsp.buf.code_action, "Code actions")

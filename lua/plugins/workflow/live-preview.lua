@@ -1,7 +1,7 @@
 return {
   "brianhuster/live-preview.nvim",
   dependencies = {
-    "nvim-telescope/telescope.nvim",
+    "ibhagwan/fzf-lua",
   },
   config = function()
     require("livepreview.config").set({
@@ -9,7 +9,7 @@ return {
       browser = "default",
       dynamic_root = false,
       sync_scroll = true,
-      picker = "",
+      picker = "fzf-lua",
       address = "127.0.0.1",
     })
   end,
