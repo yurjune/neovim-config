@@ -1,6 +1,7 @@
 local M = {}
 
 M.default_options = {
+  compress = 2,
   hidden = true,
   filter = {
     ".next",
@@ -22,6 +23,9 @@ local function build_command(opts, output_options)
   }
   vim.list_extend(command, output_options)
 
+  if opts.compress then
+    vim.list_extend(command, { "--compress", tostring(opts.compress) })
+  end
   if opts.depth then
     vim.list_extend(command, { "-L", tostring(opts.depth) })
   end
