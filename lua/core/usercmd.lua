@@ -8,6 +8,11 @@ vim.api.nvim_create_user_command("QA", "qa", { desc = "Quit all files" })
 vim.api.nvim_create_user_command("QQ", "qa!", { desc = "Quit all files force" })
 
 vim.api.nvim_create_user_command("R", function()
+  pcall(function()
+    -- auto-session does not support saving session before restart
+    require("auto-session").auto_save_session()
+  end)
+
   vim.cmd("restart")
 end, { desc = "Restart Neovim" })
 
