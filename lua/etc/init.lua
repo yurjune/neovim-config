@@ -1,2 +1,1 @@
-require("etc.switch-input-on-buf")
-require("etc.switch-input-on-insert")
+require("etc.switch-input-source")
