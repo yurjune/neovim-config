@@ -19,36 +19,61 @@ return {
     })
 
     local Terminal = require("toggleterm.terminal").Terminal
-    vim.api.nvim_create_user_command("JestCurrentFile", function()
+
+    local function find_local_test_runner(name, file)
+      local dir = vim.fs.dirname(vim.fs.normalize(file))
+
+      while dir do
+        local executable = vim.fs.joinpath(dir, "node_modules", ".bin", name)
+        if vim.fn.executable(executable) == 1 then
+          return executable, dir
+        end
+
+        local parent = vim.fs.dirname(dir)
+        if parent == dir then
+          break
+        end
+        dir = parent
+      end
+    end
+
+    local function run_current_test(name, args)
+      local file = vim.fn.expand("%:p")
+      local executable, project_dir = find_local_test_runner(name, file)
+
+      if not executable then
+        vim.notify(("Could not find a local %s executable"):format(name), vim.log.levels.ERROR)
+        return
+      end
+
+      local command = { executable, file }
+      vim.list_extend(command, args or {})
+      for index, value in ipairs(command) do
+        command[index] = vim.fn.shellescape(value)
+      end
+
       Terminal:new({
-        cmd = "npx jest " .. vim.fn.shellescape(vim.fn.expand("%")),
+        cmd = table.concat(command, " "),
+        dir = project_dir,
         close_on_exit = false,
         direction = "float",
       }):toggle()
+    end
+
+    vim.api.nvim_create_user_command("JestCurrentFile", function()
+      run_current_test("jest")
     end, { desc = "[Jest] Run test current file" })
 
     vim.api.nvim_create_user_command("JestCurrentFileCoverage", function()
-      Terminal:new({
-        cmd = "npx jest " .. vim.fn.shellescape(vim.fn.expand("%")) .. " --coverage",
-        close_on_exit = false,
-        direction = "float",
-      }):toggle()
+      run_current_test("jest", { "--coverage" })
     end, { desc = "[Jest] Get test coverage of current file" })
 
     vim.api.nvim_create_user_command("VitestCurrentFile", function()
-      Terminal:new({
-        cmd = "npx vitest " .. vim.fn.shellescape(vim.fn.expand("%")),
-        close_on_exit = false,
-        direction = "float",
-      }):toggle()
+      run_current_test("vitest")
     end, { desc = "[Vitest] Run test current file" })
 
     vim.api.nvim_create_user_command("VitestCurrentFileCoverage", function()
-      Terminal:new({
-        cmd = "npx vitest " .. vim.fn.shellescape(vim.fn.expand("%")) .. " --coverage",
-        close_on_exit = false,
-        direction = "float",
-      }):toggle()
+      run_current_test("vitest", { "--coverage" })
     end, { desc = "[Vitest] Get test coverage of current file" })
 
     local function get_project_root()
