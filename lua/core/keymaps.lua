@@ -88,3 +88,29 @@ vim.keymap.set("n", "<leader>cP", function()
   vim.fn.setreg("+", path)
   vim.notify(path, vim.log.levels.INFO, { title = "Copy Absolute Path" })
 end, { desc = "Copy absolute path of current file" })
+
+local function notify_scrollbind(scope, enabled)
+  vim.notify(string.format("%s scrollbind %s", scope, enabled and "ENABLED" or "DISABLED"), vim.log.levels.INFO)
+end
+
+-- Toggle synchronized scrolling across all split windows.
+local scrollbind_enabled = vim.wo.scrollbind
+vim.keymap.set("n", "<leader>sb", function()
+  scrollbind_enabled = not scrollbind_enabled
+
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local buf = vim.api.nvim_win_get_buf(win)
+
+    if vim.bo[buf].buftype == "" then
+      vim.wo[win].scrollbind = scrollbind_enabled
+    end
+  end
+
+  notify_scrollbind("All windows", scrollbind_enabled)
+end, { desc = "Toggle synchronized scrolling" })
+
+-- Toggle synchronized scrolling for the current window only.
+vim.keymap.set("n", "<leader>sB", function()
+  vim.wo.scrollbind = not vim.wo.scrollbind
+  notify_scrollbind("Current window", vim.wo.scrollbind)
+end, { desc = "Toggle current window scrollbind" })
