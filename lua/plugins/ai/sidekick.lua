@@ -12,22 +12,9 @@ return {
   },
   lazy = false,
   opts = {
-    -- NES: next edit suggestion
     nes = {
       enabled = false,
-      debounce = 50,
-      trigger = {
-        events = { "InsertLeave", "TextChanged", "User SidekickNesDone" },
-      },
-      clear = {
-        events = { "TextChangedI", "TextChanged", "BufWritePre", "InsertEnter" },
-        esc = true, -- clear next edit suggestions when pressing <Esc>
-      },
-      diff = {
-        inline = "words",
-      },
     },
-    -- Work with AI cli tools directly from within Neovim
     cli = {
       watch = true, -- notify Neovim of file changes done by AI CLI tools
       mux = {
@@ -65,26 +52,6 @@ return {
     })
   end,
   keys = {
-    {
-      "<tab>",
-      function()
-        -- if there is a next edit, jump to it, otherwise apply it if any
-        if require("sidekick").nes_jump_or_apply() then
-          return -- jumped or applied
-        end
-
-        -- if you are using Neovim's native inline completions
-        if vim.lsp.inline_completion.get() then
-          return
-        end
-
-        -- fall back to normal tab
-        return "<tab>"
-      end,
-      mode = { "i", "n" },
-      expr = true,
-      desc = "Goto/Apply Next Edit Suggestion",
-    },
     {
       "<leader>an",
       function()
