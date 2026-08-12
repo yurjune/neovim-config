@@ -4,6 +4,7 @@ vim.g.colors = {
   bg = "#282c34",
   pink = "#ffc2c2",
   rose_beige = "#f5e0dc",
+  gold = "#f9e2af",
 }
 
 vim.g.colors_transparent = {
