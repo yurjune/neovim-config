@@ -232,6 +232,17 @@ local function highlight_tree(buf, directory_ranges, current_file_row)
   end
 end
 
+local function reveal_tree_row(win, row)
+  if not row then
+    return
+  end
+
+  vim.api.nvim_win_set_cursor(win, { row, 0 })
+  vim.api.nvim_win_call(win, function()
+    vim.cmd("normal! zz")
+  end)
+end
+
 function M.open_tree(opts)
   opts = opts or tree_options
   tree_options = opts
@@ -253,6 +264,7 @@ function M.open_tree(opts)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
   vim.bo[buf].modifiable = false
   highlight_tree(buf, directory_ranges, current_file_row)
+  reveal_tree_row(win, current_file_row)
 end
 
 function M.close_tree()
