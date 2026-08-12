@@ -146,12 +146,10 @@ _G.get_winbar = function()
 
   local focused = is_focused()
   local left = get_left(focused)
-
-  if not focused then
-    return left
-  end
-
-  return left .. "%=" .. get_right()
+  local use_right = false
+  local right = use_right and get_right() or ""
+  local combined = left .. "%=" .. right
+  return combined
 end
 
 vim.opt.winbar = "%{%v:lua.get_winbar()%}"
