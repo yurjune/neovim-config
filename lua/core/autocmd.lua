@@ -23,27 +23,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- To keep fold state
-vim.api.nvim_create_autocmd("BufWinLeave", {
-  pattern = "*",
-  callback = function()
-    local is_normal_buffer = vim.bo.filetype ~= "" and vim.bo.buftype == ""
-    if is_normal_buffer then
-      -- make(save) view state: ex) folds, cursor position, etc.
-      vim.cmd("silent! mkview")
-    end
-  end,
-})
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  pattern = "*",
-  callback = function()
-    local is_normal_buffer = vim.bo.filetype ~= "" and vim.bo.buftype == ""
-    if is_normal_buffer then
-      vim.cmd("silent! loadview")
-    end
-  end,
-})
-
 -- DirChanged 이벤트에 의해 cwd 가 변경되면 initial_cwd 로 복구
 -- 1. 항상 neovim 을 시작한 디렉토리를 루트로 고정
 -- 2. 특정 버퍼가 열리면 의도하지 않은 cwd 이 변경이 일어나는 문제를 방지
