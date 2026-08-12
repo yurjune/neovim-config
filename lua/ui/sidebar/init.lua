@@ -200,7 +200,6 @@ function M.open_tree(opts)
     cwd = cwd,
     target_win = target_win,
     current_file = current_file,
-    close = M.close_tree,
   })
 end
 
@@ -234,6 +233,7 @@ function M.setup()
   tree.setup({
     sidebar_filetype = M.filetype,
     focus_file = M.focus_tree_file,
+    close = M.close_tree,
   })
 
   vim.keymap.set("n", "<leader>bb", M.toggle, { desc = "Toggle sidebar" })
