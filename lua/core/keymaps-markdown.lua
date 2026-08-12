@@ -1,5 +1,5 @@
 -- Keymaps for bold, italic, strikethrough, and inline code in markdown files
--- This keymaps depends on custom mini.surround mapping: "Zsa" for add, "Zsd" for delete
+-- These keymaps depend on nvim-surround's default mappings: "S" for add, "ds" for delete
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function(ev)
@@ -9,20 +9,45 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.keymap.set(mode, lhs, rhs, opts)
     end
 
+    local function add_surround(char, count)
+      -- nvim-surround puts markers on separate lines for a linewise selection.
+      -- Change it to a characterwise selection to keep Markdown markers inline.
+      if vim.api.nvim_get_mode().mode == "V" then
+        local anchor_row = vim.fn.getpos("v")[2]
+        local cursor_row = vim.fn.line(".")
+        local first_row = math.min(anchor_row, cursor_row)
+        local last_row = math.max(anchor_row, cursor_row)
+
+        vim.cmd.normal({ args = { vim.keycode("<Esc>") }, bang = true })
+        local first_line = vim.api.nvim_buf_get_lines(0, first_row - 1, first_row, false)[1]
+        local first_col = math.max(vim.fn.match(first_line, [[\S]]), 0)
+        vim.api.nvim_win_set_cursor(0, { first_row, first_col })
+        vim.cmd("normal! v")
+
+        local last_line = vim.api.nvim_buf_get_lines(0, last_row - 1, last_row, false)[1]
+        local last_col = math.max(vim.fn.match(last_line, [[\S\s*$]]), 0)
+        vim.api.nvim_win_set_cursor(0, { last_row, last_col })
+      end
+
+      count = count or 1
+      vim.cmd(("normal %dS%s"):format(count, char))
+      vim.cmd(("normal! %dl"):format(count))
+    end
+
     map("v", "<leader>mb", function()
-      vim.cmd("normal 2Zsa*")
+      add_surround("*", 2)
     end, { desc = "Make bold current selection" })
 
     map("v", "<leader>ms", function()
-      vim.cmd("normal 2Zsa~")
+      add_surround("~", 2)
     end, { desc = "Make strikethrough current selection" })
 
     map("v", "<leader>mi", function()
-      vim.cmd("normal Zsa*")
+      add_surround("*")
     end, { desc = "Make italic current selection" })
 
     map("v", "<leader>mc", function()
-      vim.cmd("normal Zsa`")
+      add_surround("`")
     end, { desc = "Make inline codeblock current selection" })
 
     -- Bold the current word under the cursor
@@ -83,10 +108,10 @@ vim.api.nvim_create_autocmd("FileType", {
         local after = line:sub(col + 1)
         local inside_surround = before:match("%*%*[^%*]*$") and after:match("^[^%*]*%*%*")
         if inside_surround then
-          vim.cmd("normal Zsd*.")
+          vim.cmd("normal ds*.")
         else
           vim.cmd("normal viw")
-          vim.cmd("normal 2Zsa*")
+          add_surround("*", 2)
         end
       end
     end, { desc = "Toggle bold markers" })
@@ -138,10 +163,10 @@ vim.api.nvim_create_autocmd("FileType", {
         local after = line:sub(col + 1)
         local inside_surround = before:match("~~[^~]*$") and after:match("^[^~]*~~")
         if inside_surround then
-          vim.cmd("normal Zsd~.")
+          vim.cmd("normal ds~.")
         else
           vim.cmd("normal viw")
-          vim.cmd("normal 2Zsa~")
+          add_surround("~", 2)
         end
       end
     end, { desc = "Toggle strikethrough markers" })
@@ -193,10 +218,10 @@ vim.api.nvim_create_autocmd("FileType", {
         local after = line:sub(col + 1)
         local inside_surround = before:match("%*[^%*]*$") and after:match("^[^%*]*%*")
         if inside_surround then
-          vim.cmd("normal Zsd*")
+          vim.cmd("normal ds*")
         else
           vim.cmd("normal viw")
-          vim.cmd("normal Zsa*")
+          add_surround("*")
         end
       end
     end, { desc = "Toggle italic markers" })
@@ -248,10 +273,10 @@ vim.api.nvim_create_autocmd("FileType", {
         local after = line:sub(col + 1)
         local inside_surround = before:match("`[^`]*$") and after:match("^[^`]*`")
         if inside_surround then
-          vim.cmd("normal Zsd`")
+          vim.cmd("normal ds`")
         else
           vim.cmd("normal viw")
-          vim.cmd("normal Zsa`")
+          add_surround("`")
         end
       end
     end, { desc = "Toggle inline code block markers" })
