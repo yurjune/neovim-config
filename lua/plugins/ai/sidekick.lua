@@ -1,6 +1,9 @@
 -- A plugin for AI programming assistant
 -- Provides a UI for interacting with AI tools
 -- Provides Next edit suggestions feature
+
+local layout = require("ui.layout")
+
 return {
   "folke/sidekick.nvim",
   dependencies = {
@@ -24,8 +27,7 @@ return {
       win = {
         layout = "right",
         split = {
-          width = 70,
-          height = 20,
+          width = layout.sidekick,
         },
         keys = {
           prompt = { "<c-p>", "prompt" }, -- insert prompt or context
