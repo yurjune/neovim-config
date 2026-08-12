@@ -179,6 +179,7 @@ function M.open_file(win)
 
   vim.api.nvim_set_current_win(state.target_win)
   vim.api.nvim_cmd({ cmd = "edit", args = { path } }, {})
+  return true
 end
 
 function M.render(args)
@@ -192,7 +193,19 @@ function M.render(args)
   vim.bo[args.buf].modifiable = true
   vim.api.nvim_buf_set_lines(args.buf, 0, -1, false, output)
   vim.bo[args.buf].modifiable = false
+
   for _, key in ipairs({ "<CR>", "<Tab>" }) do
+    vim.keymap.set("n", key, function()
+      if M.open_file(args.win) then
+        args.close()
+      end
+    end, {
+      buffer = args.buf,
+      desc = "Open tree file and close tree",
+    })
+  end
+
+  for _, key in ipairs({ "<S-CR>" }) do
     vim.keymap.set("n", key, function()
       M.open_file(args.win)
     end, {
@@ -200,6 +213,7 @@ function M.render(args)
       desc = "Open tree file",
     })
   end
+
   highlight_directories(args.buf, directory_ranges)
   M.focus_file(args.win, args.current_file)
 end
