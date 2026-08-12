@@ -3,8 +3,10 @@ local M = {}
 M.filetype = "sidebar"
 
 local layout = require("ui.layout")
+local tree = require("ui.sidebar.tree")
 local SIDEBAR_WIDTHS = layout.sidebar
 local DEFAULT_WIDTH = SIDEBAR_WIDTHS[2]
+local TREE_WIDTH = SIDEBAR_WIDTHS[3]
 
 local SIDEBAR_MODE = {
   blank = "blank",
@@ -14,17 +16,7 @@ local SIDEBAR_NAME = {
   [SIDEBAR_MODE.blank] = "",
   [SIDEBAR_MODE.tree] = "Tree",
 }
-local SIDEBAR_NAMESPACE = vim.api.nvim_create_namespace("sidebar")
-local DEFAULT_TREE_OPTIONS = {
-  hidden = true,
-  filter = {
-    ".next",
-    "node_modules",
-    ".git",
-    ".pnpm-store",
-  },
-}
-local tree_options = DEFAULT_TREE_OPTIONS
+local tree_options = tree.default_options
 
 vim.g.SidebarWidth = vim.g.SidebarWidth or DEFAULT_WIDTH
 vim.g.SidebarMode = vim.g.SidebarMode or SIDEBAR_MODE.blank
@@ -37,7 +29,7 @@ local function set_mode(buf, mode)
   vim.bo[buf].modifiable = true
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "" })
   vim.bo[buf].modifiable = false
-  vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_NAMESPACE, 0, -1)
+  tree.clear(buf)
   vim.api.nvim_buf_set_name(buf, SIDEBAR_NAME[mode])
   vim.g.SidebarMode = mode
 end
@@ -54,6 +46,13 @@ end
 -- sidebar는 폭을 지정해 열면 equalalways가 적용되지 않으므로, 고정 폭을 유지하면서 나머지 창을 수동으로 균등화한다.
 local function equalize_editor_windows()
   vim.cmd("wincmd =")
+end
+
+local function resize_window(win, width)
+  if vim.api.nvim_win_get_width(win) ~= width then
+    vim.api.nvim_win_set_width(win, width)
+    equalize_editor_windows()
+  end
 end
 
 local function open_window()
@@ -127,6 +126,8 @@ function M.close()
     vim.cmd("belowright new")
   end
 
+  local buf = vim.api.nvim_win_get_buf(sidebar)
+  tree.clear(buf)
   vim.api.nvim_win_close(sidebar, true)
   equalize_editor_windows()
 end
@@ -144,72 +145,52 @@ local function set_width(width)
 
   local sidebar = find_window()
   if sidebar then
-    vim.api.nvim_win_set_width(sidebar, width)
-    equalize_editor_windows()
+    resize_window(sidebar, width)
   end
 
   return width
+end
+
+function M.focus_tree()
+  local win = find_window()
+  if win and get_mode() == SIDEBAR_MODE.tree then
+    vim.api.nvim_set_current_win(win)
+  end
+end
+
+function M.focus_tree_file(file)
+  local win = find_window()
+  if not win or get_mode() ~= SIDEBAR_MODE.tree then
+    return
+  end
+  tree.focus_file(win, file)
 end
 
 function M.open_tree(opts)
   opts = opts or tree_options
   tree_options = opts
 
+  local target_win = vim.api.nvim_get_current_win()
+  local current_file = vim.api.nvim_buf_get_name(0)
+  if current_file ~= "" then
+    current_file = vim.fs.normalize(current_file)
+  end
+  local cwd = vim.fn.getcwd()
+
   local win = open_window()
   local buf = vim.api.nvim_win_get_buf(win)
   set_mode(buf, SIDEBAR_MODE.tree)
+  resize_window(win, TREE_WIDTH)
 
-  local command = {
-    "env",
-    "LS_COLORS=di=1",
-    "tree",
-    "-C",
-  }
-
-  if opts.depth then
-    vim.list_extend(command, { "-L", tostring(opts.depth) })
-  end
-  if opts.hidden then
-    table.insert(command, "-a")
-  end
-  if opts.filter and #opts.filter > 0 then
-    vim.list_extend(command, { "-I", table.concat(opts.filter, "|") })
-  end
-
-  local output = vim.fn.systemlist(command)
-  local function parse_directory_line(line)
-    -- `tree -C` wraps directory names with ANSI color codes.
-    local prefix, name, suffix = line:match("^(.-)\27%[[%d;]*m(.-)\27%[[%d;]*m(.*)$")
-    if not name then
-      return line
-    end
-
-    return prefix .. name .. suffix, { #prefix, #prefix + #name }
-  end
-
-  local function highlight_directories(ranges)
-    vim.api.nvim_set_hl(0, "SidebarDirectory", {
-      fg = "#94e2d5",
-      bold = true,
-    })
-    vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_NAMESPACE, 0, -1)
-    for row, columns in pairs(ranges) do
-      vim.api.nvim_buf_set_extmark(buf, SIDEBAR_NAMESPACE, row - 1, columns[1], {
-        end_col = columns[2],
-        hl_group = "SidebarDirectory",
-      })
-    end
-  end
-
-  local directory_ranges = {}
-  for row, line in ipairs(output) do
-    output[row], directory_ranges[row] = parse_directory_line(line)
-  end
-
-  vim.bo[buf].modifiable = true
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
-  vim.bo[buf].modifiable = false
-  highlight_directories(directory_ranges)
+  tree.render({
+    win = win,
+    buf = buf,
+    opts = opts,
+    cwd = cwd,
+    target_win = target_win,
+    current_file = current_file,
+    close = M.close_tree,
+  })
 end
 
 function M.close_tree()
@@ -224,18 +205,26 @@ function M.close_tree()
   end
 
   set_mode(buf, SIDEBAR_MODE.blank)
+  resize_window(sidebar, vim.g.SidebarWidth)
 end
 
 function M.toggle_tree(opts)
   local sidebar = find_window()
   if sidebar and get_mode() == SIDEBAR_MODE.tree then
+    tree.focus_target(sidebar)
     M.close_tree()
   else
     M.open_tree(opts)
+    vim.schedule(M.focus_tree)
   end
 end
 
 function M.setup()
+  tree.setup({
+    sidebar_filetype = M.filetype,
+    focus_file = M.focus_tree_file,
+  })
+
   vim.keymap.set("n", "<leader>bb", M.toggle, { desc = "Toggle sidebar" })
 
   for index, width in ipairs(SIDEBAR_WIDTHS) do
@@ -245,7 +234,7 @@ function M.setup()
   end
 
   vim.keymap.set("n", "<leader>pt", function()
-    M.toggle_tree(DEFAULT_TREE_OPTIONS)
+    M.toggle_tree(tree.default_options)
   end, { desc = "Toggle project tree" })
 end
 
