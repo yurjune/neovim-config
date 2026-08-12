@@ -15,6 +15,7 @@ vim.opt.wrap = false -- if false, disable line wrapping when text overflows
 -- split windows
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.opt.equalalways = true
 
 -- cases
 vim.opt.ignorecase = true -- case-insensitive
