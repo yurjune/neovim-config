@@ -41,6 +41,8 @@ return {
       keymap = {
         fzf = {
           true,
+          ["tab"] = "accept",
+          ["ctrl-r"] = "toggle+down",
           ["ctrl-d"] = "preview-page-down",
           ["ctrl-u"] = "preview-page-up",
         },
