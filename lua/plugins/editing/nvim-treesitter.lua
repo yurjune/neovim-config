@@ -114,6 +114,7 @@ return {
     -- show current line context sticky
     context.setup({
       enable = true,
+      multiwindow = true, -- Keep context working correctly across multiple windows
       max_lines = 1,
       trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
     })
