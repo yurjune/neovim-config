@@ -127,28 +127,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 --   end,
 -- })
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = lsp_group,
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    local navic_ok, navic = pcall(require, "nvim-navic")
-    if not client or not navic_ok then
-      return
-    end
-    if not client.server_capabilities.documentSymbolProvider then
-      return
-    end
-
-    -- exclude obsidian-ls client
-    if vim.bo[ev.buf].filetype == "markdown" and client.name == "obsidian-ls" then
-      return
-    end
-
-    -- attach nvim-navic plugin to LSP clients
-    navic.attach(client, ev.buf)
-  end,
-})
-
 -- Show LSP info
 vim.api.nvim_create_user_command("LspInfo", function()
   local clients = vim.lsp.get_clients({ bufnr = 0 })
