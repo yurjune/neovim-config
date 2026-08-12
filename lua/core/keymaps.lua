@@ -27,53 +27,6 @@ end, { desc = "Focus on floating window" })
 
 vim.keymap.set("n", "'", "`", { noremap = true, desc = "Go to last cursor position" })
 
-vim.keymap.set("n", "<leader>md", function()
-  local lnum = vim.fn.line(".")
-  local curbuf = vim.api.nvim_get_current_buf()
-  local removed = {}
-
-  local function try_del(mark, is_global)
-    local pos = vim.fn.getpos("'" .. mark)
-    local bufnr, line = pos[1], pos[2]
-
-    if is_global then
-      if bufnr == curbuf and line == lnum then
-        vim.cmd("delmarks " .. mark)
-        table.insert(removed, mark)
-      end
-    else
-      if (bufnr == 0 or bufnr == curbuf) and line == lnum then
-        vim.cmd("delmarks " .. mark)
-        table.insert(removed, mark)
-      end
-    end
-  end
-
-  -- local marks
-  for c = string.byte("a"), string.byte("z") do
-    try_del(string.char(c), false)
-  end
-
-  -- global marks
-  for c = string.byte("A"), string.byte("Z") do
-    try_del(string.char(c), true)
-  end
-
-  if #removed > 0 then
-    vim.notify("Deleted marks: " .. table.concat(removed, ", "), vim.log.levels.INFO, { title = "Marks" })
-  end
-end, { desc = "Delete all marks on current line" })
-
-vim.keymap.set("n", "<leader>mc", function()
-  vim.cmd("delmarks!")
-  vim.notify("a-z marks in current buffer cleared", vim.log.levels.INFO, { title = "Marks" })
-end, { desc = "Clear a-z marks in current buffer" })
-
-vim.keymap.set("n", "<leader>mC", function()
-  vim.cmd("delmarks A-Z")
-  vim.notify("A-Z marks cleared", vim.log.levels.INFO, { title = "Marks" })
-end, { desc = "Clear A-Z marks" })
-
 -- Copy current file paths
 vim.keymap.set("n", "<leader>cp", function()
   local path = vim.fn.expand("%")
