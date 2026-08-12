@@ -1,6 +1,8 @@
 -- Switch input source when leaving or entering insert mode or a specific buffer
 -- Needs specific config in Hammerspoon
 
+local M = {}
+
 local hs_module = "nvimInputSource"
 local hs_cli = vim.fn.exepath("hs")
 
@@ -23,6 +25,10 @@ end
 
 local function save_source_and_switch_to_english()
   call_hammerspoon("saveSourceAndSwitchToEnglish")
+end
+
+function M.switch_to_english()
+  call_hammerspoon("switchToEnglish")
 end
 
 local function is_maple_buf(buf)
@@ -83,3 +89,5 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
+
+return M
