@@ -2,21 +2,20 @@
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
-    -- tells LSP servers that nvim-cmp can handle advanced features (auto-imports, snippets, etc.)
-    -- without this: useState won't appear unless you manually write 'import { useState } from "react"'
-    -- with this: useState appears in completion even without import, and adds the import when selected
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-buffer", -- source: words from current buffer (variables/functions you've already typed)
-    "hrsh7th/cmp-path", -- source: file system paths (./src/, ../components/Header.tsx)
-    "hrsh7th/cmp-cmdline", -- source: vim commands in command line mode (:colorscheme, /search patterns)
+    "hrsh7th/cmp-nvim-lsp", -- provide LSP completions to nvim-cmp
+    "hrsh7th/cmp-buffer", -- provide words from current buffer to nvim-cmp
+    "hrsh7th/cmp-path", -- provide filesystem path completions to nvim-cmp
+    "hrsh7th/cmp-cmdline", -- provide vim command-line completions to nvim-cmp
     {
-      "L3MON4D3/LuaSnip", -- snippet engine: expands templates (e.g., rfc → React functional component)
+      -- Snippet engine: loads, expands, and manages snippets
+      -- e.g. custom snippets, friendly-snippets
+      "L3MON4D3/LuaSnip",
       version = "v2.*",
-      build = "make install_jsregexp", -- install jsregexp (optional!).
+      build = "make install_jsregexp", -- optional regex transformation support
     },
-    "saadparwaiz1/cmp_luasnip", -- source: connects LuaSnip snippets to nvim-cmp completion list
-    "rafamadriz/friendly-snippets", -- snippet data: pre-made templates for React, Vue, Python, etc.
-    "onsails/lspkind.nvim", -- UI enhancement: adds VSCode-like icons (ƒ  󰊕 etc.)
+    "saadparwaiz1/cmp_luasnip", -- provide snippets registered in LuaSnip to nvim-cmp
+    "rafamadriz/friendly-snippets", -- collection of pre-made snippets (ex. uuid, date)
+    "onsails/lspkind.nvim", -- UI enhancement: adds VSCode-like icons
   },
   config = function()
     local cmp = require("cmp")
@@ -25,18 +24,7 @@ return {
     local from_vscode = require("luasnip.loaders.from_vscode")
 
     cmp.setup({
-      enabled = function()
-        local filetype = vim.bo.filetype
-        local exlcude_ft = {
-          "TelescopePrompt",
-        }
-        if vim.tbl_contains(exlcude_ft, filetype) then
-          return false
-        end
-        return true
-      end,
-
-      -- sources for autocompletion (order matters - higher priority first)
+      -- register completions sources (order matters - higher priority first)
       -- :CmpStatus to debug
       sources = vim.g.leetcode and {} or cmp.config.sources({
         { name = "nvim_lsp" }, -- from cmp-nvim-lsp
@@ -58,15 +46,7 @@ return {
           end
         end,
         ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        -- ["<Tab>"] = cmp.mapping.confirm({ select = true }),
       }),
-
-      -- configure how nvim-cmp interacts with snippet engine
-      snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body)
-        end,
-      },
 
       -- customize how completions are formatted
       formatting = {
@@ -76,7 +56,7 @@ return {
             kind = item.kind,
           })
 
-          -- configure lspkind for vs-code like pictograms in completion menu
+          -- integrate lspkind to nvim-cmp
           item = lspkind.cmp_format({
             maxwidth = 100,
             ellipsis_char = "...",
@@ -93,9 +73,9 @@ return {
 
       -- controls completion popup menu functions
       completion = {
-        -- menu: show popup menu for completions
+        -- menu: show popup menu when multiple matches exist
         -- menuone: show popup menu even if there's only one completion
-        -- preview: show preview window for completions
+        -- preview: show preview window for each completion
         -- noselect: don't select the completion automatically
         completeopt = "menu,menuone,preview,noselect",
       },
@@ -113,16 +93,17 @@ return {
           winhighlight = "Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
         },
       },
-    })
 
-    cmp.setup.filetype("markdown", {
-      sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-      }),
+      -- configure how nvim-cmp interacts with snippet engine
+      snippet = {
+        expand = function(args)
+          luasnip.lsp_expand(args.body)
+        end,
+      },
     })
 
     -- Apply completions in command line
-    cmp.setup.cmdline("/", {
+    cmp.setup.cmdline({ "/", "?" }, {
       mapping = cmp.mapping.preset.cmdline(),
       sources = {
         { name = "buffer" },
@@ -131,16 +112,25 @@ return {
     cmp.setup.cmdline(":", {
       mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({
+        -- higher priority
         { name = "path" },
       }, {
+        -- fallback: when higher priority sources are not available
         { name = "cmdline" },
       }),
     })
 
-    -- To use existing VSCode style snippets from a plugin (e.g. rafamadriz/friendly-snippets)
+    cmp.setup.filetype("markdown", {
+      sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+      }),
+    })
+
+    -- authomatically import all vscode like snippets in runtimepath;
+    -- ex) friendly-snippets
     from_vscode.lazy_load()
 
-    -- To use my own custom VSCode snippets
+    -- import my own custom VSCode snippets
     from_vscode.load({
       paths = {
         -- NOTE: It's mandatory to have a 'package.json' file in the snippet directory
