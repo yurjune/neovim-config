@@ -9,6 +9,7 @@ return {
   },
   opts = {
     default_file_explorer = false,
+    skip_confirm_for_simple_edits = true,
     keymaps = {
       ["g?"] = { "actions.show_help", mode = "n" },
       ["<CR>"] = "actions.select",
