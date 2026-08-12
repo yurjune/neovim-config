@@ -50,20 +50,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
     map("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename")
     map({ "n", "v" }, "<leader>q", vim.lsp.buf.code_action, "Code actions")
-
-    map("n", "<leader>db", function()
-      tele_builtin.diagnostics({ bufnr = 0 })
-    end, "Show current buffer diagnostics")
-
-    map("n", "<leader>dw", function()
-      tele_builtin.diagnostics({
-        bufnr = nil, -- 0은 현재 버퍼
-        severity = nil, -- nil 이면 모든 심각도 수준
-        root_dir = nil, -- nil이면 모든 파일 포함 (전체 워크스페이스)
-      })
-    end, "Show workspace diagnostics")
-
-    map("n", "<leader>dl", vim.diagnostic.open_float, "Show line diagnostics")
   end,
 })
 
