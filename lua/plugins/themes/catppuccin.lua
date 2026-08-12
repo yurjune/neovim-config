@@ -79,7 +79,7 @@ return {
       custom_highlights = function(colors)
         return {
           String = {
-            fg = colors.sapphire,
+            fg = colors.rosewater,
           },
           LineNr = {
             fg = colors.overlay0,
