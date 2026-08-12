@@ -1,4 +1,5 @@
 -- A fast fuzzy finder powered by fzf
+-- The files picker uses fd; the grep picker uses ripgrep
 return {
   "ibhagwan/fzf-lua",
   enabled = true,
@@ -18,7 +19,7 @@ return {
       ui_select = {},
       fzf_opts = {
         ["--cycle"] = true,
-        ["--ignore-case"] = true,
+        ["--ignore-case"] = true, -- Applies to fzf filtering, not ripgrep searches
       },
       winopts = {
         preview = {
@@ -31,13 +32,17 @@ return {
           args = "--color=always --style=numbers,changes --theme='Catppuccin Mocha'",
         },
       },
+      -- Custom fd_opts and rg_opts replace fzf-lua defaults, so preserve required options
       files = {
         hidden = false,
         no_ignore = true, -- ignore project config
         fd_opts = table.concat({
+          -- Default options
           "--color=never",
           "--type f",
           "--type l",
+
+          -- Custom options
           ignore_file_option,
         }, " "),
       },
@@ -45,13 +50,18 @@ return {
         hidden = false,
         no_ignore = true, -- ignore project config
         rg_opts = table.concat({
+          -- Default options
           "--column",
           "--line-number",
           "--no-heading",
           "--color=always",
-          "--ignore-case",
           "--max-columns=4096",
+
+          -- Custom options
+          "--ignore-case",
           ignore_file_option,
+
+          -- Default option; must remain last to receive the search pattern
           "-e",
         }, " "),
       },
