@@ -8,6 +8,10 @@ local SIDEBAR_MODE = {
   blank = "blank",
   tree = "tree",
 }
+local SIDEBAR_NAME = {
+  [SIDEBAR_MODE.blank] = "",
+  [SIDEBAR_MODE.tree] = "Tree",
+}
 local SIDEBAR_NAMESPACE = vim.api.nvim_create_namespace("sidebar")
 local DEFAULT_TREE_OPTIONS = {
   hidden = true,
@@ -32,6 +36,7 @@ local function set_mode(buf, mode)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "" })
   vim.bo[buf].modifiable = false
   vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_NAMESPACE, 0, -1)
+  vim.api.nvim_buf_set_name(buf, SIDEBAR_NAME[mode])
   vim.g.SidebarMode = mode
 end
 
