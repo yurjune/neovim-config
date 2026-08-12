@@ -133,27 +133,6 @@ return {
           },
           TelescopeMatching = {},
 
-          -- NvimTree
-          NvimTreeCursorLine = {
-            fg = colors.yellow,
-            bg = colors.none,
-          },
-          NvimTreeFolderName = {
-            fg = colors.lavender,
-          },
-          NvimTreeOpenedFolderName = {
-            fg = colors.lavender,
-          },
-          NvimTreeOpenedFolderIcon = {
-            fg = colors.lavender,
-          },
-          NvimTreeEmptyFolderName = {
-            fg = colors.lavender,
-          },
-          NvimTreeStatusLineNC = {
-            bg = colors.none,
-          },
-
           -- Treesitter
           TreesitterContextBottom = {
             underline = true,

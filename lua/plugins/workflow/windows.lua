@@ -12,7 +12,6 @@ return {
       },
       ignore = {
         buftype = { "quickfix" },
-        -- filetype = { "NvimTree" },
       },
     })
 

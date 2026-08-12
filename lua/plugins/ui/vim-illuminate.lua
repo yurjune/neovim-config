@@ -9,7 +9,6 @@ return {
       min_count_to_highlight = 2,
       filetypes_denylist = {
         "alpha",
-        "NvimTree",
         "TelescopePrompt",
         "help",
         "lspinfo",
