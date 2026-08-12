@@ -32,7 +32,19 @@ vim.opt.foldlevel = 99
 
 -- Decide what inormation to save when saving a session
 -- localoptions: local options set for each window or buffer
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals"
+vim.opt.sessionoptions = {
+  "blank", -- Save empty windows
+  "buffers", -- Save all buffers, including hidden ones
+  "curdir", -- Save the current working directory
+  "folds", -- Save fold states
+  "help", -- Save help windows
+  "tabpages", -- Save all tab pages
+  "winsize", -- Save window sizes
+  "winpos", -- Save the GUI window position
+  "terminal", -- Save terminal windows
+  "localoptions", -- Save buffer-local and window-local options
+  "globals", -- Save eligible global variables
+}
 
 -- cursor
 vim.opt.cursorline = true -- highlight the current cursor line
