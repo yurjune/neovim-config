@@ -11,6 +11,9 @@ return {
     fzf.setup({
       "fzf-native",
       fzf_colors = true,
+      -- Handle vim.ui.select directly. Going through dressing.nvim's queued
+      -- adapter can leave later selects queued when an fzf picker is cancelled.
+      ui_select = {},
       fzf_opts = {
         ["--cycle"] = true,
         ["--ignore-case"] = true,
@@ -53,7 +56,7 @@ return {
     })
 
     vim.keymap.set("n", "<leader>fh", fzf.files, { desc = "FzfLua find files" })
-    vim.keymap.set("n", "<leader>fj", fzf.git_status, { desc = "FzfLua git status" })
+    vim.keymap.set("n", "<leader>fg", fzf.git_status, { desc = "FzfLua git status" })
 
     vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "FzfLua buffers" })
 
@@ -61,7 +64,7 @@ return {
     vim.keymap.set("n", "<leader>fw", fzf.grep_cword, { desc = "FzfLua grep word under cursor" })
     vim.keymap.set("v", "<leader>fw", fzf.grep_visual, { desc = "FzfLua grep selected" })
 
-    vim.keymap.set("n", "<leader>fg", fzf.git_bcommits, { desc = "FzfLua git file commits" })
+    vim.keymap.set("n", "<leader>fG", fzf.git_bcommits, { desc = "FzfLua git buffer commits" })
     vim.keymap.set("n", "<leader>fr", fzf.resume, { desc = "FzfLua resume last picker" })
     vim.keymap.set("n", "<leader>fq", fzf.quickfix, { desc = "FzfLua quickfix list" })
 
