@@ -115,7 +115,7 @@ return {
       desc = "Send This",
     },
     {
-      "<leader>as",
+      "<leader>al",
       function()
         require("sidekick.cli").select({
           filter = {
@@ -123,7 +123,7 @@ return {
           },
         })
       end,
-      desc = "Select CLI",
+      desc = "CLI list",
     },
     {
       "<leader>ap",
