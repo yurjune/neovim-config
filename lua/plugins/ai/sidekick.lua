@@ -28,9 +28,6 @@ return {
           height = 20,
         },
         keys = {
-          hide_n = { "q", "hide", mode = "n" }, -- hide the terminal window in normal mode
-          hide_t = { "<c-q>", "hide" }, -- hide the terminal window in terminal mode
-          win_p = { "<c-w>p", "blur" }, -- leave the cli window
           prompt = { "<c-p>", "prompt" }, -- insert prompt or context
         },
       },
@@ -42,14 +39,6 @@ return {
   },
   config = function(_, opts)
     require("sidekick").setup(opts)
-
-    -- Auto enter insert mode when entering terminal buffer
-    vim.api.nvim_create_autocmd("BufEnter", {
-      pattern = vim.g.sidekick_buf_pattern,
-      callback = function()
-        vim.cmd("startinsert")
-      end,
-    })
   end,
   keys = {
     {
