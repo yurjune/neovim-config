@@ -140,34 +140,6 @@ local function set_width(width)
   return width
 end
 
-function M.decrease_width()
-  local current = vim.g.SidebarWidth
-  local width = SIDEBAR_WIDTHS[1]
-
-  for index = #SIDEBAR_WIDTHS, 1, -1 do
-    if SIDEBAR_WIDTHS[index] < current then
-      width = SIDEBAR_WIDTHS[index]
-      break
-    end
-  end
-
-  return set_width(width)
-end
-
-function M.increase_width()
-  local current = vim.g.SidebarWidth
-  local width = SIDEBAR_WIDTHS[#SIDEBAR_WIDTHS]
-
-  for _, candidate in ipairs(SIDEBAR_WIDTHS) do
-    if candidate > current then
-      width = candidate
-      break
-    end
-  end
-
-  return set_width(width)
-end
-
 function M.open_tree(opts)
   opts = opts or tree_options
   tree_options = opts
@@ -254,8 +226,12 @@ end
 
 function M.setup()
   vim.keymap.set("n", "<leader>bb", M.toggle, { desc = "Toggle sidebar" })
-  vim.keymap.set("n", "<leader>bq", M.decrease_width, { desc = "Decrease sidebar width" })
-  vim.keymap.set("n", "<leader>bw", M.increase_width, { desc = "Increase sidebar width" })
+
+  for index, width in ipairs(SIDEBAR_WIDTHS) do
+    vim.keymap.set("n", "<leader>b" .. index, function()
+      set_width(width)
+    end, { desc = ("Set sidebar width to %d"):format(width) })
+  end
 
   vim.keymap.set("n", "<leader>pt", function()
     M.toggle_tree(DEFAULT_TREE_OPTIONS)
