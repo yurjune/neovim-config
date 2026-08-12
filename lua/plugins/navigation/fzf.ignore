@@ -1,9 +1,33 @@
-# Include hidden paths
+# Include Hidden paths
 !.env
 !.env.*
 !.github/
-!.github/**
 !.gitignore
 
-# Exclude paths
+# Exclude
+## VCS / dependencies
+.git/
+node_modules/
+.pnpm-store/
 
+## TypeScript artifacts
+*.tsbuildinfo
+
+## Build outputs
+dist/
+build/
+out/
+coverage/
+
+## Framework / tooling caches
+.next/
+.nuxt/
+.svelte-kit/
+.turbo/
+.vite/
+.cache/
+.eslintcache
+
+## Logs / OS files
+*.log
+.DS_Store
