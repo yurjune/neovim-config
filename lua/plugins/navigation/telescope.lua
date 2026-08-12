@@ -30,7 +30,19 @@ return {
         -- these case options doesn't work if you use fzf extension
         ignore_case = true,
         smart_case = false,
-
+        -- Apply to Telescope grep commands that use ripgrep.
+        vimgrep_arguments = {
+          -- Default ripgrep arguments from Telescope
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--smart-case",
+          -- Custom arguments
+          "--hidden",
+        },
         sorting_strategy = "ascending", -- Search direction: top to down
         layout_config = {
           prompt_position = "top", -- Place search box at the top
@@ -79,6 +91,9 @@ return {
         },
       },
       pickers = {
+        find_files = {
+          hidden = true, -- include hidden files when search
+        },
         lsp_references = {
           show_line = false, -- Hide row:col
           fname_width = 60, -- defines the width of the filename section
@@ -139,7 +154,6 @@ return {
     pcall(telescope.load_extension, "frecency")
     pcall(telescope.load_extension, "file_browser")
 
-    -- keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
     keymap.set("n", "<D-p>", builtin.find_files, { desc = "Telescope find files" })
     keymap.set("n", "<M-p>", builtin.find_files, { desc = "Telescope find files" })
 
@@ -147,6 +161,7 @@ return {
     keymap.set("n", "<leader>fl", builtin.live_grep, { desc = "Telescope live grep" })
 
     keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "Telescope grep string under cursor" })
+
     keymap.set("v", "<leader>fs", function()
       local visual_selection = function()
         vim.cmd('noau normal! "vy"')
