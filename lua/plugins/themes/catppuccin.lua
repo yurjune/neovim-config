@@ -157,6 +157,12 @@ return {
           NvimTreeStatusLineNC = {
             bg = colors.none,
           },
+
+          -- Treesitter
+          TreesitterContextBottom = {
+            underline = true,
+            sp = colors.overlay0,
+          },
         }
       end,
     })
