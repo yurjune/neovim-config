@@ -1,15 +1,18 @@
 -- Switch input source when leave or enter specific buffer
+-- Needs specific config in Hammerspoon
 
--- check input-source name by 'im-select' command in terminal
-local en_source = "com.apple.keylayout.ABC"
--- local ko_source = "com.apple.inputmethod.Korean.2SetKorean"   -- macOS default Korean(두벌식)
--- local ko_source = "org.youknowone.inputmethod.Gureum.han2" -- 구름 입력기(두벌식)
+local hs_cli = "/usr/local/bin/hs"
+local hs_module = "nvimInputSource"
 
-local function set_input_source_async(im)
-  if not im or im == "" then
-    return
-  end
-  vim.fn.jobstart("im-select " .. im)
+local function call_hammerspoon(method)
+  local command = hs_module .. "." .. method .. "()" -- ex) nvimInputSource.switchToEnglish()
+  vim.fn.jobstart({
+    hs_cli,
+    "-c",
+    command,
+  }, {
+    detach = true, -- prevent killing hs process when exit
+  })
 end
 
 local augroup = vim.api.nvim_create_augroup("SwitchInputOnBuf", { clear = true })
@@ -18,6 +21,6 @@ vim.api.nvim_create_autocmd("BufLeave", {
   group = augroup,
   pattern = vim.g.sidekick_buf_pattern,
   callback = function()
-    set_input_source_async(en_source)
+    call_hammerspoon("switchToEnglish")
   end,
 })
