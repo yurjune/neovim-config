@@ -76,12 +76,27 @@ return {
     "typescriptreact",
     "javascriptreact",
   },
-  root_markers = {
-    "package.json",
-    "tsconfig.json",
-    "jsconfig.json",
-    ".git",
-  },
+  root_dir = function(bufnr, on_dir)
+    -- consider monorepo structure
+    local root = vim.fs.root(bufnr, {
+      "pnpm-workspace.yaml",
+      "turbo.json",
+    })
+
+    -- if not monorepo, consider root dir
+    if not root then
+      root = vim.fs.root(bufnr, {
+        "tsconfig.json",
+        "jsconfig.json",
+        "package.json",
+        ".git",
+      })
+    end
+
+    if root then
+      on_dir(root)
+    end
+  end,
   init_options = {
     preferences = {
       providePrefixAndSuffixTextForRename = false,
