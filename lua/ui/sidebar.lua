@@ -1,6 +1,6 @@
--- Keep a narrow, empty window on the left as a visual sidebar.
+-- Keep a narrow window on the left for contextual sidebar views.
 local M = {}
-M.filetype = "blank-sidebar"
+M.filetype = "sidebar"
 
 local SIDEBAR_WIDTHS = { 21, 42, 63 }
 local DEFAULT_WIDTH = 42
@@ -8,12 +8,12 @@ local SIDEBAR_MODE = {
   blank = "blank",
   tree = "tree",
 }
-local SIDEBAR_NAMESPACE = vim.api.nvim_create_namespace("blank-sidebar")
+local SIDEBAR_NAMESPACE = vim.api.nvim_create_namespace("sidebar")
 
-vim.g.BlankSidebarWidth = vim.g.BlankSidebarWidth or DEFAULT_WIDTH
+vim.g.SidebarWidth = vim.g.SidebarWidth or DEFAULT_WIDTH
 
 local function get_mode(buf)
-  return vim.b[buf].blank_sidebar_mode or SIDEBAR_MODE.blank
+  return vim.b[buf].sidebar_mode or SIDEBAR_MODE.blank
 end
 
 local function set_mode(buf, mode)
@@ -21,7 +21,7 @@ local function set_mode(buf, mode)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "" })
   vim.bo[buf].modifiable = false
   vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_NAMESPACE, 0, -1)
-  vim.b[buf].blank_sidebar_mode = mode
+  vim.b[buf].sidebar_mode = mode
 end
 
 local function find_window()
@@ -34,7 +34,7 @@ local function find_window()
 end
 
 function M.open()
-  local width = vim.g.BlankSidebarWidth
+  local width = vim.g.SidebarWidth
 
   local existing = find_window()
   if existing then
@@ -54,7 +54,7 @@ function M.open()
   vim.bo[buf].filetype = M.filetype
   vim.bo[buf].modifiable = false
   vim.bo[buf].buflisted = false
-  vim.b[buf].blank_sidebar_mode = SIDEBAR_MODE.blank
+  vim.b[buf].sidebar_mode = SIDEBAR_MODE.blank
 
   vim.cmd("topleft " .. width .. "vsplit")
   local win = vim.api.nvim_get_current_win()
@@ -103,7 +103,7 @@ function M.toggle()
 end
 
 local function set_width(width)
-  vim.g.BlankSidebarWidth = width
+  vim.g.SidebarWidth = width
 
   local sidebar = find_window()
   if sidebar then
@@ -115,7 +115,7 @@ local function set_width(width)
 end
 
 function M.decrease_width()
-  local current = vim.g.BlankSidebarWidth
+  local current = vim.g.SidebarWidth
   local width = SIDEBAR_WIDTHS[1]
 
   for index = #SIDEBAR_WIDTHS, 1, -1 do
@@ -129,7 +129,7 @@ function M.decrease_width()
 end
 
 function M.increase_width()
-  local current = vim.g.BlankSidebarWidth
+  local current = vim.g.SidebarWidth
   local width = SIDEBAR_WIDTHS[#SIDEBAR_WIDTHS]
 
   for _, candidate in ipairs(SIDEBAR_WIDTHS) do
@@ -176,7 +176,7 @@ function M.open_tree(opts)
   end
 
   local function highlight_directories(ranges)
-    vim.api.nvim_set_hl(0, "BlankSidebarDirectory", {
+    vim.api.nvim_set_hl(0, "SidebarDirectory", {
       fg = "#94e2d5",
       bold = true,
     })
@@ -184,7 +184,7 @@ function M.open_tree(opts)
     for row, columns in pairs(ranges) do
       vim.api.nvim_buf_set_extmark(buf, SIDEBAR_NAMESPACE, row - 1, columns[1], {
         end_col = columns[2],
-        hl_group = "BlankSidebarDirectory",
+        hl_group = "SidebarDirectory",
       })
     end
   end
@@ -224,9 +224,9 @@ function M.toggle_tree(opts)
 end
 
 function M.setup()
-  vim.keymap.set("n", "<leader>bb", M.toggle, { desc = "Toggle blank sidebar" })
-  vim.keymap.set("n", "<leader>bq", M.decrease_width, { desc = "Decrease blank sidebar width" })
-  vim.keymap.set("n", "<leader>bw", M.increase_width, { desc = "Increase blank sidebar width" })
+  vim.keymap.set("n", "<leader>bb", M.toggle, { desc = "Toggle sidebar" })
+  vim.keymap.set("n", "<leader>bq", M.decrease_width, { desc = "Decrease sidebar width" })
+  vim.keymap.set("n", "<leader>bw", M.increase_width, { desc = "Increase sidebar width" })
 
   vim.keymap.set("n", "<leader>pt", function()
     M.toggle_tree({

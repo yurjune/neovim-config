@@ -1,5 +1,5 @@
 local severity = vim.diagnostic.severity
-local blank_sidebar_ft = require("ui.blank-sidebar").filetype
+local sidebar_ft = require("ui.sidebar").filetype
 
 local diagnostics = {
   { level = severity.ERROR, label = "E", highlight = "WinBarDiagnosticError" },
@@ -171,7 +171,7 @@ setup_highlights()
 
 -- Show the current buffer's filename and diagnostic counts in the window bar.
 _G.get_winbar = function()
-  if vim.bo.filetype == blank_sidebar_ft then
+  if vim.bo.filetype == sidebar_ft then
     return ""
   end
 

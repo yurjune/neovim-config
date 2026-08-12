@@ -3,7 +3,7 @@ return {
   "rmagatti/auto-session",
   config = function()
     local auto_session = require("auto-session")
-    local blank_sidebar = require("ui.blank-sidebar")
+    local sidebar = require("ui.sidebar")
     local should_close_sidekick = true
 
     -- If sideclick CLI buffer is open when exit neovim,
@@ -31,10 +31,10 @@ return {
         close_sidekick_buf,
       },
       post_restore_cmds = {
-        blank_sidebar.open,
+        sidebar.open,
       },
       no_restore_cmds = {
-        blank_sidebar.open,
+        sidebar.open,
       },
     })
 
