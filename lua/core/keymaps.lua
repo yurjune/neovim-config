@@ -59,9 +59,3 @@ vim.keymap.set("n", "<leader>sb", function()
 
   notify_scrollbind("All windows", scrollbind_enabled)
 end, { desc = "Toggle synchronized scrolling" })
-
--- Toggle synchronized scrolling for the current window only.
-vim.keymap.set("n", "<leader>sB", function()
-  vim.wo.scrollbind = not vim.wo.scrollbind
-  notify_scrollbind("Current window", vim.wo.scrollbind)
-end, { desc = "Toggle current window scrollbind" })
