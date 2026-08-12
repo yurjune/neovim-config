@@ -262,10 +262,17 @@ function M.focus_tree_file(file)
 
   vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_CURRENT_FILE_NAMESPACE, 0, -1)
   if row then
-    vim.api.nvim_buf_set_extmark(buf, SIDEBAR_CURRENT_FILE_NAMESPACE, row - 1, 0, {
-      line_hl_group = "SidebarCurrentFile",
-      priority = 200,
-    })
+    local line = vim.api.nvim_buf_get_lines(buf, row - 1, row, false)[1]
+    local name = vim.fs.basename(current_file)
+    local start_col = line and line:find(name, 1, true)
+    if start_col then
+      start_col = start_col - 1
+      vim.api.nvim_buf_set_extmark(buf, SIDEBAR_CURRENT_FILE_NAMESPACE, row - 1, start_col, {
+        end_col = start_col + #name,
+        hl_group = "SidebarCurrentFile",
+        priority = 200,
+      })
+    end
   end
   reveal_tree_row(win, row)
 end
