@@ -32,8 +32,8 @@ return {
       highlights = highlights,
     })
 
-    vim.keymap.set("n", "<D-H>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Go to prev buffer" })
-    vim.keymap.set("n", "<D-L>", "<cmd>BufferLineCycleNext<CR>", { desc = "Go to next buffer" })
+    vim.keymap.set("n", "<M-H>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Go to prev buffer" })
+    vim.keymap.set("n", "<M-L>", "<cmd>BufferLineCycleNext<CR>", { desc = "Go to next buffer" })
 
     local function close_buffer()
       local current_buf = vim.api.nvim_get_current_buf()
