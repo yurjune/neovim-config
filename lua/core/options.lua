@@ -52,7 +52,7 @@ vim.opt.clipboard:append("unnamedplus") -- use system clipboard as default regis
 
 vim.opt.swapfile = false -- 편집 중인 파일의 swap file 을 생성할지를 결정
 
-vim.opt.scrolloff = 4 -- number of lines to keep above and below the cursor
+vim.opt.scrolloff = 2 -- number of lines to keep above and below the cursor
 
 vim.opt.list = false
 vim.opt.listchars = {
