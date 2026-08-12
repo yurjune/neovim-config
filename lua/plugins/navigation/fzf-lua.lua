@@ -28,6 +28,7 @@ return {
       },
       files = {
         hidden = true,
+        no_ignore = true,
         file_ignore_patterns = {
           "^%.git/",
           "node_modules/",
@@ -35,6 +36,7 @@ return {
       },
       grep = {
         hidden = true,
+        no_ignore = true,
         rg_opts = "--column --line-number --no-heading --color=always --ignore-case --max-columns=4096 -e",
         file_ignore_patterns = {
           "^%.git/",
