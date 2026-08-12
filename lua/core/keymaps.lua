@@ -52,3 +52,8 @@ end, { desc = "Toggle synchronized scrolling acros all split windows" })
 vim.keymap.set("n", "<leader>nn", function()
   vim.cmd("nohlsearch") -- aka noh
 end, { desc = "Clear search highlight" })
+
+vim.keymap.set("n", "<leader>ut", function()
+  vim.cmd.packadd("nvim.undotree")
+  vim.cmd.Undotree()
+end, { desc = "Toggle undo tree" })
