@@ -33,7 +33,7 @@ vim.opt.foldlevel = 99
 
 -- Decide what inormation to save when saving a session
 -- localoptions: local options set for each window or buffer
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals"
 
 -- cursor
 vim.opt.cursorline = true -- highlight the current cursor line
