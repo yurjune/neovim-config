@@ -35,6 +35,7 @@ return {
       "query", -- treesitter query
       "markdown",
       "markdown_inline",
+      "mermaid",
       "json",
       "yaml",
       "bash",
