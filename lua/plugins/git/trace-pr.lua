@@ -3,7 +3,7 @@
 return {
   "h3pei/trace-pr.nvim",
   keys = {
-    { "<leader>gp", "<cmd>TracePR<CR>", desc = "Open PR for current line" },
+    { "<leader>gh", "<cmd>TracePR<CR>", desc = "Open PR/commit for current line in github" },
   },
   config = true,
 }
