@@ -1,5 +1,4 @@
 -- A plugin for managing buffers and tabs
--- alternatives: incline.nvim
 return {
   "akinsho/bufferline.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -9,35 +8,26 @@ return {
     local bufferline = require("bufferline")
 
     -- NOTE: catppuccin dependency
-    local ok_palette, cat_palette = pcall(function()
-      return require("catppuccin.palettes").get_palette()
-    end)
-    local ok_highlights, highlights = pcall(function()
-      return require("catppuccin.special.bufferline").get_theme()()
-    end)
+    local highlights
+    local ok, catppuccin = pcall(require, "catppuccin.special.bufferline")
+    if ok then
+      highlights = catppuccin.get_theme()()
 
-    if ok_palette and ok_highlights then
+      local colors = require("catppuccin.palettes").get_palette()
       highlights.buffer_selected = {
-        fg = cat_palette.text,
+        fg = colors.text,
         bold = true,
         italic = true,
       }
-    else
-      highlights = nil
     end
 
     bufferline.setup({
       options = {
-        mode = "buffers", -- "tabs" | "buffers"
         separator_style = "thin", -- "slant" | "slope" | "thick" | "thin"
         sort_by = "insert_at_end",
         max_name_length = 30,
         diagnostics = "nvim_lsp",
-        diagnostics_update_on_event = true,
-        -- indcate error status on bufferline
-        diagnostics_indicator = function(count)
-          return "" .. count
-        end,
+        diagnostics_indicator = tostring, -- indcate error status on bufferline
       },
       highlights = highlights,
     })
