@@ -76,7 +76,7 @@ local function highlight_directories(buf, directory_ranges)
   })
   vim.api.nvim_set_hl(0, "SidebarCurrentFile", {
     fg = "#1e1e2e",
-    bg = "#f9e2af",
+    bg = "#fef3c7",
     bold = true,
   })
   vim.api.nvim_buf_clear_namespace(buf, TREE_NAMESPACE, 0, -1)
