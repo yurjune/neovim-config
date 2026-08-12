@@ -45,6 +45,9 @@ return {
         sorting_strategy = "ascending", -- Search direction: top to down
         layout_config = {
           prompt_position = "top", -- Place search box at the top
+          horizontal = {
+            preview_width = 0.4,
+          },
         },
         preview = {
           treesitter = false, -- Disable Treesitter for lighter preview
