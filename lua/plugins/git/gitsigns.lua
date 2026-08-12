@@ -49,39 +49,42 @@ return {
       map("n", "]h", gs.next_hunk, "Next Hunk")
       map("n", "[h", gs.prev_hunk, "Prev Hunk")
 
+      map("n", "<leader>hp", gs.preview_hunk, "Preview hunk")
+
+      map("n", "<leader>hb", function()
+        gs.blame_line({ full = true })
+      end, "Blame line")
+
       map("n", "<leader>hs", function()
         gs.stage_hunk()
         vim.notify("Hunk staged", vim.log.levels.INFO, { title = "Gitsigns" })
       end, "Stage hunk")
-
-      map("n", "<leader>hr", function()
-        gs.reset_hunk()
-        vim.notify("Hunk reset", vim.log.levels.INFO, { title = "Gitsigns" })
-      end, "Reset hunk")
 
       map("v", "<leader>hs", function()
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
         vim.notify("Hunk staged", vim.log.levels.INFO, { title = "Gitsigns" })
       end, "Stage hunk")
 
+      map("n", "<leader>hS", gs.stage_buffer, "Stage buffer")
+
+      map("n", "<leader>hr", function()
+        gs.reset_hunk()
+        vim.notify("Hunk reset", vim.log.levels.INFO, { title = "Gitsigns" })
+      end, "Reset hunk")
+
       map("v", "<leader>hr", function()
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
         vim.notify("Hunk reset", vim.log.levels.INFO, { title = "Gitsigns" })
       end, "Reset hunk")
 
-      map("n", "<leader>hS", gs.stage_buffer, "Stage buffer")
       map("n", "<leader>hR", gs.reset_buffer, "Reset buffer")
 
       map("n", "<leader>hu", gs.undo_stage_hunk, "Undo stage hunk")
 
-      map("n", "<leader>hp", gs.preview_hunk, "Preview hunk")
-
-      map("n", "<leader>hb", function()
-        gs.blame_line({ full = true })
-      end, "Blame line")
       map("n", "<leader>ht", gs.toggle_current_line_blame, "Toggle blame")
 
       -- Text object
+      -- ex) dih: delete inner hunk
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "Gitsigns select hunk")
     end,
   },
