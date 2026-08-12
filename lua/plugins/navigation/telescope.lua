@@ -43,6 +43,10 @@ return {
           -- Custom arguments
           "--hidden",
         },
+        file_ignore_patterns = {
+          "^%.git/",
+          "node_modules/",
+        },
         sorting_strategy = "ascending", -- Search direction: top to down
         layout_config = {
           prompt_position = "top", -- Place search box at the top
@@ -92,7 +96,7 @@ return {
       },
       pickers = {
         find_files = {
-          hidden = true, -- include hidden files when search
+          hidden = true,
         },
         lsp_references = {
           show_line = false, -- Hide row:col
