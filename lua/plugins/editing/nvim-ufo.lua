@@ -3,9 +3,12 @@ return {
   "kevinhwang91/nvim-ufo",
   dependencies = {
     "kevinhwang91/promise-async",
+    "jghauser/fold-cycle.nvim",
   },
   config = function()
     local ufo = require("ufo")
+    local fold_cycle = require("fold-cycle")
+    fold_cycle.setup()
 
     ufo.setup({
       open_fold_hl_timeout = 0, -- highlight duration after opening a fold
@@ -53,5 +56,14 @@ return {
     vim.keymap.set("n", "zR", ufo.openAllFolds, { desc = "Open all folds" })
     vim.keymap.set("n", "zm", ufo.closeFoldsWith, { desc = "Close folds with" }) -- closeAllFolds == closeFoldsWith(0)
     vim.keymap.set("n", "zM", ufo.closeAllFolds, { desc = "close all folds" })
+
+    -- 기본 zC: 커서 줄을 포함하는 fold만 재귀적으로 닫음
+    -- 수정 zC: 현재 fold와 그 하위 fold를 재귀적으로 닫음
+    vim.keymap.set(
+      "n",
+      "zC",
+      fold_cycle.close_all,
+      { remap = true, silent = true, desc = "Close current fold recursively" }
+    )
   end,
 }
