@@ -118,7 +118,14 @@ return {
     keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
     keymap.set("n", "<leader>fm", builtin.marks, { desc = "Telescope marks" })
 
-    keymap.set("n", "<leader>ft", "<cmd>TodoTelescope keywords=TODO<CR>", { desc = "Telescope TODOs only" })
+    keymap.set("n", "<leader>ft", function()
+      local keywords = { "TODO", "FIX", "NOTE", "WARN", "HACK" }
+      vim.ui.select(keywords, { prompt = "Todo keyword" }, function(keyword)
+        if keyword then
+          vim.cmd("TodoTelescope keywords=" .. keyword)
+        end
+      end)
+    end, { desc = "Telescope todos by keyword" })
     keymap.set("n", "<leader>fT", "<cmd>TodoTelescope<CR>", { desc = "Telescope all todos" })
 
     keymap.set("n", "<leader>fc", builtin.commands, { desc = "Telescope commands" })
