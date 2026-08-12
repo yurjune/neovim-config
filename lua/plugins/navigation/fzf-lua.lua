@@ -75,6 +75,9 @@ return {
     })
 
     vim.keymap.set("n", "<leader>fh", fzf.files, { desc = "FzfLua find files" })
+    vim.keymap.set("n", "<leader>fH", function()
+      fzf.files({ query = vim.fn.expand("%:t:r") })
+    end, { desc = "FzfLua find files matching current filename" })
     vim.keymap.set("n", "<leader>fg", fzf.git_status, { desc = "FzfLua git status" })
 
     vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "FzfLua buffers" })
