@@ -6,11 +6,23 @@ vim.api.nvim_create_autocmd("FileType", {
       local line = vim.api.nvim_get_current_line()
       local heading_end = line:match("^#+%s+()")
 
+      if level == 0 then
+        if heading_end then
+          vim.api.nvim_set_current_line(line:sub(heading_end))
+        end
+        return
+      end
+
+      local bullet_end = line:match("^%s*[-+*]%s+()")
+      local content = line:sub(heading_end or bullet_end or 1)
+      vim.api.nvim_set_current_line(string.rep("#", level) .. " " .. content)
+    end
+
+    local function heading_to_bullet()
+      local line = vim.api.nvim_get_current_line()
+      local heading_end = line:match("^#+%s+()")
       if heading_end then
-        local prefix = level == 0 and "" or string.rep("#", level) .. " "
-        vim.api.nvim_set_current_line(prefix .. line:sub(heading_end))
-      elseif level > 0 then
-        vim.api.nvim_set_current_line(string.rep("#", level) .. " " .. line)
+        vim.api.nvim_set_current_line("- " .. line:sub(heading_end))
       end
     end
 
@@ -19,6 +31,11 @@ vim.api.nvim_create_autocmd("FileType", {
     end, {
       buffer = ev.buf,
       desc = "Remove heading",
+    })
+
+    vim.keymap.set("n", "<leader>hl", heading_to_bullet, {
+      buffer = ev.buf,
+      desc = "Convert heading to bullet",
     })
 
     for level = 1, 4 do
