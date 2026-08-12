@@ -9,11 +9,22 @@ local SIDEBAR_MODE = {
   tree = "tree",
 }
 local SIDEBAR_NAMESPACE = vim.api.nvim_create_namespace("sidebar")
+local DEFAULT_TREE_OPTIONS = {
+  hidden = true,
+  filter = {
+    ".next",
+    "node_modules",
+    ".git",
+    ".pnpm-store",
+  },
+}
+local tree_options = DEFAULT_TREE_OPTIONS
 
 vim.g.SidebarWidth = vim.g.SidebarWidth or DEFAULT_WIDTH
+vim.g.SidebarMode = vim.g.SidebarMode or SIDEBAR_MODE.blank
 
-local function get_mode(buf)
-  return vim.b[buf].sidebar_mode or SIDEBAR_MODE.blank
+local function get_mode()
+  return vim.g.SidebarMode
 end
 
 local function set_mode(buf, mode)
@@ -21,7 +32,7 @@ local function set_mode(buf, mode)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "" })
   vim.bo[buf].modifiable = false
   vim.api.nvim_buf_clear_namespace(buf, SIDEBAR_NAMESPACE, 0, -1)
-  vim.b[buf].sidebar_mode = mode
+  vim.g.SidebarMode = mode
 end
 
 local function find_window()
@@ -33,7 +44,7 @@ local function find_window()
   end
 end
 
-function M.open()
+local function open_window()
   local width = vim.g.SidebarWidth
 
   local existing = find_window()
@@ -42,7 +53,7 @@ function M.open()
       vim.api.nvim_win_set_width(existing, width)
       vim.cmd("wincmd =")
     end
-    return existing
+    return existing, false
   end
 
   local previous = vim.api.nvim_get_current_win()
@@ -54,7 +65,6 @@ function M.open()
   vim.bo[buf].filetype = M.filetype
   vim.bo[buf].modifiable = false
   vim.bo[buf].buflisted = false
-  vim.b[buf].sidebar_mode = SIDEBAR_MODE.blank
 
   vim.cmd("topleft " .. width .. "vsplit")
   local win = vim.api.nvim_get_current_win()
@@ -75,6 +85,15 @@ function M.open()
       vim.api.nvim_set_current_win(previous)
     end
   end)
+
+  return win, true
+end
+
+function M.open()
+  local win, created = open_window()
+  if created and get_mode() == SIDEBAR_MODE.tree then
+    M.open_tree(tree_options)
+  end
 
   return win
 end
@@ -143,8 +162,11 @@ function M.increase_width()
 end
 
 function M.open_tree(opts)
-  opts = opts or {}
-  local buf = vim.api.nvim_win_get_buf(M.open())
+  opts = opts or tree_options
+  tree_options = opts
+
+  local win = open_window()
+  local buf = vim.api.nvim_win_get_buf(win)
   set_mode(buf, SIDEBAR_MODE.tree)
 
   local command = {
@@ -207,7 +229,7 @@ function M.close_tree()
   end
 
   local buf = vim.api.nvim_win_get_buf(sidebar)
-  if get_mode(buf) ~= SIDEBAR_MODE.tree then
+  if get_mode() ~= SIDEBAR_MODE.tree then
     return
   end
 
@@ -216,7 +238,7 @@ end
 
 function M.toggle_tree(opts)
   local sidebar = find_window()
-  if sidebar and get_mode(vim.api.nvim_win_get_buf(sidebar)) == SIDEBAR_MODE.tree then
+  if sidebar and get_mode() == SIDEBAR_MODE.tree then
     M.close_tree()
   else
     M.open_tree(opts)
@@ -229,15 +251,7 @@ function M.setup()
   vim.keymap.set("n", "<leader>bw", M.increase_width, { desc = "Increase sidebar width" })
 
   vim.keymap.set("n", "<leader>pt", function()
-    M.toggle_tree({
-      hidden = true,
-      filter = {
-        ".next",
-        "node_modules",
-        ".git",
-        ".pnpm-store",
-      },
-    })
+    M.toggle_tree(DEFAULT_TREE_OPTIONS)
   end, { desc = "Toggle project tree" })
 end
 
