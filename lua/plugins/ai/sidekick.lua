@@ -29,6 +29,11 @@ return {
         },
         keys = {
           prompt = { "<c-p>", "prompt" }, -- insert prompt or context
+          -- Ghostty's custom mapping sends `\n` for Shift-Enter.
+          -- Neovim treats `\n` as <C-j>, which Sidekick maps to `nav_down`.
+          -- This triggers unintended downward window navigation instead of inserting a newline.
+          -- Disable `nav_down` to avoid the conflict.
+          nav_down = false,
         },
       },
       prompts = {
