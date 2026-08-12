@@ -64,7 +64,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end, "Show workspace diagnostics")
 
     map("n", "<leader>dl", vim.diagnostic.open_float, "Show line diagnostics")
-    map("n", "<leader>rs", "<cmd>LspRestart<CR>", "Restart LSP")
   end,
 })
 
