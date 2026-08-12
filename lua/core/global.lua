@@ -19,7 +19,8 @@ vim.g.leetcode_lsp_off = vim.g.leetcode
 vim.g.sidekick_buf_pattern = "term://*"
 
 -- default providers
-vim.g.loaded_node_provider = 1
-vim.g.loaded_python3_provider = 1
+-- set zero to turn off
+vim.g.loaded_node_provider = 0
+vim.g.loaded_python3_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
