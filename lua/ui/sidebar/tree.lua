@@ -205,34 +205,41 @@ function M.render(args)
   vim.api.nvim_buf_set_lines(args.buf, 0, -1, false, output)
   vim.bo[args.buf].modifiable = false
 
-  for _, key in ipairs({ "<CR>", "<Tab>" }) do
-    vim.keymap.set("n", key, function()
-      if M.open_file(args.win) then
-        args.close()
-      end
-    end, {
-      buffer = args.buf,
-      desc = "Open tree file and close tree",
-    })
-  end
-
-  for _, key in ipairs({ "<S-CR>" }) do
-    vim.keymap.set("n", key, function()
-      M.open_file(args.win)
-    end, {
-      buffer = args.buf,
-      desc = "Open tree file",
-    })
-  end
-
   highlight_directories(args.buf, directory_ranges)
   M.focus_file(args.win, args.current_file)
 end
 
 function M.setup(opts)
+  local group = vim.api.nvim_create_augroup("sidebar-tree", { clear = true })
+
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = opts.sidebar_filetype,
+    desc = "Set sidebar tree keymaps",
+    group = group,
+    callback = function(args)
+      for _, key in ipairs({ "<CR>", "<Tab>" }) do
+        vim.keymap.set("n", key, function()
+          if M.open_file(vim.api.nvim_get_current_win()) then
+            opts.close()
+          end
+        end, {
+          buffer = args.buf,
+          desc = "Open tree file and close tree",
+        })
+      end
+
+      vim.keymap.set("n", "<S-CR>", function()
+        M.open_file(vim.api.nvim_get_current_win())
+      end, {
+        buffer = args.buf,
+        desc = "Open tree file",
+      })
+    end,
+  })
+
   vim.api.nvim_create_autocmd("BufEnter", {
     desc = "Track the current file in the sidebar tree",
-    group = vim.api.nvim_create_augroup("sidebar-tree-tracking", { clear = true }),
+    group = group,
     callback = function(args)
       if vim.bo[args.buf].filetype ~= opts.sidebar_filetype then
         opts.focus_file(vim.api.nvim_buf_get_name(args.buf))
