@@ -48,7 +48,6 @@ return {
           enabled = true,
           lsp = false,
         },
-        -- lualine: configured in lualine.lua
         markview = true,
         mason = true,
         neotest = true,
