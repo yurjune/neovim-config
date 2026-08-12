@@ -1,7 +1,3 @@
--- Clipboard keymaps
-vim.keymap.set({ "n", "v" }, "<M-c>", '"+y')
-vim.keymap.set("t", "<M-v>", [[<C-\><C-n>"+pi]]) -- for paste bug in sidekick terminal by <D-v> paste
-
 vim.keymap.set("n", "<M-s>", "<cmd>w<CR>", { desc = "Save current file" })
 vim.keymap.set("n", "<M-a>", "ggVG", { desc = "Select all lines" })
 
@@ -9,7 +5,7 @@ vim.keymap.set("n", "<C-q>", "<C-6>", { desc = "Switch to last accessed buffer" 
 vim.keymap.set("n", "<C-6>", "<Nop>")
 
 vim.keymap.set("n", "<leader>rq", ":cexpr [] | cclose<CR>", { desc = "Reset and close quick-fix" })
--- vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, desc = "change to normal mode" })
+vim.keymap.set("t", "<C-]>", [[<C-\><C-n>]], { noremap = true, desc = "change to normal mode" })
 
 vim.keymap.set("n", "<leader>[[", "<cmd>qa!<CR>", { desc = "Exit neovim by force" })
 
