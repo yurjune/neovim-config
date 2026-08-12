@@ -234,6 +234,11 @@ function M.setup(opts)
         buffer = args.buf,
         desc = "Open tree file",
       })
+
+      vim.keymap.set("n", "<Esc>", opts.close, {
+        buffer = args.buf,
+        desc = "Close tree",
+      })
     end,
   })
 

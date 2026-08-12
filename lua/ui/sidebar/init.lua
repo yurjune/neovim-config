@@ -233,7 +233,7 @@ function M.setup()
   tree.setup({
     sidebar_filetype = M.filetype,
     focus_file = M.focus_tree_file,
-    close = M.close_tree,
+    close = M.toggle_tree,
   })
 
   vim.keymap.set("n", "<leader>bb", M.toggle, { desc = "Toggle sidebar" })
