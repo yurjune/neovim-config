@@ -74,6 +74,12 @@ return {
       bufferline.close_with_pick()
     end, { desc = "Pick a buffer to close" })
 
-    vim.keymap.set("n", "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", { desc = "Buffer Pin/Unpin" })
+    vim.keymap.set("n", "<leader>bp", function()
+      local current_buf = vim.api.nvim_get_current_buf()
+      -- Promote preview buffer to a persistent, listed buffer.
+      vim.bo[current_buf].bufhidden = ""
+      vim.bo[current_buf].buflisted = true
+      vim.cmd("BufferLineTogglePin")
+    end, { desc = "Buffer Pin/Unpin" })
   end,
 }
