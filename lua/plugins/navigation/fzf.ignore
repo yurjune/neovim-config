@@ -11,6 +11,7 @@ dist/
 build/
 out/
 coverage/
+storybook-static/
 
 # Framework / tooling caches
 .next/

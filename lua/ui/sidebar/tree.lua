@@ -3,12 +3,8 @@ local M = {}
 M.default_options = {
   compress = 2,
   hidden = true,
-  filter = {
-    ".next",
-    "node_modules",
-    ".git",
-    ".pnpm-store",
-  },
+  -- tree's --gitfile reads this file using .gitignore syntax.
+  ignore_file = vim.fn.stdpath("config") .. "/lua/plugins/navigation/fzf.ignore",
 }
 
 local TREE_NAMESPACE = vim.api.nvim_create_namespace("sidebar")
@@ -31,6 +27,9 @@ local function build_command(opts, output_options)
   end
   if opts.hidden then
     table.insert(command, "-a")
+  end
+  if opts.ignore_file then
+    table.insert(command, "--gitfile=" .. opts.ignore_file)
   end
   if opts.filter and #opts.filter > 0 then
     vim.list_extend(command, { "-I", table.concat(opts.filter, "|") })
