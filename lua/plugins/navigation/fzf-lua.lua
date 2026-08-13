@@ -35,7 +35,7 @@ return {
       },
       -- Custom fd_opts and rg_opts replace fzf-lua defaults, so preserve required options
       files = {
-        hidden = false,
+        hidden = true,
         no_ignore = true, -- ignore project config
         fd_opts = table.concat({
           -- Default options
@@ -48,7 +48,7 @@ return {
         }, " "),
       },
       grep = {
-        hidden = false,
+        hidden = true,
         no_ignore = true, -- ignore project config
         rg_opts = table.concat({
           -- Default options

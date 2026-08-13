@@ -1,25 +1,18 @@
-# Include Hidden paths
-!.env
-!.env.*
-!.github/
-!.gitignore
-
-# Exclude
-## VCS / dependencies
+# VCS / dependencies
 .git/
 node_modules/
 .pnpm-store/
 
-## TypeScript artifacts
+# TypeScript artifacts
 *.tsbuildinfo
 
-## Build outputs
+# Build outputs
 dist/
 build/
 out/
 coverage/
 
-## Framework / tooling caches
+# Framework / tooling caches
 .next/
 .nuxt/
 .svelte-kit/
@@ -28,6 +21,6 @@ coverage/
 .cache/
 .eslintcache
 
-## Logs / OS files
+# Logs / OS files
 *.log
 .DS_Store
