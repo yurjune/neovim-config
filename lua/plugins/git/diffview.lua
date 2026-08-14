@@ -1,6 +1,28 @@
 -- A focused view for reviewing repository-wide changes
 local layout = require("ui.layout")
 
+local function close_diffviews()
+  local lib = require("diffview.lib")
+  local closed = false
+
+  for _, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
+    local view = lib.tabpage_to_view(tabpage)
+    if view then
+      view:close()
+      lib.dispose_view(view)
+      closed = true
+    end
+  end
+
+  return closed
+end
+
+local function toggle_diffview(command)
+  if not close_diffviews() then
+    vim.cmd(command)
+  end
+end
+
 return {
   "sindrets/diffview.nvim",
   cmd = {
@@ -15,22 +37,14 @@ return {
     {
       "<leader>gr",
       function()
-        if require("diffview.lib").get_current_view() then
-          vim.cmd("DiffviewClose")
-        else
-          vim.cmd("DiffviewOpen")
-        end
+        toggle_diffview("DiffviewOpen")
       end,
       desc = "Toggle Git review",
     },
     {
       "<leader>gf",
       function()
-        if require("diffview.lib").get_current_view() then
-          vim.cmd("DiffviewClose")
-        else
-          vim.cmd("DiffviewFileHistory %")
-        end
+        toggle_diffview("DiffviewFileHistory %")
       end,
       desc = "Toggle Git file history",
     },
