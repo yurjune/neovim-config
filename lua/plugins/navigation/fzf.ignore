@@ -25,3 +25,7 @@ storybook-static/
 # Logs / OS files
 *.log
 .DS_Store
+
+# syncthing
+.stversions
+.stfolder
