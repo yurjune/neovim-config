@@ -17,6 +17,9 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.equalalways = true
 
+-- diff
+vim.opt.diffopt:append("algorithm:histogram") -- "myers", "minimal", "patience", "histogram"
+
 -- cases
 vim.opt.ignorecase = true -- case-insensitive
 -- true 이면 소문자만 포함 시 case-insensitive, 대문자가 하나라도 포함되면 case-sensitive
