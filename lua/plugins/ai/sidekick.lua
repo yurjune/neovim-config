@@ -20,6 +20,15 @@ return {
     },
     cli = {
       watch = true, -- notify Neovim of file changes done by AI CLI tools
+      tools = {
+        claude = {
+          env = {
+            -- Neovim Normal 모드에서 Claude 대화 기록을 탐색할 수 있도록
+            -- alternate screen을 비활성화해 출력을 tmux scrollback에 남긴다.
+            CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN = "1",
+          },
+        },
+      },
       mux = {
         backend = "tmux",
         enabled = true,
