@@ -45,6 +45,7 @@ return {
         lua = { "stylua" },
         python = { "isort", "black" },
         rust = { "rustfmt" },
+        -- java = { "google-java-format" },
         c = { "clang_format" }, -- brew install llvm
         cpp = { "clang_format" },
         sql = function()

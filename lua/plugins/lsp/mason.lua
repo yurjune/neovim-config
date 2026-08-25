@@ -34,6 +34,10 @@ return {
         "pylint",
         "isort",
         "black",
+        -- Java
+        "jdtls",
+        "google-java-format",
+        "checkstyle",
         -- Lua
         "lua-language-server",
         "stylua",

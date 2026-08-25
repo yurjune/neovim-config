@@ -17,6 +17,7 @@ return {
       svelte = { "eslint_d" },
       -- python = { "pylint" },
       rust = { "clippy" },
+      -- java = { "checkstyle" },
       c = { "clangtidy" }, -- brew install llvm
       cpp = { "clangtidy" },
       -- yaml = { "yamllint" },
