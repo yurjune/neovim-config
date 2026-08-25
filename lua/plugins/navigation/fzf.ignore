@@ -22,6 +22,19 @@ storybook-static/
 .cache/
 .eslintcache
 
+# Java / JVM build outputs
+target/
+bin/
+*.class
+
+# Java / JVM IDE metadata
+.gradle/
+.settings/
+.classpath
+.project
+.factorypath
+.idea/
+
 # Logs / OS files
 *.log
 .DS_Store
