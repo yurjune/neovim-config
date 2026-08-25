@@ -32,6 +32,7 @@ return {
     local ensure_installed = {
       "bash",
       "c",
+      "cmake",
       "cpp",
       "css",
       "dockerfile",
@@ -39,22 +40,27 @@ return {
       "graphql",
       "groovy",
       "html",
+      "java",
       "javascript",
       "json",
       "lua",
+      "make",
       "markdown",
       "markdown_inline",
       "mermaid",
+      "properties", -- .properties files (application.properties, gradle.properties)
       "python",
       "query", -- treesitter query
       "regex",
       "rust",
       "sql",
       "svelte",
+      "toml",
       "tsx", -- includes jsx
       "typescript",
       "vim", -- vimscript
       "vimdoc",
+      "xml", -- pom.xml
       "yaml",
     }
 
