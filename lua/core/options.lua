@@ -1,6 +1,10 @@
 -- Automatically load project-specific .nvim.lua settings.
 vim.opt.exrc = true
 
+-- Identify concurrent Neovim sessions in the terminal tab title.
+vim.opt.title = true
+vim.opt.titlestring = "nvim — %{fnamemodify(getcwd(), ':t')}"
+
 -- tabs & indentation
 vim.opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
 vim.opt.shiftwidth = 2 -- 2 spaces for indent width
