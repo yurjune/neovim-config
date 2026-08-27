@@ -21,6 +21,11 @@ return {
           default = vim.o.conceallevel,
           rendered = 2,
         },
+        -- Neovim 자체 conceal 쿼리로 처리되는 요소(ex. bold, inline code)에 대한 conceal 여부를 결정
+        concealcursor = {
+          default = vim.o.concealcursor,
+          rendered = "nc",
+        },
       },
       latex = {
         enabled = false,
@@ -32,7 +37,6 @@ return {
       },
       code = {
         enabled = true,
-        conceal_delimiters = false, -- conceal ``` text
         -- Determines how the top / bottom of code block are rendered.
         border = "thick",
         width = "full", -- block | full
@@ -41,13 +45,9 @@ return {
         -- Padding to add to the left & right of inline code.
         -- inline_pad = 1, -- set padding 1 for ` char space
       },
+      -- render-markdown이 생성한 요소(ex. heading)에 대한 conceal 여부를 결정
       anti_conceal = {
-        -- This enables hiding added text on the line the cursor is on.
         enabled = true,
-        disabled_modes = { "n " },
-        ignore = {
-          head_background = true,
-        },
       },
     })
 
