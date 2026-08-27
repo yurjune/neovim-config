@@ -218,21 +218,12 @@ function M.setup(opts)
     callback = function(args)
       for _, key in ipairs({ "<CR>", "<Tab>" }) do
         vim.keymap.set("n", key, function()
-          if M.open_file(vim.api.nvim_get_current_win()) then
-            opts.close()
-          end
+          M.open_file(vim.api.nvim_get_current_win())
         end, {
           buffer = args.buf,
-          desc = "Open tree file and close tree",
+          desc = "Open tree file",
         })
       end
-
-      vim.keymap.set("n", "<S-CR>", function()
-        M.open_file(vim.api.nvim_get_current_win())
-      end, {
-        buffer = args.buf,
-        desc = "Open tree file",
-      })
 
       vim.keymap.set("n", "<Esc>", opts.close, {
         buffer = args.buf,
