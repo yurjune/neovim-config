@@ -48,6 +48,7 @@ return {
       "markdown",
       "markdown_inline",
       "mermaid",
+      "nginx",
       "properties", -- .properties files (application.properties, gradle.properties)
       "python",
       "query", -- treesitter query
