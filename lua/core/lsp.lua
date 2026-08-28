@@ -82,13 +82,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       local text = next and "ENABLED" or "DISABLED"
       vim.notify("Inline completion " .. text, vim.log.levels.INFO, { title = "LSP" })
     end, { desc = "Toggle inline completion", buffer = ev.buf })
-
-    -- handle suggestion accept event in sidekick.nvim
-    -- vim.keymap.set("i", "<Tab>", function()
-    --   if not vim.lsp.inline_completion.get() then
-    --     return "<Tab>"
-    --   end
-    -- end, { expr = true, desc = "Apply the currently displayed completion suggestion" })
   end,
 })
 
@@ -108,22 +101,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end, { desc = "Toggle inlay hints", buffer = ev.buf })
   end,
 })
-
--- Disable built-in completion when using nvim-cmp
--- Activate LSP completion
--- vim.api.nvim_create_autocmd("LspAttach", {
---   group = lsp_group,
---   callback = function(ev)
---     local client = vim.lsp.get_client_by_id(ev.data.client_id)
---     if client and client.supports_method("textDocument/completion") then
---       -- Enable completion
---       vim.lsp.completion.enable(true, client.id, ev.buf, {
---         -- if True, completion select will automatically trigger after inserting a character
---         autotrigger = false,
---       })
---     end
---   end,
--- })
 
 -- Show LSP info
 vim.api.nvim_create_user_command("LspInfo", function()
