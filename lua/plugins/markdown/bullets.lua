@@ -1,9 +1,37 @@
 -- A plugin for automatic bullet list management.
+
+-- Turns the current line into a checkbox item.
+-- If it's already a checkbox, does nothing (use <leader>bt to toggle it).
+-- If it's a plain bullet (-, *, +), inserts a checkbox after the bullet marker.
+-- Otherwise, prepends a new "- [ ] " bullet.
+local function create_checkbox()
+  local lnum = vim.fn.line(".")
+  local line = vim.fn.getline(lnum)
+  local markers = vim.g.bullets_checkbox_markers or " .oOX"
+
+  local checkbox_regex = [[\v(^(\s*)([+\-\*] \[([]] .. markers .. [[ xX]?)\])(:?)(\s+))(.*)]]
+  if vim.fn.match(line, checkbox_regex) ~= -1 then
+    return
+  end
+
+  local std_match = vim.fn.matchlist(line, [[\v^(\s*)([+\-\*])(\s+)(.*)]])
+  if #std_match > 0 then
+    local leading, bullet, spacing, text = std_match[2], std_match[3], std_match[4], std_match[5]
+    vim.fn.setline(lnum, leading .. bullet .. spacing .. "[ ] " .. text)
+    return
+  end
+
+  local plain_match = vim.fn.matchlist(line, [[\v^(\s*)(.*)]])
+  local leading, text = plain_match[2], plain_match[3]
+  vim.fn.setline(lnum, leading .. "- [ ] " .. text)
+end
+
 return {
   "bullets-vim/bullets.vim",
   ft = { "markdown", "text" },
   enabled = true,
   keys = {
+    { "<leader>bc", create_checkbox, mode = "n", desc = "create checkbox" },
     { "<leader>bt", "<Plug>(bullets-toggle-checkbox)", mode = "n", desc = "toggle checkbox" },
     { "<leader>br", "<Plug>(bullets-renumber)", mode = { "n", "v" }, desc = "renumber bullets" },
   },
