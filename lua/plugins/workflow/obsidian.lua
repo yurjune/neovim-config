@@ -8,6 +8,9 @@ return {
   lazy = true,
   enabled = true,
   ft = "markdown",
+  init = function()
+    vim.g.obsidian_default_keymap = false
+  end,
   opts = {
     -- remove these in 4.0.0
     legacy_commands = false,
