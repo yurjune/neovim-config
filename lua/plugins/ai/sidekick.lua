@@ -29,6 +29,9 @@ return {
             CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN = "1",
           },
         },
+        codex = {
+          cmd = { "codex", "--dangerously-bypass-approvals-and-sandbox" },
+        },
       },
       mux = {
         backend = "tmux",
