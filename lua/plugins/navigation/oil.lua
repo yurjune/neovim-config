@@ -35,5 +35,14 @@ return {
       timeout_ms = 1000,
       autosave_changes = true,
     },
+    view_options = {
+      is_hidden_file = function(name)
+        if name == ".codex" or name == ".claude" then
+          return false
+        end
+
+        return name:match("^%.") ~= nil
+      end,
+    },
   },
 }
