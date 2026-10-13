@@ -30,11 +30,11 @@ return {
           },
         },
         codex = {
-          -- Neovim Normal 모드에서 Codex 대화 기록을 탐색할 수 있도록
-          -- alternate screen을 비활성화해 출력을 tmux scrollback에 남긴다.
           cmd = {
             "codex",
             "--dangerously-bypass-approvals-and-sandbox",
+            -- Neovim Normal 모드에서 Codex 대화 기록을 탐색할 수 있도록
+            -- alternate screen을 비활성화해 출력을 tmux scrollback에 남긴다.
             "--no-alt-screen",
           },
         },
