@@ -50,6 +50,29 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Generates: ### 10/14 Wed
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  desc = "Today's heading keymap",
+  callback = function(ev)
+    vim.keymap.set("n", "<leader>hd", function()
+      local today = os.date("*t")
+      local weekdays = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }
+      local heading = ("### %d/%d %s"):format(today.month, today.day, weekdays[today.wday])
+      local cursor = vim.api.nvim_win_get_cursor(0)
+
+      vim.api.nvim_buf_set_lines(ev.buf, cursor[1] - 1, cursor[1] - 1, false, {
+        heading,
+        "", -- intended empty line
+      })
+      vim.api.nvim_win_set_cursor(0, { cursor[1], 0 })
+    end, {
+      buffer = ev.buf,
+      desc = "Insert today's level 3 heading",
+    })
+  end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   desc = "Keymaps for bold, italic, strikethrough, and inline code in Markdown files",
