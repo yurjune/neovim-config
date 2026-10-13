@@ -30,6 +30,9 @@ return {
       latex = {
         enabled = false,
       },
+      sign = {
+        priority = 5, -- lower than gitsigns' default sign_priority (6)
+      },
       heading = {
         position = "overlay",
         -- icons = { "󰼏 ", "󰼐 ", "󰼑 ", "󰼒 ", "󰼓 ", "󰼔 " },
