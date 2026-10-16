@@ -1,10 +1,38 @@
-# Hide dotfiles by default
+# Dotfiles are hidden by default;
 .*
 
-# Visible dotfiles
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# VISIBLE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Agent configuration
 !.agents/
 !.claude/
 !.codex/
+
+# Git configuration
+!.gitignore
+
+# Formatting and linting
+!.prettier*
+!.eslintrc*
+!.eslintignore
+
+# Runtime and package manager
+!.env*
+!.yarnrc
+!.npmrc
+!.nvmrc
+
+# Project tooling
+!.github
+!.storybook
+!.husky
+!.vscode
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# HIDDEN
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 # Dependencies
 node_modules/

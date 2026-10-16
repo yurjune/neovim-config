@@ -1,5 +1,5 @@
 -- A file explorer that lets you edit directories like a normal buffer
-local file_visibility = require("etc.file-visibility")
+local file_visibility = require("etc.file-visibility.oil-adapter")
 
 return {
   "stevearc/oil.nvim",
