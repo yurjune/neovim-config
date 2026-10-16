@@ -1,6 +1,4 @@
--- A plugin for AI programming assistant
--- Provides a UI for interacting with AI tools
--- Provides Next edit suggestions feature
+-- Sidekick configuration and cross-module contracts: see sidekick.md.
 
 local layout = require("ui.layout")
 
