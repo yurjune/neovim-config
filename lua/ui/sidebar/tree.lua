@@ -1,10 +1,11 @@
 local M = {}
+local file_visibility = require("etc.file-visibility")
 
 M.default_options = {
   compress = 2,
   hidden = true,
   -- tree's --gitfile reads this file using .gitignore syntax.
-  ignore_file = vim.fn.stdpath("config") .. "/lua/plugins/navigation/fzf.ignore",
+  ignore_file = file_visibility.ignore_file,
 }
 
 local TREE_NAMESPACE = vim.api.nvim_create_namespace("sidebar")

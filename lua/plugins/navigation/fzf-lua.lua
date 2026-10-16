@@ -8,8 +8,8 @@ return {
   },
   config = function()
     local fzf = require("fzf-lua")
-    local ignore_file_option = "--ignore-file "
-      .. vim.fn.shellescape(vim.fn.stdpath("config") .. "/lua/plugins/navigation/fzf.ignore")
+    local file_visibility = require("etc.file-visibility")
+    local ignore_file_option = "--ignore-file " .. vim.fn.shellescape(file_visibility.ignore_file)
 
     fzf.setup({
       "fzf-native",

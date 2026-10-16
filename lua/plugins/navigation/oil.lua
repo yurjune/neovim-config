@@ -1,4 +1,6 @@
 -- A file explorer that lets you edit directories like a normal buffer
+local file_visibility = require("etc.file-visibility")
+
 return {
   "stevearc/oil.nvim",
   dependencies = {
@@ -36,13 +38,7 @@ return {
       autosave_changes = true,
     },
     view_options = {
-      is_hidden_file = function(name)
-        if name == ".codex" or name == ".claude" then
-          return false
-        end
-
-        return name:match("^%.") ~= nil
-      end,
+      is_hidden_file = file_visibility.is_hidden_file,
     },
   },
 }

@@ -1,0 +1,27 @@
+# Hide dotfiles by default
+.*
+
+# Visible dotfiles
+!.claude/
+!.codex/
+
+# Dependencies
+node_modules/
+
+# TypeScript artifacts
+*.tsbuildinfo
+
+# Build outputs
+dist/
+build/
+out/
+coverage/
+storybook-static/
+
+# Java / JVM build outputs
+target/
+bin/
+*.class
+
+# Logs
+*.log
