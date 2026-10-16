@@ -22,4 +22,5 @@
 - `lua/etc/<module>/` — self-contained custom modules.
 - `plugin/*.lua` — code that must run at startup even inside the child Neovim processes some plugins spawn; a lazy-loaded plugin spec does not reach those.
 - `after/queries/<lang>/` — Tree-sitter query extensions, starting with `; extends`. `queries/<lang>/` replaces Neovim's default outright instead of adding to it.
+- `.agents/skills/<name>/SKILL.md` — agent skills, symlinked from `.claude/skills/`. Keep the frontmatter `description` to the trigger condition alone; details belong in the body.
 - `lazy-lock.json` — generated data; change it only as a consequence of plugin dependency changes.
