@@ -2,6 +2,7 @@
 .*
 
 # Visible dotfiles
+!.agents/
 !.claude/
 !.codex/
 

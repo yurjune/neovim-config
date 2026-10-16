@@ -18,6 +18,7 @@ Use [`rules.ignore`](rules.ignore) as the source:
 .*
 
 # Visible dotfiles
+!.agents/
 !.claude/
 !.codex/
 ```
