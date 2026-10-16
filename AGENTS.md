@@ -15,7 +15,7 @@
 
 ## Project Structure
 
-- `lua/plugins/<category>/` — plugin specs, filed under the matching category.
+- `lua/plugins/<category>/` — plugin specs, filed under the matching category; a new category must also be added to the import list in `lua/lazy-config.lua`.
 - `lsp/<server>.lua` — native LSP configuration; enable the server in `lua/core/lsp.lua`.
 - `lua/core/`, `lua/ui/` — register each new module in that directory's `init.lua`; an unregistered module silently never loads.
 - `lua/ui/layout.lua` — shared responsive UI dimensions; do not hardcode them in individual plugin specs.
