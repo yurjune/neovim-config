@@ -6,7 +6,6 @@
   Use a short lowercase scope naming the affected area; omit it only when no single area fits.
   Write the summary in English as a lowercase imperative with no trailing period.
 - Add a body only when the motivation or tradeoff is not clear from the subject and diff; explain why, not what.
-- Do not add `Co-authored-by` or AI attribution trailers unless explicitly requested.
 
 ## Validation
 
