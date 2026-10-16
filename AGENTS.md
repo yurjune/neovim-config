@@ -2,15 +2,11 @@
 
 ## Commit Message Conventions
 
-- Prefer the message form `<type>(<scope>): <summary>`.
-    - Use `feat` for new behavior, `fix` for bug fixes, `refactor` for behavior-preserving restructuring,
-      and `chore` for maintenance or configuration work.
-    - Use a short lowercase scope naming the affected area, such as `sidekick`, `render-markdown`, `keymaps`, or `lsp`.
-      Omit the scope only when no single area describes the change.
-    - Write the summary in concise English, start it with a lowercase imperative verb, and do not end it with a period.
-- Omit the commit body for straightforward changes. Add a body only when the motivation, tradeoff, or preserved behavior is not clear from the subject and diff;
-  explain why rather than restating what changed.
-- Do not add `Co-authored-by`, AI attribution, or similar trailers unless the user explicitly requests them.
+- Follow Conventional Commits: `<type>(<scope>): <summary>`.
+  Use a short lowercase scope naming the affected area; omit it only when no single area fits.
+  Write the summary in English as a lowercase imperative with no trailing period.
+- Add a body only when the motivation or tradeoff is not clear from the subject and diff; explain why, not what.
+- Do not add `Co-authored-by` or AI attribution trailers unless explicitly requested.
 
 ## Validation
 
