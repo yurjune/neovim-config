@@ -1,4 +1,4 @@
--- A plugin to practice LeetCode problems inside Neovim.
+-- LeetCode mode configuration and cross-module contracts: see leetcode.md.
 return {
   "kawre/leetcode.nvim",
   -- build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
