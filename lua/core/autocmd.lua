@@ -7,10 +7,11 @@ vim.filetype.add({
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function()
-    -- option for remove continue commenting when line changes
-    -- r: continue commenting when line changed by enter
-    -- o: continue commenting when line changed by o or O command
-    vim.opt_local.formatoptions:append({ "r", "o" })
+    -- Filetype plugins can change formatoptions; apply these settings to each buffer.
+    -- r: continue comments when starting a new line with Enter
+    -- o: continue comments when starting a new line with o or O
+    vim.opt_local.formatoptions:append("r")
+    vim.opt_local.formatoptions:remove("o")
   end,
 })
 
