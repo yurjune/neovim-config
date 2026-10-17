@@ -1,26 +1,110 @@
 -- A plugin for creating and formatting tables.
+local function format_buffer()
+  local buf = vim.api.nvim_get_current_buf()
+  local parser = vim.treesitter.get_parser(buf, "markdown")
+  if not parser then
+    return
+  end
+  local root = parser:parse()[1]:root()
+  local positions = {}
+
+  local function collect(node)
+    if node:type() == "pipe_table" then
+      local row, col = node:start()
+      positions[#positions + 1] = { row, col }
+      return
+    end
+
+    for child in node:iter_children() do
+      collect(child)
+    end
+  end
+
+  collect(root)
+
+  local utils = require("table-nvim.utils")
+  local MdTable = require("table-nvim.md_table")
+
+  for i = #positions, 1, -1 do
+    local pos = positions[i]
+    local node = vim.treesitter.get_node({ bufnr = buf, pos = pos })
+    local table_root = utils.get_tbl_root(node)
+    if table_root then
+      local md_table = MdTable:new(table_root)
+      local formatted = md_table:generate_rows()
+      local current = vim.api.nvim_buf_get_lines(buf, md_table.start, md_table.end_, true)
+      if not vim.deep_equal(current, formatted) then
+        vim.api.nvim_buf_set_lines(buf, md_table.start, md_table.end_, true, formatted)
+      end
+    end
+  end
+end
+
+local function clear_cell()
+  local cell = vim.treesitter.get_node()
+  while cell and cell:type() ~= "pipe_table_cell" do
+    cell = cell:parent()
+  end
+  if not cell then
+    return
+  end
+
+  local buf = vim.api.nvim_get_current_buf()
+  local text = vim.treesitter.get_node_text(cell, buf)
+  if not text:find("%S") then
+    return
+  end
+
+  local start_row, start_col, end_row, end_col = cell:range()
+  local spaces = string.rep(" ", vim.fn.strwidth(text))
+  vim.api.nvim_buf_set_text(buf, start_row, start_col, end_row, end_col, { spaces })
+end
+
 return {
   "SCJangra/table-nvim",
   ft = "markdown",
+  config = function(_, opts)
+    require("table-nvim").setup(opts)
+
+    local function set_table_keymaps(buf)
+      vim.keymap.set("n", "<leader>mf", format_buffer, {
+        buffer = buf,
+        desc = "Format tables in buffer",
+      })
+      vim.keymap.set("n", "<leader>md", clear_cell, {
+        buffer = buf,
+        desc = "Clear table cell",
+      })
+    end
+
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "markdown",
+      callback = function(event)
+        set_table_keymaps(event.buf)
+      end,
+    })
+
+    set_table_keymaps(vim.api.nvim_get_current_buf())
+  end,
   opts = {
     padd_column_separators = true, -- Insert a space around column separators.
-    mappings = { -- next and prev work in Normal and Insert mode. All other mappings work in Normal mode.
-      next = "<Nop>", -- Go to next cell.
-      prev = "<Nop>", -- Go to previous cell.
+    mappings = {
+      next = "<Nop>",
+      prev = "<Nop>",
 
-      move_row_up = "<leader>tk", -- Move the current row up.
-      move_row_down = "<leader>tj", -- Move the current row down.
-      insert_row_up = "<leader>tK", -- Insert a row above the current row.
-      insert_row_down = "<leader>tJ", -- Insert a row below the current row.
+      move_row_up = "<leader>tk",
+      move_row_down = "<leader>tj",
+      insert_row_up = "<leader>tK",
+      insert_row_down = "<leader>tJ",
 
-      move_column_left = "<leader>th", -- Move the current column to the left.
-      move_column_right = "<leader>tl", -- Move the current column to the right.
-      insert_column_left = "<leader>tH", -- Insert a column to the left of current column.
-      insert_column_right = "<leader>tL", -- Insert a column to the right of current column.
+      move_column_left = "<leader>th",
+      move_column_right = "<leader>tl",
+      insert_column_left = "<leader>tH",
+      insert_column_right = "<leader>tL",
 
-      insert_table = "<leader>tt", -- Insert a new table.
-      insert_table_alt = "<leader>tT", -- Insert a new table that is not surrounded by pipes.
-      delete_column = "<leader>td", -- Delete the column under cursor.
+      insert_table = "<leader>tt",
+      insert_table_alt = "<leader>tT",
+      delete_column = "<leader>td",
     },
   },
 }
