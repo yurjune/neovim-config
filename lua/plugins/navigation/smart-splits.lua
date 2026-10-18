@@ -6,9 +6,12 @@ return {
     local ss = require("smart-splits")
 
     ss.setup({
-      cursor_follows_swapped_bufs = true,
-      at_edge = "wrap", -- 'wrap', 'stop', 'split'
-      multiplexer_integration = nil, -- If nil, it will use the default multiplexer integration
+      move = {
+        at_edge = "wrap", -- 'wrap', 'stop', 'split'
+      },
+      swap = {
+        move_cursor = true,
+      },
     })
 
     vim.keymap.set({ "n", "t" }, "<M-h>", ss.move_cursor_left)
