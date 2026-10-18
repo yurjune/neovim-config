@@ -162,8 +162,15 @@ local function run()
 end
 
 -- `-c`는 VimEnter 전에 실행되므로, 시작 autocmd가 끝난 VimEnter 이후에 시작한다.
+-- startup 중 setup()이 예약한 알림은 run()보다 먼저 실행되므로, 훅은 VimEnter에서 바로 건다.
 if vim.v.vim_did_enter == 1 then
   vim.schedule(run)
 else
-  vim.api.nvim_create_autocmd("VimEnter", { once = true, callback = vim.schedule_wrap(run) })
+  vim.api.nvim_create_autocmd("VimEnter", {
+    once = true,
+    callback = function()
+      hook_notify()
+      vim.schedule(run)
+    end,
+  })
 end
