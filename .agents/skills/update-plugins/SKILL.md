@@ -55,13 +55,15 @@ lockfile이 바뀐 플러그인마다 한 줄을 출력하고, breaking change �
 neotest  deadfb1..1c529a1  42 commits  spec:lua/plugins/debug/neotest.lua  changelog:CHANGELOG.md
   e372852 fix(subprocess): fully remove tree-sitter dependency (#606)
 nvim-treesitter  28d480e..61df849  469 commits  spec:...  branch:master->main
+smart-splits.nvim  32f6788..ea55335  78 commits  spec:...  version:v2.1.0->v3.0.0
 octo.nvim  added  spec:lua/plugins/git/octo.lua
 ```
 
 - 후보 커밋은 `!:|breaking|deprecat|remov|renam` 필터라 무관한 커밋도 걸린다. 하나씩 판단한다.
-- 후보가 없는 플러그인은 한 줄로 끝나므로 더 보지 않는다.
 - 후보가 있으면 `spec`의 파일이 그 옵션·명령·모듈을 쓰는지 grep한다. 필요하면 `changelog`의 파일을 diff로 본다.
-- `branch` 변경은 대규모 재작성 신호다.
+- `branch` 변경과 `version`의 메이저 변경(`v0.x`→`v1.0` 포함)은 대규모 재작성 신호다.
+  커밋 메시지는 필터에 걸리지 않을 수 있으므로, 후보가 없어도 README와 전체 로그를 보고 spec의 옵션·명령이 남아 있는지 확인한다.
+- 그 밖에 후보가 없는 플러그인은 한 줄로 끝나므로 더 보지 않는다.
 - 영향 없음, 검토, 마이그레이션 필요로 나눈다. 마이그레이션 대상이 여럿이면 플러그인별 서브에이전트로 조사한다.
 
 ## 하네스
@@ -76,12 +78,14 @@ VERIFY_OUT=<scratchpad>/after.json VERIFY_BASELINE=<scratchpad>/baseline.json nv
 진행 단계를 stderr에 쓰므로, 멈추면 로그의 마지막 줄이 멈춘 단계다.
 단순 headless 기동은 대부분의 플러그인을 로드하지 않으므로 다음을 직접 한다.
 
-- 각 플러그인을 `pcall` 안에서 `require("lazy").load()`로 강제 로드한다. `setup()` 옵션 변경, 모듈 이름 변경, 제거된 함수가 여기서 드러난다.
+- 각 플러그인을 `pcall` 안에서 `require("lazy").load()`로 강제 로드한다. 모듈 이름 변경, 제거된 함수가 여기서 드러난다.
 - `VeryLazy`를 직접 발생시킨다. lazy.nvim은 `UIEnter` 이후에만 발생시키는데, headless에는 오지 않는다.
 - 커스텀 쿼리를 포함해 parser가 있는 언어의 Tree-sitter 쿼리를 모두 컴파일한다.
 - 키맵이 부르는 사용자 명령(`<cmd>Foo`, `:Foo`)이 있는지 확인한다. 명령이 없어져도 로드는 성공하기 때문이다.
 - `vim.notify`와 `:messages`를 수집하고, 종료 전 `vim.wait`로 늦게 오는 비동기 에러를 잡는다. startup 중 `setup()`이 예약한 경고도 잡도록 VimEnter에서 훅을 건다.
 
+`setup()`은 모르는 옵션을 대부분 조용히 무시하므로, 옵션 이름 변경은 플러그인이 경고를 내야만 드러난다.
+그래서 분류에서 메이저 변경을 따로 확인한다.
 로드 이후의 동작은 검증하지 않는다. 로드 순서가 실제와 다르므로, 기준선에 없는 문제가 순서 탓으로 보이면 해당 플러그인만 실제 순서대로 확인한다.
 
 ## 체크리스트

@@ -30,6 +30,9 @@ jq -rn --argjson old "$(git show "$base:lazy-lock.json")" --slurpfile new lazy-l
     count=$(git -C "$dir" rev-list --count "$old..$new" 2>/dev/null || echo "?")
     line="$name  ${old:0:7}..${new:0:7}  $count commits  spec:${spec:--}"
     [[ $old_branch != "$new_branch" ]] && line+="  branch:$old_branch->$new_branch"
+    old_tag=$(git -C "$dir" describe --tags --abbrev=0 "$old" 2>/dev/null || true)
+    new_tag=$(git -C "$dir" describe --tags --abbrev=0 "$new" 2>/dev/null || true)
+    [[ -n $new_tag && $old_tag != "$new_tag" ]] && line+="  version:${old_tag:--}->$new_tag"
     changelog=$(git -C "$dir" diff --name-only "$old" "$new" 2>/dev/null | grep -iE '(^|/)(changelog|news)' | paste -sd, - || true)
     [[ -n $changelog ]] && line+="  changelog:$changelog"
     echo "$line"
