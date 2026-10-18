@@ -31,11 +31,6 @@ function M.switch_to_english()
   call_hammerspoon("switchToEnglish")
 end
 
-local function is_maple_buf(buf)
-  local ok, maple_window = pcall(require, "maple.ui.window")
-  return ok and maple_window.get_buf() == buf
-end
-
 local function is_normal_buf(buf)
   return vim.bo[buf].buftype == ""
 end
@@ -60,9 +55,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
   pattern = "*",
   desc = "Restore saved input source",
   callback = function(args)
-    local need_restore = is_normal_buf(args.buf) or is_maple_buf(args.buf)
-
-    if need_restore then
+    if is_normal_buf(args.buf) then
       restore_saved_source()
     end
   end,

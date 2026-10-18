@@ -16,7 +16,7 @@ Its method names are case-sensitive.
 
 ## Event contract
 
-- Normal buffers and Maple use `InsertLeave` to save and select English, then `InsertEnter` to restore.
+- Normal buffers use `InsertLeave` to save and select English, then `InsertEnter` to restore.
 - Sidekick is not a normal buffer, so it uses `BufLeave` and `BufEnter` for the same transitions.
 - [`fzf-lua.lua`](../../plugins/navigation/fzf-lua.lua) calls the exported `switch_to_english` function when a picker closes.
 
