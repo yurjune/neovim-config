@@ -15,12 +15,7 @@ description: 사용자가 Neovim 플러그인 업데이트를 요청할 때 사�
 
 1. `git status --porcelain lazy-lock.json`이 비어 있지 않으면 멈추고 묻는다.
 2. 하네스로 기준선을 기록한다.
-3. 업데이트한다. 빌드 훅을 실행하고 lockfile을 갱신한다.
-
-   ```sh
-   nvim --headless "+Lazy! update" +qa
-   ```
-
+3. 업데이트한다.
 4. 업데이트된 플러그인을 분류한다.
 5. 하네스를 다시 실행해 기준선 대비 새로 생긴 문제만 추린다.
 6. 문제가 없어질 때까지 고치고 다시 검증한다.
@@ -29,15 +24,24 @@ description: 사용자가 Neovim 플러그인 업데이트를 요청할 때 사�
    - 따로 다룰 플러그인은 함께 바뀐 묶음과 함께 이전 커밋으로 되돌린다.
 7. 일괄 커밋한다.
 8. 따로 다룰 플러그인마다 바로 이어서 업데이트, 마이그레이션, 하네스 검증, 커밋을 한다.
-
-   ```sh
-   nvim --headless "+Lazy! update <name>" +qa
-   ```
-
 9. 보고서를 작성하고 체크리스트를 넘긴다.
 
 따로 다룰지는 판단하되, spec 여러 곳을 고쳐야 하거나 `branch` 변경처럼 대규모 재작성인 경우가 해당한다.
 일괄 커밋 전에 대상과 근거를 보고하고 동의를 받는다.
+
+## 업데이트
+
+빌드 훅을 실행하고 lockfile을 갱신한다. 따로 다룰 플러그인은 `update <name>`으로 하나씩 업데이트한다.
+
+```sh
+nvim --headless "+Lazy! update" +qa
+```
+
+`:TSUpdate` 빌드 훅은 parser를 비동기로 설치하므로 `+qa`에 끊긴다. 설치가 끝날 때까지 기다려 다시 갱신한다.
+
+```sh
+nvim --headless "+lua require('nvim-treesitter').update():wait(300000)" +qa
+```
 
 ## 분류
 
