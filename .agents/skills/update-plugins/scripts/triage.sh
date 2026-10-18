@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Summarize lazy-lock.json changes against a git revision (default HEAD).
-# One header line per changed plugin; breaking-change candidates are indented below it.
+# git 리비전(기본값 HEAD) 대비 lazy-lock.json 변경을 요약한다.
+# 바뀐 플러그인마다 한 줄을 쓰고, breaking change 후보 커밋을 그 아래 들여써 붙인다.
 set -euo pipefail
 
 base=${1:-HEAD}
@@ -15,7 +15,7 @@ jq -rn --argjson old "$(git show "$base:lazy-lock.json")" --slurpfile new lazy-l
   | [$k, $old[$k].commit // "-", $new[$k].commit // "-", $old[$k].branch // "-", $new[$k].branch // "-"]
   | @tsv' |
   while IFS=$'\t' read -r name old new old_branch new_branch; do
-    # Specs reference a plugin by "<owner>/<name>", or by `name = "<name>"` when the repo name differs.
+    # spec은 플러그인을 "<owner>/<name>"으로, 레포 이름과 다르면 `name = "<name>"`으로 가리킨다.
     escaped=${name//./\\.}
     spec=$(grep -rlE --include='*.lua' "/$escaped\"|name = \"$escaped\"" lua/plugins | paste -sd, - || true)
     if [[ $old == - ]]; then
