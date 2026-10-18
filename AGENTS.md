@@ -12,7 +12,7 @@
 ## Validation
 
 - Format changed Lua files with `stylua`; the repository uses `.stylua.toml`.
-- Do not run `nvim --headless` as a routine check;
+- Do not run `nvim --headless` as a routine check; the `update-plugins` skill is the exception.
 
 ## Project Structure
 
