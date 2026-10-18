@@ -10,6 +10,6 @@ return {
   },
   config = function(_, opts)
     require("dressing").setup(opts)
-    require("fzf-lua").register_ui_select({})
+    require("fzf-lua").register_ui_select({}, true)
   end,
 }
