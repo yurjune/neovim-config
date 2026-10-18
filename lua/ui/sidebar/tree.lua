@@ -162,7 +162,7 @@ function M.focus_target(win)
   end
 end
 
-function M.open_file(win)
+function M.open_file(win, stay_in_tree)
   if not win or not vim.api.nvim_win_is_valid(win) then
     return
   end
@@ -190,6 +190,9 @@ function M.open_file(win)
 
   vim.api.nvim_set_current_win(state.target_win)
   vim.api.nvim_cmd({ cmd = "edit", args = { path } }, {})
+  if stay_in_tree then
+    vim.api.nvim_set_current_win(win)
+  end
   return true
 end
 
@@ -217,14 +220,19 @@ function M.setup(opts)
     desc = "Set sidebar tree keymaps",
     group = group,
     callback = function(args)
-      for _, key in ipairs({ "<CR>", "<Tab>" }) do
-        vim.keymap.set("n", key, function()
-          M.open_file(vim.api.nvim_get_current_win())
-        end, {
-          buffer = args.buf,
-          desc = "Open tree file",
-        })
-      end
+      vim.keymap.set("n", "<CR>", function()
+        M.open_file(vim.api.nvim_get_current_win())
+      end, {
+        buffer = args.buf,
+        desc = "Open tree file",
+      })
+
+      vim.keymap.set("n", "<Tab>", function()
+        M.open_file(vim.api.nvim_get_current_win(), true)
+      end, {
+        buffer = args.buf,
+        desc = "Open tree file and stay in tree",
+      })
 
       vim.keymap.set("n", "<Esc>", opts.close, {
         buffer = args.buf,

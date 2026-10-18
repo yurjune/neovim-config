@@ -23,7 +23,7 @@ It also follows `BufEnter` to highlight the current file when it belongs to the 
 
 ## Interaction contracts
 
-`<CR>` and `<Tab>` open the selected file in the tree's saved target window; `<Esc>` returns to that window and switches back to blank mode.
+`<CR>` opens the selected file in the tree's saved target window and moves focus there. `<Tab>` opens it in that window while keeping focus in the tree. `<Esc>` returns to the target window and switches back to blank mode.
 If the saved target window has been closed, opening a file is cancelled with a warning rather than choosing a different window.
 
 `tree.lua` generates a coloured display and a plain path list with separate `tree` calls.
