@@ -140,6 +140,34 @@ vim.api.nvim_create_autocmd("FileType", {
       add_surround("*", 2)
     end, { desc = "Make bold current selection" })
 
+    local function bold_keys(first_row, last_row)
+      local lines = vim.api.nvim_buf_get_lines(ev.buf, first_row - 1, last_row, false)
+
+      for index, line in ipairs(lines) do
+        local prefix = line:match("^%s*[-+*]%s+") or line:match("^%s*%d+[.)]%s+") or line:match("^%s*")
+        local content = line:sub(#prefix + 1)
+        local key, separator, value = content:match("^([^:]-[^%s:])(%s*:%s*)(%S.*)$")
+        if key and not key:match("^%*%*.*%*%*$") then
+          lines[index] = prefix .. "**" .. key .. "**" .. separator .. value
+        end
+      end
+
+      vim.api.nvim_buf_set_lines(ev.buf, first_row - 1, last_row, false, lines)
+    end
+
+    map("n", "<leader>mk", function()
+      local row = vim.fn.line(".")
+      bold_keys(row, row)
+    end, { desc = "Bold key on current line" })
+
+    map("v", "<leader>mk", function()
+      -- Apply to every line touched by the visual selection.
+      local first_row = math.min(vim.fn.getpos("v")[2], vim.fn.line("."))
+      local last_row = math.max(vim.fn.getpos("v")[2], vim.fn.line("."))
+      vim.cmd.normal({ args = { vim.keycode("<Esc>") }, bang = true })
+      bold_keys(first_row, last_row)
+    end, { desc = "Bold keys in selected key-value lines" })
+
     map("v", "<leader>ms", function()
       add_surround("~", 2)
     end, { desc = "Make strikethrough current selection" })
