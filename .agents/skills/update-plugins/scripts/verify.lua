@@ -115,6 +115,25 @@ local function compile_queries()
   settle(0)
 end
 
+-- 키맵이 부르는 사용자 명령이 있는지 확인한다.
+-- 플러그인이 명령을 없애거나 이름을 바꿔도 로드와 setup()은 성공하므로 여기서만 드러난다.
+local function check_keymap_commands()
+  set_phase("commands")
+  local seen = {}
+  for _, mode in ipairs({ "n", "x", "s", "o", "i", "c", "t" }) do
+    for _, map in ipairs(vim.api.nvim_get_keymap(mode)) do
+      local rhs = map.rhs or ""
+      local cmd = rhs:match("^<[Cc][Mm][Dd]>(%u[%w_]*)") or rhs:match("^:(%u[%w_]*)")
+      -- exists()는 없으면 0, 여러 명령과 겹쳐 모호하면 3을 돌려준다.
+      if cmd and not seen[cmd] and vim.fn.exists(":" .. cmd) % 3 == 0 then
+        seen[cmd] = true
+        record("keymap", "error", ("%s: command :%s does not exist"):format(map.lhs, cmd))
+      end
+    end
+  end
+  settle(0)
+end
+
 local function read_baseline()
   if not baseline_path then
     return nil
@@ -156,6 +175,7 @@ local function run()
   load_plugins()
   fire_very_lazy()
   compile_queries()
+  check_keymap_commands()
   set_phase("late")
   settle(1000)
   finish()

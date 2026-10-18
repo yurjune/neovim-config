@@ -79,6 +79,7 @@ VERIFY_OUT=<scratchpad>/after.json VERIFY_BASELINE=<scratchpad>/baseline.json nv
 - 각 플러그인을 `pcall` 안에서 `require("lazy").load()`로 강제 로드한다. `setup()` 옵션 변경, 모듈 이름 변경, 제거된 함수가 여기서 드러난다.
 - `VeryLazy`를 직접 발생시킨다. lazy.nvim은 `UIEnter` 이후에만 발생시키는데, headless에는 오지 않는다.
 - 커스텀 쿼리를 포함해 parser가 있는 언어의 Tree-sitter 쿼리를 모두 컴파일한다.
+- 키맵이 부르는 사용자 명령(`<cmd>Foo`, `:Foo`)이 있는지 확인한다. 명령이 없어져도 로드는 성공하기 때문이다.
 - `vim.notify`와 `:messages`를 수집하고, 종료 전 `vim.wait`로 늦게 오는 비동기 에러를 잡는다. startup 중 `setup()`이 예약한 경고도 잡도록 VimEnter에서 훅을 건다.
 
 로드 이후의 동작은 검증하지 않는다. 로드 순서가 실제와 다르므로, 기준선에 없는 문제가 순서 탓으로 보이면 해당 플러그인만 실제 순서대로 확인한다.
