@@ -87,11 +87,17 @@ local function toggle_marker(style)
     return
   end
 
-  -- Search for the markers to the left of the cursor position
+  -- Search for the markers to the left of the cursor position.
+  -- Scanning forward for the last match keeps this correct for markers
+  -- that would read differently in a reversed string.
   local left_text = line:sub(1, col)
-  local marker_start = left_text:reverse():find(pattern)
-  if marker_start then
-    marker_start = col - marker_start + 2 - count
+  local marker_start, search_from = nil, 1
+  while true do
+    local found = left_text:find(pattern, search_from)
+    if not found then
+      break
+    end
+    marker_start, search_from = found, found + 1
   end
 
   -- Search to the right of the cursor position and in the following lines
