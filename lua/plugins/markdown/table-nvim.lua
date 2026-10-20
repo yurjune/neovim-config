@@ -89,8 +89,8 @@ return {
   opts = {
     padd_column_separators = true, -- Insert a space around column separators.
     mappings = {
-      next = "<Nop>",
-      prev = "<Nop>",
+      next = "<Tab>",
+      prev = "<S-Tab>",
 
       move_row_up = "<leader>tk",
       move_row_down = "<leader>tj",
