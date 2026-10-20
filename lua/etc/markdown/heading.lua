@@ -38,7 +38,9 @@ local function insert_today(buf)
   vim.api.nvim_win_set_cursor(0, { cursor[1], 0 })
 end
 
-local function level_up(buf)
+-- Shifts every heading in the buffer. A negative step moves toward "#",
+-- a positive one toward "######".
+local function shift_levels(buf, step)
   local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
   local fence = nil
 
@@ -52,10 +54,13 @@ local function level_up(buf)
     elseif marker then
       fence = marker
     else
-      -- Levels deeper than 6 are not headings, so leave them alone.
+      -- Seven or more hashes is not a heading, and neither is a shift outside 1-6,
+      -- so both ends of the range are checked.
       local hashes = line:match("^(#+)%s")
-      if hashes and #hashes < 6 then
-        vim.api.nvim_buf_set_lines(buf, index - 1, index, false, { "#" .. line })
+      local level = hashes and #hashes <= 6 and #hashes + step
+      if level and level >= 1 and level <= 6 then
+        local shifted = string.rep("#", level) .. line:sub(#hashes + 1)
+        vim.api.nvim_buf_set_lines(buf, index - 1, index, false, { shifted })
       end
     end
   end
@@ -91,9 +96,13 @@ function M.setup(buf)
     desc = "Insert today's level 3 heading",
   })
 
-  vim.api.nvim_buf_create_user_command(buf, "MarkdownHeadingUp", function()
-    level_up(buf)
-  end, { desc = "Increase every heading level by one" })
+  vim.api.nvim_buf_create_user_command(buf, "MarkdownHeadingPromote", function()
+    shift_levels(buf, -1)
+  end, { desc = "Promote every heading one level" })
+
+  vim.api.nvim_buf_create_user_command(buf, "MarkdownHeadingDemote", function()
+    shift_levels(buf, 1)
+  end, { desc = "Demote every heading one level" })
 end
 
 return M
