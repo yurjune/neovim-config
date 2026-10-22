@@ -22,10 +22,10 @@ return {
           rendered = 2,
         },
         -- Neovim 자체 conceal 쿼리로 처리되는 요소(ex. bold, inline code)에 대한 conceal 여부를 결정
-        concealcursor = {
-          default = vim.o.concealcursor,
-          rendered = "nc",
-        },
+        -- concealcursor = {
+        --   default = vim.o.concealcursor,
+        --   rendered = "nc",
+        -- },
       },
       latex = {
         enabled = false,
@@ -51,9 +51,9 @@ return {
       -- render-markdown이 생성한 요소(ex. heading)에 대한 conceal 여부를 결정
       anti_conceal = {
         enabled = true,
-        ignore = {
-          check_icon = { "n" },
-        },
+        -- ignore = {
+        --   check_icon = { "n" },
+        -- },
       },
     })
 
