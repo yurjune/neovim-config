@@ -53,6 +53,8 @@ return {
           -- This triggers unintended downward window navigation instead of inserting a newline.
           -- Disable `nav_down` to avoid the conflict.
           nav_down = false,
+          -- `<C-q>` closes the window, so disable it
+          hide_ctrl_q = { "<c-q>", "<Nop>", mode = "n", desc = "disabled in Sidekick" },
         },
       },
       prompts = {

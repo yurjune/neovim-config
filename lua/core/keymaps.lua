@@ -7,7 +7,7 @@ vim.keymap.set("n", "<C-q>", "<C-6>", { desc = "Switch to last accessed buffer" 
 vim.keymap.set("n", "<C-6>", "<Nop>")
 
 vim.keymap.set("n", "<leader>rq", ":cexpr [] | cclose<CR>", { desc = "Reset and close quick-fix" })
-vim.keymap.set("t", "<C-]>", [[<C-\><C-n>]], { noremap = true, desc = "change to normal mode" })
+vim.keymap.set("t", "<C-q>", [[<C-\><C-n>]], { noremap = true, desc = "change to normal mode" })
 
 vim.keymap.set("n", "gh", function()
   local windows = vim.api.nvim_tabpage_list_wins(0)
