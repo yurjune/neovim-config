@@ -73,7 +73,8 @@ local function get_filename(focused, diagnostic_highlight)
   local filename = vim.fn.expand("%:t")
 
   if not focused then
-    return highlight(filename, "WinBarInactiveFilename")
+    -- Keep the inactive window's own winbar colour instead of a diagnostic one.
+    return highlight(filename, "WinBarNC")
   elseif diagnostic_highlight then
     return highlight(filename, diagnostic_highlight)
   end
