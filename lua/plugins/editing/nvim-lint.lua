@@ -32,7 +32,7 @@ return {
     }
 
     -- Auto linting trigger
-    local lint_debounce_timer = vim.loop.new_timer()
+    local lint_debounce_timer = vim.uv.new_timer()
     vim.api.nvim_create_autocmd(lint_condition, {
       group = lint_augroup,
       callback = function()
@@ -46,7 +46,7 @@ return {
     })
 
     -- GitHub Actions workflow linting with actionlint
-    local actionlint_debounce_timer = vim.loop.new_timer()
+    local actionlint_debounce_timer = vim.uv.new_timer()
     vim.api.nvim_create_autocmd(lint_condition, {
       group = lint_augroup,
       pattern = {
