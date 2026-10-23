@@ -56,7 +56,7 @@ neotest  deadfb1..1c529a1  42 commits  spec:lua/plugins/debug/neotest.lua  chang
   e372852 fix(subprocess): fully remove tree-sitter dependency (#606)
 nvim-treesitter  28d480e..61df849  469 commits  spec:...  branch:master->main
 smart-splits.nvim  32f6788..ea55335  78 commits  spec:...  version:v2.1.0->v3.0.0
-octo.nvim  added  spec:lua/plugins/git/octo.lua
+csvview.nvim  added  spec:lua/plugins/etc/csvview.lua
 ```
 
 - 후보 커밋은 `!:|breaking|deprecat|remov|renam` 필터라 무관한 커밋도 걸린다. 하나씩 판단한다.
