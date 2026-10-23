@@ -196,11 +196,19 @@ function M.open_file(win, stay_in_tree)
     return
   end
 
-  vim.api.nvim_set_current_win(state.target_win)
-  vim.api.nvim_cmd({ cmd = "edit", args = { path } }, {})
-  if stay_in_tree then
-    vim.api.nvim_set_current_win(win)
+  local function edit()
+    vim.api.nvim_cmd({ cmd = "edit", args = { path } }, {})
   end
+
+  if stay_in_tree then
+    -- Borrow the target window instead of entering it: `:edit` behaves the same,
+    -- but no window ever changes, so WinEnter and WinLeave stay quiet.
+    vim.api.nvim_win_call(state.target_win, edit)
+  else
+    vim.api.nvim_set_current_win(state.target_win)
+    edit()
+  end
+
   return true
 end
 
