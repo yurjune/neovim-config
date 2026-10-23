@@ -88,9 +88,12 @@ local function open_window()
   vim.bo[buf].modifiable = false
   vim.bo[buf].buflisted = false
 
-  vim.cmd("topleft " .. width .. "vsplit")
-  local win = vim.api.nvim_get_current_win()
-  vim.api.nvim_win_set_buf(win, buf)
+  -- `enter = false` builds the split without ever moving focus into it.
+  local win = vim.api.nvim_open_win(buf, false, {
+    split = "left",
+    win = -1,
+    width = width,
+  })
 
   vim.wo[win].number = false
   vim.wo[win].relativenumber = false
@@ -102,8 +105,6 @@ local function open_window()
 
   equalize_editor_windows()
 
-  -- Restore previous window focus
-  vim.api.nvim_set_current_win(previous)
   -- Some startup events can focus the new split after this function returns.
   vim.schedule(function()
     if vim.api.nvim_win_is_valid(previous) then
