@@ -9,7 +9,7 @@ This is a startup mode, not a runtime toggle.
 The mode changes these integrations:
 
 - Completion: [`nvim-cmp`](../lsp/nvim-cmp.lua) loads with no completion sources.
-- AI completion: [`Copilot`](../ai/copilot.lua) and [`Supermaven`](../ai/supermaven.lua) do not load.
+- AI completion: [`Supermaven`](../ai/supermaven.lua) does not load.
 - Formatting and linting: [`Conform`](../editing/conform.lua) and [`nvim-lint`](../editing/nvim-lint.lua) do not load.
 - C/C++ LSP: [`clangd`](../../../lsp/clangd.lua) stops after attaching while `vim.g.leetcode_lsp_off` is set.
 - Images: [`image.nvim`](image.lua) loads for LeetCode content.
