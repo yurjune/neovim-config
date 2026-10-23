@@ -20,6 +20,7 @@ Three globals preserve the intended UI state across session restoration:
 Tree mode remembers the current editor window as its target.
 Selected files open there, and closing the tree returns focus there.
 It also follows `BufEnter` to highlight the current file when it belongs to the rendered working directory.
+Rendering indexes every path by its absolute form, so that lookup stays a table hit however large the tree is.
 
 ## Interaction contracts
 

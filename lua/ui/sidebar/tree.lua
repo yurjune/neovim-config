@@ -70,16 +70,15 @@ local function read(opts)
   return output, paths, directory_ranges
 end
 
-local function find_file_row(paths, file, cwd)
-  if file == "" then
-    return
-  end
+-- Every buffer switch looks up a row, so pay for the paths once while rendering.
+local function index_rows(paths, cwd)
+  local rows = {}
 
   for row, path in ipairs(paths) do
-    if vim.fs.normalize(vim.fs.joinpath(cwd, path)) == file then
-      return row
-    end
+    rows[vim.fs.normalize(vim.fs.joinpath(cwd, path))] = row
   end
+
+  return rows
 end
 
 local function highlight_directories(buf, directory_ranges)
@@ -136,7 +135,7 @@ function M.focus_file(win, file)
   end
 
   local current_file = file ~= "" and vim.fs.normalize(file) or ""
-  local row = find_file_row(state.paths, current_file, state.cwd)
+  local row = state.rows[current_file]
   local file_col = 0
   local leftcol = 0
 
@@ -209,6 +208,7 @@ function M.render(args)
   local output, paths, directory_ranges = read(args.opts)
   states[args.buf] = {
     paths = paths,
+    rows = index_rows(paths, args.cwd),
     cwd = args.cwd,
     target_win = args.target_win,
   }
