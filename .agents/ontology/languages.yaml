@@ -1,0 +1,80 @@
+# How a language is wired into this config.
+#
+# A map, not an inventory. Which formatter runs on which filetype lives in conform.lua and is not copied here. What is
+# here is the shape around those tables: where each piece goes, what has to agree with what, and how it fails when it
+# does not.
+
+# Every place a language touches; adding or removing one means visiting all of them. `symbol` is what to search for once
+# the file is open.
+wiring:
+  filetype:
+    define: { file: lua/core/autocmd.lua, symbol: vim.filetype.add }
+    if_missing: >
+      Only needed when Neovim does not detect the extension on its own, but everything below is keyed to the filetype -
+      get it wrong and none of the tables apply at all.
+  lsp_server:
+    define:
+      { file: lsp/<server>.lua, symbol: "filetypes, root_markers, settings" }
+    enable: { file: lua/core/lsp.lua, symbol: vim.lsp.enable }
+    if_missing: >
+      A file without its enable entry never starts. An enable entry without its file falls back to whatever
+      nvim-lspconfig ships, which is not what the rest of this config assumes.
+  formatter:
+    define: { file: lua/plugins/editing/conform.lua, symbol: formatters_by_ft }
+    note: List order is run order, and the second tool reformats the first.
+  linter:
+    define: { file: lua/plugins/editing/nvim-lint.lua, symbol: linters_by_ft }
+  parser:
+    define:
+      {
+        file: lua/plugins/editing/nvim-treesitter.lua,
+        symbol: ensure_installed,
+      }
+  debug_adapter:
+    define:
+      {
+        file: lua/plugins/debug/nvim-dap.lua,
+        symbol: "dap.adapters, dap.configurations",
+      }
+  install:
+    define: { file: lua/plugins/lsp/mason.lua, symbol: ensure_installed }
+    if_missing: >
+      A tool wired up but not installed is skipped at runtime. A tool installed but wired to nothing just sits on disk -
+      mason never reports it, so it is only found by reading both lists together.
+
+# Hold across every table above.
+constraints:
+  - rule: Keys are filetypes, not languages.
+    note: >
+      One language's filetypes do not all appear in every table: `scss` is formatted but `sass` is not, `json` but not
+      `jsonc`, `sql` but not `mysql`.
+
+  - rule: Mason's package names do not match the ids used in lsp/ and core/lsp.lua.
+    note: >
+      The pattern is irregular and nothing in an id predicts its package. Copy the name from mason.lua; the ids that
+      differ are the ALIASES table in scripts/check-wiring.py.
+
+  - rule: The `leet` startup argument takes most of this wiring out.
+    note: >
+      It sets vim.g.leetcode, which drops conform, nvim-lint, supermaven and cmp's sources entirely. A new tool that
+      should not run during problem solving has to check the flag itself - lua/plugins/etc/leetcode.md has the contract.
+
+provisioning:
+  default: mason
+  outside: [rustup, brew, npm]
+  note: >
+    Anything provisioned outside mason must stay out of its ensure_installed. Which tool comes from which installer is
+    the EXTERNAL table in scripts/check-wiring.py.
+
+dormant:
+  note: >
+    Wired up but switched off on purpose. scripts/check-wiring.py reports every one of these, so its non-empty output is
+    the normal state - read it as a list to confirm, not a list to fix.
+  mason:
+    tools: [pylint, checkstyle, google-java-format, yamllint]
+    state: in ensure_installed, their config commented out
+    note: No reason is recorded anywhere; confirm before re-enabling or uninstalling.
+  lsp:
+    tools: [copilot]
+    state: config file complete, its entry commented out in vim.lsp.enable
+    note: Written ahead of a need, not in use; lua/core/lsp.lua says so beside the entry.

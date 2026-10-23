@@ -5,20 +5,26 @@ description: Find where a key is already bound in this Neovim config, or verify 
 
 # Checking a keymap
 
-`<leader>` is the spacebar. Bindings are spread across several places, so grepping `lua/core/keymaps.lua` alone proves nothing.
+`<leader>` is the spacebar. Bindings are spread across several places, so grepping `lua/core/keymaps.lua` alone proves
+nothing.
 
 ## Search
 
 ```sh
 grep -rn --include='*.lua' -F '<leader>xx' .  # exact lhs; catches vim.keymap.set and lazy.nvim keys specs
 grep -rn --include='*.lua' -F '<leader>x' .   # prefixes too: which-key timeoutlen=1000 stalls the shorter mapping
+grep -rn --include='*.lua' -E '"<[^"]*" *\.\.' .  # lhs built in a loop; the greps above report these free
 ```
+
+`<leader>h3` is bound by `"<leader>h" .. level`, so match your key against the prefixes the third grep finds, then open
+the owner for the loop bound.
 
 Two things grep misses:
 
-- Plugins that bind keys inside their own `opts` — a `keymaps` or `mappings` table — instead of `vim.keymap.set`.
-  Check the spec of whichever plugin owns that filetype.
-- Neovim defaults (`:help default-mappings`). `lua/core/lsp.lua` deletes the `gr`-prefixed ones so the custom `gr` does not stall.
+- Plugins that bind keys inside their own `opts` — a `keymaps` or `mappings` table — instead of `vim.keymap.set`. Check
+  the spec of whichever plugin owns that filetype.
+- Keys something else takes first — the OS, or a Neovim default (`:help default-mappings`) — and duplicates whose winner
+  takes inference. Both live in [`keymaps.yaml`](../../ontology/keymaps.yaml); grep cannot reach either.
 
 To confirm, ask the user to run `:verbose map <lhs>` in their running Neovim; it reports the winner and its source file.
 Do not launch `nvim --headless` for this.

@@ -1,0 +1,33 @@
+# Keymap knowledge the config cannot tell you itself.
+#
+# A map, not an inventory. What any one key is bound to lives in the config and grep answers it faster - SKILL.md next
+# to this file has the patterns. What belongs here is the shape around those bindings: rules that hold across files, and
+# keys that cannot work at all.
+
+# Keys that cannot work. A binding that violates this fails silently - the key simply does nothing.
+reserved:
+  - keys: ["<C-h>", "<C-j>", "<C-k>", "<C-l>"]
+    layer: os
+    reason: >
+      ~/.hammerspoon/modules/alternate-arrow-keys.lua binds all four with hs.hotkey.bind and no app filter, so the OS
+      swallows them and sends an arrow key instead - in every mode, insert included. A config line binding them is not
+      wrong, only inert; offer a reachable key rather than deleting it.
+    fallout: >
+      nvim-cmp's <C-j>/<C-k> still work, but through the <Down>/<Up> that cmp.mapping.preset.insert() also binds.
+      supermaven's accept_word = "<C-j>" has no such fallback and never fires.
+
+  - keys: ["<C-1>", "<C-2>", "<C-3>"]
+    layer: os
+    reason: >
+      ~/.hammerspoon/modules/switch-app.lua takes these for app switching, the same way and with the same effect as the
+      arrow-key remap above. Nothing here binds them today, so a new mapping on one would just be inert.
+
+  - keys: ["gr*"]
+    layer: neovim
+    reason: >
+      Neovim's `grn`/`gra`/`grr`/`gri` defaults make the custom `gr` stall for `timeoutlen`, so `lua/core/lsp.lua`
+      deletes them on LspAttach. A new `gr`-prefixed mapping has to extend that deletion as well.
+
+# Duplicate bindings whose winner takes inference. Duplicates separated by a visible `ft =`, `cond =` or mode are left
+# out - opening the two files settles those.
+collisions: []
