@@ -18,7 +18,8 @@
 
 - `lua/plugins/<category>/` — plugin specs, filed under the matching category; a new category must also be added to the import list in `lua/lazy-config.lua`.
 - `lsp/<server>.lua` — native LSP configuration; enable the server in `lua/core/lsp.lua`.
-- `lua/core/`, `lua/ui/` — register each new module in that directory's `init.lua`; an unregistered module silently never loads.
+- `lua/<area>/init.lua` — the only loader for that area; register each new module there or it silently never loads.
+  `lua/plugins/` is the exception: lazy.nvim imports those specs from `lua/lazy-config.lua`.
 - `lua/ui/layout.lua` — shared responsive UI dimensions; do not hardcode them in individual plugin specs.
 - `lua/etc/<module>/` — self-contained custom modules.
 - `plugin/*.lua` — code that must run at startup even inside the child Neovim processes some plugins spawn; a lazy-loaded plugin spec does not reach those.
