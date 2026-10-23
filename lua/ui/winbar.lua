@@ -1,6 +1,5 @@
 local severity = vim.diagnostic.severity
 local sidebar_ft = require("ui.sidebar").filetype
-local mode = require("ui.mode")
 
 local diagnostics = {
   { level = severity.ERROR, label = "E", highlight = "WinBarDiagnosticError" },
@@ -23,14 +22,6 @@ local function setup_highlights()
     undercurl = false,
   })
 
-  vim.api.nvim_set_hl(0, "WinBarLocation", {
-    fg = vim.g.colors.white,
-    bold = true,
-  })
-  vim.api.nvim_set_hl(0, "WinBarProgress", {
-    fg = vim.g.colors.gold,
-    bold = true,
-  })
   vim.api.nvim_set_hl(0, "WinBarModified", {
     fg = vim.g.colors.gold,
     bold = true,
@@ -53,30 +44,6 @@ end
 
 local function highlight(text, group)
   return "%#" .. group .. "#" .. text .. "%*"
-end
-
-local function get_location()
-  return string.format("%3d:%-2d", vim.fn.line("."), vim.fn.charcol("."))
-end
-
-local function get_mode()
-  local mode_info = mode.get()
-  local label = "-- " .. mode_info.label .. " --"
-
-  return highlight(label, mode_info.highlight)
-end
-
-local function get_progress()
-  local current_line = vim.fn.line(".")
-  local total_lines = vim.fn.line("$")
-
-  if current_line == 1 then
-    return "Top"
-  elseif current_line == total_lines then
-    return "Bot"
-  end
-
-  return string.format("%2d%%%%", math.floor(current_line / total_lines * 100))
 end
 
 local function is_focused()
@@ -124,14 +91,6 @@ local function get_left(focused)
   return get_filename(focused, filename_highlight) .. diagnostic_parts .. get_modified()
 end
 
-local function get_right()
-  return get_mode()
-    .. " "
-    .. highlight(get_location(), "WinBarLocation")
-    .. " "
-    .. highlight(get_progress(), "WinBarProgress")
-end
-
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = setup_highlights,
 })
@@ -144,12 +103,7 @@ _G.get_winbar = function()
     return vim.fn.expand("%:t")
   end
 
-  local focused = is_focused()
-  local left = get_left(focused)
-  local use_right = false
-  local right = use_right and get_right() or ""
-  local combined = left .. "%=" .. right
-  return combined
+  return get_left(is_focused())
 end
 
 vim.opt.winbar = "%{%v:lua.get_winbar()%}"
