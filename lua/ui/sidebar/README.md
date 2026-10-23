@@ -26,9 +26,9 @@ It also follows `BufEnter` to highlight the current file when it belongs to the 
 `<CR>` opens the selected file in the tree's saved target window and moves focus there. `<Tab>` opens it in that window while keeping focus in the tree. `<Esc>` returns to the target window and switches back to blank mode.
 If the saved target window has been closed, opening a file is cancelled with a warning rather than choosing a different window.
 
-`tree.lua` generates a coloured display and a plain path list with separate `tree` calls.
-Their rows must remain aligned: the cursor row in the display indexes the corresponding path in the plain list.
-Any change to either command's output options must preserve that correspondence.
+`tree.lua` renders with a single `tree -C -f` call: colour marks directories and `-f` prints each entry's full path.
+Each line is split into the path it points to and the name shown in its place, so the cursor row always indexes its own path.
+Replacing `-f` would break that, since nothing else in the output identifies the entry.
 
 ## Tree rendering and visibility
 

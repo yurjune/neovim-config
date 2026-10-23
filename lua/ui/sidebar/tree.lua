@@ -39,23 +39,32 @@ local function build_command(opts, output_options)
   return command
 end
 
-local function parse_directory_line(line)
-  -- `tree -C` wraps directory names with ANSI color codes.
-  local prefix, name, suffix = line:match("^(.-)\27%[[%d;]*m(.-)\27%[[%d;]*m(.*)$")
-  if not name then
-    return line
+-- `tree -C -f` colours directory names and prints full paths, so a single call
+-- yields both the rendered line and the path that line points to.
+local function parse_line(line)
+  local plain = line:gsub("\27%[[%d;]*m", "")
+  local path = plain == "." and "." or plain:match("^[^.]*(%./.*)$")
+  if not path then
+    -- Blank and report lines carry no entry.
+    return plain
   end
 
-  return prefix .. name .. suffix, { #prefix, #prefix + #name }
+  local prefix = plain:sub(1, #plain - #path)
+  -- Symlinks are printed as `path -> target`; only the path side is openable.
+  local link = path:match("( %-> .*)$") or ""
+  path = path:sub(1, #path - #link)
+  local name = (path == "." and "." or vim.fs.basename(path)) .. link
+  local is_directory = plain ~= line
+
+  return prefix .. name, path, is_directory and { #prefix, #prefix + #name - #link } or nil
 end
 
 local function read(opts)
-  local output = vim.fn.systemlist(build_command(opts, { "-C" }))
-  local paths = vim.fn.systemlist(build_command(opts, { "-fi", "--noreport" }))
-  local directory_ranges = {}
+  local lines = vim.fn.systemlist(build_command(opts, { "-C", "-f" }))
+  local output, paths, directory_ranges = {}, {}, {}
 
-  for row, line in ipairs(output) do
-    output[row], directory_ranges[row] = parse_directory_line(line)
+  for row, line in ipairs(lines) do
+    output[row], paths[row], directory_ranges[row] = parse_line(line)
   end
 
   return output, paths, directory_ranges
