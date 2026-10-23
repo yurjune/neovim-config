@@ -1,6 +1,7 @@
 vim.lsp.enable({
   "lua_ls",
   "ts_ls",
+  -- Configured ahead of a need that has not come; enable it when one does.
   -- "copilot",
   "rust_analyzer",
   "emmet_ls",
@@ -61,28 +62,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     local support_inline = client and client.server_capabilities.inlineCompletionProvider
     -- Supermaven handles inline completion for now; keep this path ready to switch back.
+    -- Its toggle is gone with it: <leader>ic now toggles Supermaven, so re-add one here
+    -- when switching back.
     local disabled = true
     if not support_inline or vim.g.leetcode or disabled then
       return
     end
 
-    vim.g.inline_completion_enabled = true
     vim.lsp.inline_completion.enable()
 
     local excluded_ft = { "markdown" }
     local buf_ft = vim.bo[ev.buf].filetype
     if vim.tbl_contains(excluded_ft, buf_ft) then
-      vim.g.inline_completion_enabled = false
       vim.lsp.inline_completion.enable(false)
     end
-
-    vim.keymap.set("n", "<leader>ct", function()
-      local next = not vim.g.inline_completion_enabled
-      vim.g.inline_completion_enabled = next
-      vim.lsp.inline_completion.enable(next)
-      local text = next and "ENABLED" or "DISABLED"
-      vim.notify("Inline completion " .. text, vim.log.levels.INFO, { title = "LSP" })
-    end, { desc = "Toggle inline completion", buffer = ev.buf })
   end,
 })
 

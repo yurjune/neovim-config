@@ -111,7 +111,7 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "rust",
       callback = function()
-        vim.keymap.set("n", "<leader>cb", function()
+        vim.keymap.set("n", "<leader>rr", function()
           Terminal:new({
             cmd = "cargo run",
             close_on_exit = false,
@@ -124,7 +124,7 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "c",
       callback = function()
-        vim.keymap.set("n", "<leader>cb", function()
+        vim.keymap.set("n", "<leader>rr", function()
           local dir = vim.fn.expand("%:p:h")
           Terminal
             :new({
@@ -140,7 +140,7 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "cpp",
       callback = function()
-        vim.keymap.set("n", "<leader>cb", function()
+        vim.keymap.set("n", "<leader>rr", function()
           local dir = vim.fn.expand("%:p:h")
           Terminal:new({
             cmd = string.format(

@@ -48,7 +48,7 @@ return {
       api.start()
     end
 
-    vim.keymap.set("n", "<leader>cc", function()
+    vim.keymap.set("n", "<leader>ic", function()
       local enabled = not api.is_running()
 
       if enabled then
