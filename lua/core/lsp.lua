@@ -60,6 +60,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     local support_inline = client and client.server_capabilities.inlineCompletionProvider
+    -- Supermaven handles inline completion for now; keep this path ready to switch back.
     local disabled = true
     if not support_inline or vim.g.leetcode or disabled then
       return
