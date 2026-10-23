@@ -1,7 +1,7 @@
--- update-plugins 스킬의 headless 검증 하네스.
--- 단순 headless 기동이 건너뛰는 일을 직접 한다: 모든 플러그인 강제 로드, VeryLazy 발생, Tree-sitter 쿼리 컴파일.
--- 에러와 경고를 단계별로 기록해 $VERIFY_OUT에 JSON으로 쓴다.
--- $VERIFY_BASELINE을 주면 그 파일에 이미 있는 문제는 빼고, 새 문제가 있을 때만 실패한다.
+-- Headless verification harness for the update-plugins skill.
+-- Does what a plain headless startup skips: force-loads every plugin, fires VeryLazy, compiles Tree-sitter queries.
+-- Records errors and warnings by phase and writes them as JSON to $VERIFY_OUT.
+-- Given $VERIFY_BASELINE, drops issues already in that file and fails only when new ones remain.
 --
 --   VERIFY_OUT=<path> [VERIFY_BASELINE=<path>] nvim --headless -c "luafile <this file>" 2><log>
 
@@ -11,7 +11,7 @@ local baseline_path = vim.env.VERIFY_BASELINE
 local issues = {}
 local phase = "startup"
 
--- 실행이 멈추면 어디서 멈췄는지 보이도록 단계를 stderr에 쓴다.
+-- Writes the phase to stderr so a hang shows where it stopped.
 local function set_phase(name)
   phase = name
   io.stderr:write("verify: " .. name .. "\n")
@@ -24,8 +24,8 @@ local function record(source, level, msg)
   end
 end
 
--- noice 같은 플러그인이 로드되면서 vim.notify를 바꾸므로, 단계마다 훅을 다시 건다.
--- 원래 함수는 부르지 않는다. headless에서는 :messages로 출력돼 두 번 집계된다.
+-- Plugins such as noice replace vim.notify when they load, so the hook is reinstalled every phase.
+-- The original function is not called: in headless mode it prints to :messages and would be counted twice.
 local hooked
 local function hook_notify()
   if vim.notify == hooked then
@@ -40,7 +40,7 @@ local function hook_notify()
   vim.notify = hooked
 end
 
--- autocmd와 예약된 콜백의 에러는 :messages에만 남으므로, 단계마다 새 줄을 읽는다.
+-- Errors from autocmds and scheduled callbacks only reach :messages, so new lines are read every phase.
 local seen_messages = 0
 local function collect_messages()
   local lines = vim.split(vim.api.nvim_exec2("messages", { output = true }).output, "\n", { trimempty = true })
@@ -50,7 +50,7 @@ local function collect_messages()
   seen_messages = #lines
 end
 
--- 예약된 콜백이 실행되게 기다린 뒤, 그동안 보고된 것을 모은다.
+-- Waits for scheduled callbacks to run, then collects what they reported.
 local function settle(ms)
   vim.wait(ms, function()
     return false
@@ -85,7 +85,7 @@ local function fire_very_lazy()
   settle(200)
 end
 
--- parser가 있는 언어의 runtimepath 쿼리를 모두 컴파일한다. queries/와 after/queries/의 커스텀 쿼리도 포함된다.
+-- Compiles every runtimepath query for languages with a parser, including custom ones in queries/ and after/queries/.
 local function compile_queries()
   set_phase("queries")
   local query_langs_with_parser = {}
@@ -115,8 +115,8 @@ local function compile_queries()
   settle(0)
 end
 
--- 키맵이 부르는 사용자 명령이 있는지 확인한다.
--- 플러그인이 명령을 없애거나 이름을 바꿔도 로드와 setup()은 성공하므로 여기서만 드러난다.
+-- Checks that the user commands keymaps call exist.
+-- Loading and setup() still succeed when a plugin removes or renames a command, so only this catches it.
 local function check_keymap_commands()
   set_phase("commands")
   local seen = {}
@@ -124,7 +124,7 @@ local function check_keymap_commands()
     for _, map in ipairs(vim.api.nvim_get_keymap(mode)) do
       local rhs = map.rhs or ""
       local cmd = rhs:match("^<[Cc][Mm][Dd]>(%u[%w_]*)") or rhs:match("^:(%u[%w_]*)")
-      -- exists()는 없으면 0, 여러 명령과 겹쳐 모호하면 3을 돌려준다.
+      -- exists() returns 0 when missing and 3 when ambiguous across several commands.
       if cmd and not seen[cmd] and vim.fn.exists(":" .. cmd) % 3 == 0 then
         seen[cmd] = true
         record("keymap", "error", ("%s: command :%s does not exist"):format(map.lhs, cmd))
@@ -181,8 +181,8 @@ local function run()
   finish()
 end
 
--- `-c`는 VimEnter 전에 실행되므로, 시작 autocmd가 끝난 VimEnter 이후에 시작한다.
--- startup 중 setup()이 예약한 알림은 run()보다 먼저 실행되므로, 훅은 VimEnter에서 바로 건다.
+-- `-c` runs before VimEnter, so start after VimEnter, once the startup autocmds have finished.
+-- Notifications setup() scheduled during startup run before run(), so hook in right at VimEnter.
 if vim.v.vim_did_enter == 1 then
   vim.schedule(run)
 else
