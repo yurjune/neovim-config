@@ -26,6 +26,10 @@ return {
         name = "yhpark",
         path = "~/obsidian/yhpark",
       },
+      {
+        name = "honey",
+        path = "~/obsidian/honey",
+      },
     },
     completion = {
       min_chars = 1,
@@ -33,6 +37,7 @@ return {
     link = {
       style = "wiki",
       format = "shortest",
+      auto_update = true,
     },
     frontmatter = {
       enabled = false,
