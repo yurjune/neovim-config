@@ -33,11 +33,14 @@ return {
           args = "--color=always --style=numbers,changes --theme='Catppuccin Mocha'",
         },
       },
-      -- Custom fd_opts and rg_opts replace fzf-lua defaults, so preserve required options
+      -- Custom cmd and rg_opts replace fzf-lua defaults, so preserve required options
       files = {
         hidden = true,
         no_ignore = true, -- ignore project config
-        fd_opts = table.concat({
+        cmd = table.concat({
+          -- A custom cmd replaces the default command, so include fd for fzf-lua to add its flags.
+          "fd",
+
           -- Default options
           "--color=never",
           "--type f",
@@ -45,6 +48,9 @@ return {
 
           -- Custom options
           ignore_file_option,
+
+          -- NFD filenames on macOS cannot be found with NFC queries, so convert fd output to NFC.
+          "| iconv -f UTF-8-MAC -t UTF-8",
         }, " "),
       },
       grep = {
