@@ -7,7 +7,18 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   keys = {
-    { "<leader>be", "<cmd>Oil<CR>", desc = "Open Oil" },
+    {
+      "<leader>be",
+      function()
+        local oil = require("oil")
+        if vim.bo.filetype == "oil" then
+          oil.close()
+        else
+          oil.open()
+        end
+      end,
+      desc = "Toggle Oil",
+    },
   },
   opts = {
     default_file_explorer = false,
