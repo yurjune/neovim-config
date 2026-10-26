@@ -7,6 +7,7 @@
   For a plugin, the scope may drop affixes such as `.nvim` or `nvim-` (`nvim-treesitter` → `treesitter`).
   Write the summary in English as a lowercase imperative with no trailing period.
 - Add a body only when the motivation or tradeoff is not clear from the subject and diff; explain why, not what.
+- For plugin removal, use `chore(<scope>): remove <plugin-name> plugin`.
 - Do not commit on finishing a task; show the proposed commit message and ask first.
 
 ## Validation
