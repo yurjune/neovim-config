@@ -2,9 +2,6 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" },
-  keys = {
-    { "<leader>gb", "<cmd>Gitsigns blame<CR>", desc = "Git blame" },
-  },
   opts = {
     current_line_blame = true, -- show blame info on current line
     current_line_blame_opts = {
@@ -16,34 +13,6 @@ return {
       use_focus = true,
     },
     current_line_blame_formatter = "  <author>, <author_time:%R> - <summary>",
-    blame_formatter = function(_, info, context)
-      -- Truncate by display width so wide characters such as Hangul don't overflow.
-      local function truncate(text, width)
-        if vim.fn.strdisplaywidth(text) <= width then
-          return text
-        end
-        repeat
-          text = vim.fn.strcharpart(text, 0, vim.fn.strchars(text) - 1)
-        until vim.fn.strdisplaywidth(text) < width
-        return text .. "…"
-      end
-
-      local is_uncommitted = info.abbrev_sha == "00000000"
-      local hash_hl_group = is_uncommitted and "Comment" or context.hash_hl_group
-      -- Pad by display width so dates align even when author names contain wide characters.
-      local author_padding = context.max_author_width - vim.fn.strdisplaywidth(info.author) + 1
-      local summary = truncate(info.summary, 36)
-
-      local chunks = {
-        { info.abbrev_sha .. " ", hash_hl_group },
-        { info.author .. string.rep(" ", author_padding) },
-        { os.date("%y/%m/%d %H:%M", info.author_time), hash_hl_group },
-        -- Uncommitted lines have a placeholder summary rather than a real message.
-        { is_uncommitted and "" or "  " .. summary },
-      }
-
-      return chunks, false -- keep summaries inline instead of adding virtual lines
-    end,
     preview_config = {
       -- Options passed to nvim_open_win
       border = "single",
