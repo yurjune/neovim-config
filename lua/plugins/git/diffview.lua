@@ -23,6 +23,18 @@ local function toggle_diffview(command)
   end
 end
 
+local function toggle_diffview_against_branch()
+  if close_diffviews() then
+    return
+  end
+
+  vim.ui.input({ prompt = "Compare against branch: " }, function(branch)
+    if branch and vim.trim(branch) ~= "" then
+      vim.cmd({ cmd = "DiffviewOpen", args = { vim.trim(branch) } })
+    end
+  end)
+end
+
 return {
   "sindrets/diffview.nvim",
   cmd = {
@@ -40,6 +52,11 @@ return {
         toggle_diffview("DiffviewOpen")
       end,
       desc = "Toggle Git review",
+    },
+    {
+      "<leader>gc",
+      toggle_diffview_against_branch,
+      desc = "Toggle Git review against branch",
     },
     {
       "<leader>gf",
