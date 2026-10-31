@@ -9,6 +9,14 @@ local layouts = {
       height = 45,
     },
   },
+  medium = {
+    sidebar = { 16, 32, 48, 64, 80, 96 },
+    sidekick = 62,
+    toggleterm = {
+      width = 170,
+      height = 45,
+    },
+  },
   wide = {
     sidebar = { 20, 40, 60, 80, 100, 120 },
     sidekick = 70,
@@ -19,11 +27,14 @@ local layouts = {
   },
 }
 
+-- Measured column counts used to choose these ranges: layout.md
 local columns = vim.o.columns
 local name
 
 if columns < 200 then
   name = "compact"
+elseif columns <= 220 then
+  name = "medium"
 else
   name = "wide"
 end
