@@ -2,10 +2,17 @@
 return {
   "mrjones2014/smart-splits.nvim",
   lazy = false,
+  dependencies = {
+    "smart-splits-nvim/backend-tmux",
+  },
   config = function()
     local ss = require("smart-splits")
 
     ss.setup({
+      mux = {
+        backend = "smart-splits-backend-tmux",
+        warn_if_unusable = false, -- Neovim also runs outside tmux, where no backend is available.
+      },
       move = {
         at_edge = "wrap", -- 'wrap', 'stop', 'split'
       },
