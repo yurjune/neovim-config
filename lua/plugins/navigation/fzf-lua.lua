@@ -10,6 +10,9 @@ return {
     local fzf = require("fzf-lua")
     local file_visibility = require("etc.file-visibility")
     local ignore_file_option = "--ignore-file " .. vim.fn.shellescape(file_visibility.ignore_file)
+    local git_status_cmd = require("fzf-lua.config").defaults.git.status.cmd
+    -- Compose macOS NFD filenames for display and matching against NFC queries.
+    local nfc_filter = "| iconv -f UTF-8-MAC -t UTF-8"
 
     fzf.setup({
       "fzf-native",
@@ -49,9 +52,15 @@ return {
           -- Custom options
           ignore_file_option,
 
-          -- NFD filenames on macOS cannot be found with NFC queries, so convert fd output to NFC.
-          "| iconv -f UTF-8-MAC -t UTF-8",
+          nfc_filter,
         }, " "),
+      },
+      git = {
+        status = {
+          -- Keep Korean paths readable before normalizing macOS NFD filenames.
+          -- Resume and status-action reloads reuse this command.
+          cmd = git_status_cmd:gsub("^git ", "git -c core.quotepath=false ") .. " " .. nfc_filter,
+        },
       },
       grep = {
         hidden = true,
