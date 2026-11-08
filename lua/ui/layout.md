@@ -17,6 +17,8 @@
 ## Conditions
 
 - font-family: `JetBrainsMono Nerd Font Mono`.
+  - Install font on homebrew
+- 4K 27-inch: `3840 × 2160`, macOS UI looks like `1920 × 1080`.
 
 ## Results
 
@@ -24,4 +26,6 @@
 | -------------- | --------: | --------------: |
 | MacBook Pro 14 |        12 |             215 |
 | MacBook Pro 14 |        13 |             188 |
+| 4K 27-inch     |        12 |             273 |
+| 4K 27-inch     |        13 |             239 |
 | 5K 27-inch     |        15 |             284 |
