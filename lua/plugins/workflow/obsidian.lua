@@ -19,16 +19,16 @@ return {
     },
     workspaces = {
       {
-        name = "jerry",
-        path = "~/obsidian/Jerry",
+        name = "study-notes",
+        path = "~/obsidian/study-notes",
+      },
+      {
+        name = "life-notes",
+        path = "~/obsidian/life-notes",
       },
       {
         name = "yhpark",
-        path = "~/obsidian/yhpark",
-      },
-      {
-        name = "honey",
-        path = "~/obsidian/honey",
+        path = "~/obsidian/work-notes",
       },
     },
     completion = {
