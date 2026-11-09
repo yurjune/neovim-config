@@ -27,7 +27,11 @@ return {
         path = "~/obsidian/life-notes",
       },
       {
-        name = "yhpark",
+        name = "business-notes",
+        path = "~/obsidian/business-notes",
+      },
+      {
+        name = "work-notes",
         path = "~/obsidian/work-notes",
       },
     },
