@@ -54,3 +54,6 @@ bin/
 
 # Logs
 *.log
+
+# cache
+__pycache__
