@@ -33,6 +33,8 @@ ALIASES = {
     "some_sass": "some-sass-language-server",
     "tailwindcss": "tailwindcss-language-server",
     "json_ls": "json-lsp",
+    "ruff_organize_imports": "ruff",
+    "ruff_format": "ruff",
 }
 
 # Provisioned outside Mason, so absence from ensure_installed is correct.

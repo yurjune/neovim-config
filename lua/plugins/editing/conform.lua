@@ -43,7 +43,7 @@ return {
         -- markdown = { "prettier" },
         graphql = { "prettier" },
         lua = { "stylua" },
-        python = { "isort", "black" },
+        python = { "ruff_organize_imports", "ruff_format" },
         rust = { "rustfmt" },
         -- java = { "google-java-format" },
         c = { "clang_format" }, -- brew install llvm

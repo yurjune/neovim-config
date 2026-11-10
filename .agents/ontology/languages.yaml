@@ -71,7 +71,7 @@ dormant:
     Wired up but switched off on purpose. scripts/check-wiring.py reports every one of these, so its non-empty output is
     the normal state - read it as a list to confirm, not a list to fix.
   mason:
-    tools: [pylint, checkstyle, google-java-format, yamllint]
+    tools: [checkstyle, google-java-format, yamllint]
     state: in ensure_installed, their config commented out
     note: No reason is recorded anywhere; confirm before re-enabling or uninstalling.
   lsp:

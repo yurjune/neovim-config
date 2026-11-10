@@ -31,9 +31,7 @@ return {
         -- Rust: managed by rustup
         -- Python
         "pyright",
-        "pylint",
-        "isort",
-        "black",
+        "ruff",
         -- Java
         "jdtls",
         "google-java-format",
