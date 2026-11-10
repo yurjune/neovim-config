@@ -19,13 +19,14 @@ Manage this policy in [`rules.ignore`](rules.ignore) using
 | --------- | ------------------------------------------------------------------------------------ |
 | fzf files | `fd --hidden --no-ignore --ignore-file <rules.ignore>`                               |
 | fzf grep  | `rg --hidden --no-ignore --ignore-file <rules.ignore>`                               |
-| sidebar   | `tree -a --gitfile=<rules.ignore>`                                                   |
+| sidebar   | `fd --hidden --no-ignore --ignore-file <rules.ignore>` → `tree --fromfile`           |
 | Oil       | `view_options.is_hidden_file(name, bufnr)` evaluates the shared rules for each entry |
 
 ### fzf and sidebar
 
 fzf's discovery tools and sidebar include hidden entries before applying the rules so visible
-exceptions can take effect. fzf also disables project ignore files with `--no-ignore`.
+exceptions can take effect. Both disable project ignore files with `--no-ignore` and apply only the shared rules.
+Sidebar passes fd's entries, including empty directories and symlink targets, to `tree --fromfile` for rendering.
 
 ### Oil
 

@@ -4,7 +4,6 @@ local file_visibility = require("etc.file-visibility")
 M.default_options = {
   compress = 2,
   hidden = true,
-  -- tree's --gitfile reads this file using .gitignore syntax.
   ignore_file = file_visibility.ignore_file,
 }
 
@@ -12,11 +11,24 @@ local TREE_NAMESPACE = vim.api.nvim_create_namespace("sidebar")
 local CURRENT_FILE_NAMESPACE = vim.api.nvim_create_namespace("sidebar-current-file")
 local states = {}
 
+local function build_file_command(opts)
+  local command = { "fd", "--color=never", "--no-ignore", "--type", "f", "--type", "d", "--type", "l" }
+  if opts.hidden then
+    table.insert(command, "--hidden")
+  end
+  if opts.ignore_file then
+    vim.list_extend(command, { "--ignore-file", opts.ignore_file })
+  end
+  return command
+end
+
 local function build_command(opts, output_options)
   local command = {
     "env",
     "LS_COLORS=di=1",
     "tree",
+    "--fromfile",
+    "--fflinks",
   }
   vim.list_extend(command, output_options)
 
@@ -29,9 +41,6 @@ local function build_command(opts, output_options)
   if opts.hidden then
     table.insert(command, "-a")
   end
-  if opts.ignore_file then
-    table.insert(command, "--gitfile=" .. opts.ignore_file)
-  end
   if opts.filter and #opts.filter > 0 then
     vim.list_extend(command, { "-I", table.concat(opts.filter, "|") })
   end
@@ -39,8 +48,8 @@ local function build_command(opts, output_options)
   return command
 end
 
--- `tree -C -f` colours directory names and prints full paths, so a single call
--- yields both the rendered line and the path that line points to.
+-- `tree -C -f` colours directory names and prints full paths, yielding both
+-- the rendered line and the path that line points to.
 local function parse_line(line)
   local plain = line:gsub("\27%[[%d;]*m", "")
   local path = plain == "." and "." or plain:match("^[^.]*(%./.*)$")
@@ -60,7 +69,19 @@ local function parse_line(line)
 end
 
 local function read(opts)
-  local lines = vim.fn.systemlist(build_command(opts, { "-C", "-f" }))
+  -- fd applies only the shared rules; tree's --gitfile also reads project ignore files.
+  local entries = vim.fn.systemlist(build_file_command(opts))
+  -- tree --fromfile reports an error for empty input.
+  if #entries == 0 then
+    return { ".", "", "0 directories, 0 files" }, { "." }, { { 0, 1 } }
+  end
+  for index, path in ipairs(entries) do
+    local target = vim.uv.fs_readlink(path)
+    if target then
+      entries[index] = path .. " -> " .. target
+    end
+  end
+  local lines = vim.fn.systemlist(build_command(opts, { "-C", "-f" }), entries)
   local output, paths, directory_ranges = {}, {}, {}
 
   for row, line in ipairs(lines) do

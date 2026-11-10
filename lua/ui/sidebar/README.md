@@ -27,15 +27,15 @@ Rendering indexes every path by its absolute form, so that lookup stays a table 
 `<CR>` opens the selected file in the tree's saved target window and moves focus there. `<Tab>` opens it in that window while keeping focus in the tree. `<Esc>` returns to the target window and switches back to blank mode.
 If the saved target window has been closed, opening a file is cancelled with a warning rather than choosing a different window.
 
-`tree.lua` renders with a single `tree -C -f` call: colour marks directories and `-f` prints each entry's full path.
+`tree.lua` renders fd's file list with `tree --fromfile -C -f`: colour marks directories and `-f` prints each entry's full path.
 Each line is split into the path it points to and the name shown in its place, so the cursor row always indexes its own path.
 Replacing `-f` would break that, since nothing else in the output identifies the entry.
 
 ## Tree rendering and visibility
 
-Tree mode requires the external `tree` executable.
-It enumerates hidden entries and applies the shared [file visibility policy](../../etc/file-visibility/README.md) with `tree --gitfile`,
-allowing negated rules to reveal selected dotfiles.
+Tree mode requires the external `fd` and `tree` executables. fd enumerates hidden entries and applies the shared
+[file visibility policy](../../etc/file-visibility/README.md), allowing negated rules to reveal selected dotfiles while
+ignoring project ignore files. tree renders the filtered list, preserving empty directories and symlink targets.
 
 ## Width and window integration
 
