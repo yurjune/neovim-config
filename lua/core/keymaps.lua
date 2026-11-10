@@ -34,6 +34,18 @@ vim.keymap.set("n", "<leader>cP", function()
   vim.notify(path, vim.log.levels.INFO, { title = "Copy Absolute Path" })
 end, { desc = "Copy absolute path of current file" })
 
+vim.keymap.set("n", "<leader>cl", function()
+  local path = vim.fn.expand("%") .. " :L" .. vim.fn.line(".")
+  vim.fn.setreg("+", path)
+  vim.notify(path, vim.log.levels.INFO, { title = "Copy Relative Path with Line Number" })
+end, { desc = "Copy relative path with current line number" })
+
+vim.keymap.set("n", "<leader>cL", function()
+  local path = vim.fn.expand("%:p") .. " :L" .. vim.fn.line(".")
+  vim.fn.setreg("+", path)
+  vim.notify(path, vim.log.levels.INFO, { title = "Copy Absolute Path with Line Number" })
+end, { desc = "Copy absolute path with current line number" })
+
 local scrollbind_enabled = vim.wo.scrollbind
 vim.keymap.set("n", "<leader>sb", function()
   scrollbind_enabled = not scrollbind_enabled
