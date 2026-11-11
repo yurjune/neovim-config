@@ -2,10 +2,9 @@
 
 ## Commit Message Conventions
 
-- Follow Conventional Commits: `<type>(<scope>): <summary>`.
-  Use a short lowercase scope naming the affected area; omit it only when no single area fits.
-  For a plugin, the scope may drop affixes such as `.nvim` or `nvim-` (`nvim-treesitter` → `treesitter`).
-  Write the summary in English as a lowercase imperative with no trailing period.
+- Follow Conventional Commits: `<type>(<scope>): <summary>`. Use a short lowercase scope naming the affected area; omit
+  it only when no single area fits. For a plugin, the scope may drop affixes such as `.nvim` or `nvim-`
+  (`nvim-treesitter` → `treesitter`). Write the summary in English as a lowercase imperative with no trailing period.
 - Add a body only when the motivation or tradeoff is not clear from the subject and diff; explain why, not what.
 - For plugin removal, use `chore(<scope>): remove <plugin-name> plugin`.
 - Do not commit on finishing a task; show the proposed commit message and ask first.
@@ -17,17 +16,21 @@
 
 ## Project Structure
 
-- `lua/plugins/<category>/` — plugin specs, filed under the matching category; a new category must also be added to the import list in `lua/lazy-config.lua`.
+- `lua/plugins/<category>/` — plugin specs, filed under the matching category; a new category must also be added to the
+  import list in `lua/lazy-config.lua`.
 - `lsp/<server>.lua` — native LSP configuration; enable the server in `lua/core/lsp.lua`.
 - `lua/<area>/init.lua` — the only loader for that area; register each new module there or it silently never loads.
   `lua/plugins/` is the exception: lazy.nvim imports those specs from `lua/lazy-config.lua`.
 - `lua/ui/layout.lua` — shared responsive UI dimensions; do not hardcode them in individual plugin specs.
 - `lua/etc/<module>/` — self-contained custom modules.
-- `plugin/*.lua` — code that must run at startup even inside the child Neovim processes some plugins spawn; a lazy-loaded plugin spec does not reach those.
-- `after/queries/<lang>/` — Tree-sitter query extensions, starting with `; extends`. `queries/<lang>/` replaces Neovim's default outright instead of adding to it.
-- `.agents/skills/<name>/SKILL.md` — agent skills, symlinked from `.claude/skills/`. Keep the frontmatter `description` to the trigger condition alone; details belong in the body.
-- `.agents/ontology/<name>.yaml` — rules that hold across files and cannot be grepped for; shared by the skills rather than owned by one.
-  A map, not an inventory: record the shape, not individual entries the config already states.
+- `plugin/*.lua` — code that must run at startup even inside the child Neovim processes some plugins spawn; a
+  lazy-loaded plugin spec does not reach those.
+- `after/queries/<lang>/` — Tree-sitter query extensions, starting with `; extends`. `queries/<lang>/` replaces Neovim's
+  default outright instead of adding to it.
+- `.agents/skills/<name>/SKILL.md` — agent skills, symlinked from `.claude/skills/`. Keep the frontmatter `description`
+  to the trigger condition alone; details belong in the body.
+- `.agents/ontology/<name>.yaml` — rules that hold across files and cannot be grepped for; shared by the skills rather
+  than owned by one. A map, not an inventory: record the shape, not individual entries the config already states.
 - `**/README.md`, `**/<name>.md` — module docs sit beside what they document: `README.md` for a directory module,
   `<name>.md` for a single-file one. Reference code with relative links.
 - `lazy-lock.json` — generated data; change it only as a consequence of plugin dependency changes.

@@ -28,13 +28,13 @@ description: Use when the user asks to update Neovim plugins.
 9. Write the report and hand over the checklist.
 
 Whether to handle a plugin separately is a judgement call; it applies when several places in the spec must change or
-when the rewrite is large, such as a `branch` change.
-Before the batch commit, report the plugins and the reasons, and get agreement.
+when the rewrite is large, such as a `branch` change. Before the batch commit, report the plugins and the reasons, and
+get agreement.
 
 ## Update
 
-This runs the build hooks and updates the lockfile. Update separately handled plugins one at a time with
-`update <name>`.
+This runs the build hooks and updates the lockfile. Update separately handled plugins one at a time with `update
+<name>`.
 
 ```sh
 nvim --headless "+Lazy! update" +qa
@@ -63,13 +63,13 @@ smart-splits.nvim  32f6788..ea55335  78 commits  spec:...  version:v2.1.0->v3.0.
 csvview.nvim  added  spec:lua/plugins/etc/csvview.lua
 ```
 
-- Candidate commits come from the filter `!:|breaking|deprecat|remov|renam`, so unrelated commits match too. Judge
-  each one.
+- Candidate commits come from the filter `!:|breaking|deprecat|remov|renam`, so unrelated commits match too. Judge each
+  one.
 - When there are candidates, grep the `spec` files for the option, command or module involved. Read the diff of the
   `changelog` file if needed.
-- A `branch` change or a major `version` change (including `v0.x`→`v1.0`) signals a large rewrite.
-  Commit messages may slip past the filter, so even without candidates, read the README and the full log and check
-  that the options and commands in the spec still exist.
+- A `branch` change or a major `version` change (including `v0.x`→`v1.0`) signals a large rewrite. Commit messages may
+  slip past the filter, so even without candidates, read the README and the full log and check that the options and
+  commands in the spec still exist.
 - Any other plugin without candidates ends at its one line; look no further.
 - Sort into no impact, review, and migration needed. If several plugins need migration, investigate them with one
   subagent per plugin.
@@ -81,10 +81,10 @@ VERIFY_OUT=<scratchpad>/baseline.json nvim --headless -c "luafile .agents/skills
 VERIFY_OUT=<scratchpad>/after.json VERIFY_BASELINE=<scratchpad>/baseline.json nvim --headless -c "luafile .agents/skills/update-plugins/scripts/verify.lua" 2><scratchpad>/verify.log
 ```
 
-`scripts/verify.lua` writes the issues, tagged by phase, to `issues` in a JSON file.
-Given `VERIFY_BASELINE`, it puts only issues absent from the baseline in `new`, and exits non-zero if there are any.
-It writes each phase to stderr, so if it hangs, the last line of the log is the phase it hung in.
-A plain headless startup loads few plugins, so the harness does the following itself.
+`scripts/verify.lua` writes the issues, tagged by phase, to `issues` in a JSON file. Given `VERIFY_BASELINE`, it puts
+only issues absent from the baseline in `new`, and exits non-zero if there are any. It writes each phase to stderr, so
+if it hangs, the last line of the log is the phase it hung in. A plain headless startup loads few plugins, so the
+harness does the following itself.
 
 - Force-loads each plugin with `require("lazy").load()` inside `pcall`. Renamed modules and removed functions surface
   here.
@@ -95,10 +95,9 @@ A plain headless startup loads few plugins, so the harness does the following it
 - Collects `vim.notify` and `:messages`, and waits with `vim.wait` before exiting to catch late async errors. It hooks
   in at VimEnter so it also catches warnings `setup()` scheduled during startup.
 
-`setup()` silently ignores most unknown options, so a renamed option surfaces only if the plugin warns about it.
-That is why triage checks major changes separately.
-Behaviour after loading is not verified. The load order differs from real use, so if an issue absent from the
-baseline looks like an ordering artefact, check only that plugin in the real order.
+`setup()` silently ignores most unknown options, so a renamed option surfaces only if the plugin warns about it. That is
+why triage checks major changes separately. Behaviour after loading is not verified. The load order differs from real
+use, so if an issue absent from the baseline looks like an ordering artefact, check only that plugin in the real order.
 
 ## Checklist
 
@@ -116,8 +115,8 @@ Hand the user what the harness could not verify. Include only changed plugins.
 
 ## Reverting a plugin
 
-Use this to pull out a plugin being isolated or handled separately.
-After an update the lockfile holds the new commit, so write the previous commit back and then restore.
+Use this to pull out a plugin being isolated or handled separately. After an update the lockfile holds the new commit,
+so write the previous commit back and then restore.
 
 ```sh
 old=$(git show HEAD:lazy-lock.json | jq -r --arg p "<name>" '.[$p].commit')
@@ -126,8 +125,7 @@ sed -i '' "s/$new/$old/" lazy-lock.json  # jq would reformat the whole lockfile
 nvim --headless "+Lazy! restore <name>" +qa
 ```
 
-To isolate, revert the suspect plugin or the set that changed with it and verify again. If it passes, that is the
-cause.
+To isolate, revert the suspect plugin or the set that changed with it and verify again. If it passes, that is the cause.
 
 ## Commits
 
@@ -136,8 +134,8 @@ cause.
 
 ## Report
 
-Write the report in Markdown to `<scratchpad>/plugin-update-<YYYY-MM-DD>.md`.
-In the response, give only a few lines summarising the result and the report's full absolute path.
+Write the report in Markdown to `<scratchpad>/plugin-update-<YYYY-MM-DD>.md`. In the response, give only a few lines
+summarising the result and the report's full absolute path.
 
 Write the report in the order below. Keep sections with nothing to report and write "None".
 
@@ -183,8 +181,8 @@ Follow `CLAUDE.md` for the general rules; this skill sets only the following.
 
 - For each upstream change in the body, add the upstream commit hash, and the PR number if the commit subject has one.
 
-The batch commit has a fixed subject. Omit the body when there are no migrations; otherwise list one upstream change
-per plugin.
+The batch commit has a fixed subject. Omit the body when there are no migrations; otherwise list one upstream change per
+plugin.
 
 ```text
 chore(plugins): update plugins

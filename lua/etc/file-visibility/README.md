@@ -10,8 +10,8 @@ Oil, sidebar, and fzf follow the same visibility policy:
 
 ## Configuration
 
-Manage this policy in [`rules.ignore`](rules.ignore) using
-[gitignore syntax](https://git-scm.com/docs/gitignore#_pattern_format).
+Manage this policy in [`rules.ignore`](rules.ignore) using [gitignore
+syntax](https://git-scm.com/docs/gitignore#_pattern_format).
 
 ## Tool integration
 
@@ -24,14 +24,13 @@ Manage this policy in [`rules.ignore`](rules.ignore) using
 
 ### fzf and sidebar
 
-fzf's discovery tools and sidebar include hidden entries before applying the rules so visible
-exceptions can take effect. Both disable project ignore files with `--no-ignore` and apply only the shared rules.
-Sidebar passes fd's entries, including empty directories and symlink targets, to `tree --fromfile` for rendering.
+fzf's discovery tools and sidebar include hidden entries before applying the rules so visible exceptions can take
+effect. Both disable project ignore files with `--no-ignore` and apply only the shared rules. Sidebar passes fd's
+entries, including empty directories and symlink targets, to `tree --fromfile` for rendering.
 
 ### Oil
 
-Oil has no ignore-file option, so [`oil-adapter.lua`](oil-adapter.lua) adapts the rules to its callback.
-It supports entry-name patterns with `*`, `?`, `!`, and a trailing `/`;
-path patterns, character classes, and escaping are unsupported.
-It filters the open directory; directory-only rules use local filesystem checks.
-Unlike recursive searches, opening an excluded directory directly still shows its contents.
+Oil has no ignore-file option, so [`oil-adapter.lua`](oil-adapter.lua) adapts the rules to its callback. It supports
+entry-name patterns with `*`, `?`, `!`, and a trailing `/`; path patterns, character classes, and escaping are
+unsupported. It filters the open directory; directory-only rules use local filesystem checks. Unlike recursive searches,
+opening an excluded directory directly still shows its contents.
