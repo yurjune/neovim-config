@@ -96,6 +96,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+-- Restart the current buffer's LSP clients with the native command.
+vim.api.nvim_create_user_command("LspRestart", function()
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+  if #clients == 0 then
+    vim.notify("No LSP attached", vim.log.levels.INFO, { title = "LSP" })
+    return
+  end
+
+  local names = {}
+  for _, client in ipairs(clients) do
+    names[#names + 1] = "- " .. client.name
+  end
+
+  vim.cmd("lsp restart")
+  vim.notify("Restarting LSP:\n" .. table.concat(names, "\n"), vim.log.levels.INFO, { title = "LSP" })
+end, { desc = "Restart attached LSP clients" })
+
 -- Show LSP info
 vim.api.nvim_create_user_command("LspInfo", function()
   local clients = vim.lsp.get_clients({ bufnr = 0 })
