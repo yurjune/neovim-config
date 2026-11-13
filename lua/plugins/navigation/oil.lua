@@ -6,6 +6,16 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
+  config = function(_, opts)
+    require("oil").setup(opts)
+    vim.api.nvim_create_autocmd("User", {
+      group = vim.api.nvim_create_augroup("OilSidebarRefresh", { clear = true }),
+      pattern = "OilActionsPost",
+      callback = function()
+        require("ui.sidebar").refresh_tree()
+      end,
+    })
+  end,
   keys = {
     {
       "<leader>be",

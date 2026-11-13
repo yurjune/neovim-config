@@ -37,6 +37,9 @@ Tree mode requires the external `fd` and `tree` executables. fd enumerates hidde
 visibility policy](../../etc/file-visibility/README.md), allowing negated rules to reveal selected dotfiles while
 ignoring project ignore files. tree renders the filtered list, preserving empty directories and symlink targets.
 
+File operations in [Oil](../../plugins/navigation/oil.lua) automatically refresh the visible sidebar tree, keeping it in
+sync after files are created, deleted, or moved. This uses the same refresh as `<leader>pp` and does not open a closed tree.
+
 ## Width and window integration
 
 Widths come from [`ui.layout`](../layout.lua). `winfixwidth` preserves the sidebar width, while `wincmd =` manually
