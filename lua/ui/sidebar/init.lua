@@ -219,6 +219,13 @@ function M.close_tree()
   resize_window(sidebar, vim.g.SidebarWidth)
 end
 
+function M.refresh_tree()
+  local win = find_window()
+  if win and get_mode() == SIDEBAR_MODE.tree then
+    tree.refresh(win, tree_options)
+  end
+end
+
 function M.toggle_tree(opts)
   local sidebar = find_window()
   if sidebar and get_mode() == SIDEBAR_MODE.tree then
@@ -248,6 +255,7 @@ function M.setup()
   vim.keymap.set("n", "<leader>pt", function()
     M.toggle_tree(tree.default_options)
   end, { desc = "Toggle project tree" })
+  vim.keymap.set("n", "<leader>pp", M.refresh_tree, { desc = "Refresh project tree" })
 end
 
 return M

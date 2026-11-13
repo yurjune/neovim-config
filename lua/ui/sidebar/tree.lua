@@ -250,6 +250,29 @@ function M.render(args)
   M.focus_file(args.win, args.current_file)
 end
 
+function M.refresh(win, opts)
+  local buf = vim.api.nvim_win_get_buf(win)
+  local state = states[buf]
+  if not state then
+    return
+  end
+
+  local current_file = ""
+  if vim.api.nvim_win_is_valid(state.target_win) then
+    current_file = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(state.target_win))
+  end
+
+  M.render({
+    win = win,
+    buf = buf,
+    opts = opts,
+    cwd = vim.fn.getcwd(),
+    target_win = state.target_win,
+    current_file = current_file,
+  })
+  vim.notify("Tree refreshed", vim.log.levels.INFO, { title = "Sidebar", timeout = 1000 })
+end
+
 function M.setup(opts)
   local group = vim.api.nvim_create_augroup("sidebar-tree", { clear = true })
 
