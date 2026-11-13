@@ -7,7 +7,8 @@ The sidebar is a fixed-width split on the left of the current tab. It has two mo
   [`ui.layout`](../layout.lua).
 
 [`init.lua`](init.lua) owns the split and exposes operations for opening, closing, focusing, and toggling the sidebar
-and tree. [`tree.lua`](tree.lua) owns rendering, navigation, and current-file tracking.
+and tree. [`files.lua`](files.lua) owns file discovery, tree order, and adjacent-file lookup. [`tree.lua`](tree.lua)
+owns rendering, cursor navigation, and current-file tracking.
 
 ## State and focus
 
@@ -19,7 +20,8 @@ Three globals preserve the intended UI state across session restoration:
 
 Tree mode remembers the current editor window as its target. Selected files open there, and closing the tree returns
 focus there. It also follows `BufEnter` to highlight the current file when it belongs to the rendered working directory.
-Rendering indexes every path by its absolute form, so that lookup stays a table hit however large the tree is.
+The shared file snapshot indexes every path by its absolute form, so that lookup stays a table hit however large the
+tree is.
 
 ## Interaction contracts
 
@@ -27,18 +29,36 @@ Rendering indexes every path by its absolute form, so that lookup stays a table 
 while keeping focus in the tree. `<Esc>` returns to the target window and switches back to blank mode. If the saved
 target window has been closed, opening a file is cancelled with a warning rather than choosing a different window.
 
-`tree.lua` renders fd's file list with `tree --fromfile -C -f`: colour marks directories and `-f` prints each entry's
+`g1` / `g2` open the previous / next file in tree order, skipping directories and missing files without wrapping at
+either end. In an editor window, navigation starts from the current file; in the tree, it starts from the cursor and
+keeps focus there. With a visible tree, files open in its saved target window. With the tree closed or in blank mode,
+navigation uses the current working directory and opens files in the current editor window without opening the tree.
+Navigation does nothing when the current editor file is absent from the file snapshot.
+
+## Shared file snapshot
+
+File discovery is independent of sidebar buffers and windows so that navigation does not require rendering a tree.
+Both navigation and rendering use the same discovery and ordering logic; a separate alphabetical file sort would drift
+from the CLI's directory grouping, compression, and filtering.
+
+The first navigation without a visible tree creates a snapshot, reused while the working directory and tree options
+match. Closing the tree or returning to blank mode discards only its view state. Opening or refreshing the tree rebuilds
+the shared snapshot; a visible tree navigates its displayed snapshot so file order stays aligned with the screen.
+
+`<leader>pp` and file operations in [Oil](../../plugins/navigation/oil.lua) invalidate the cached snapshot even when the
+tree is closed. Without a visible tree, the next navigation rebuilds it lazily. For external file changes, use
+`<leader>pp` or reopen the tree to include new or renamed files; deleted files are skipped during navigation.
+
+`files.lua` processes fd's file list with `tree --fromfile -C -f`: colour marks directories and `-f` prints each entry's
 full path. Each line is split into the path it points to and the name shown in its place, so the cursor row always
 indexes its own path. Replacing `-f` would break that, since nothing else in the output identifies the entry.
 
 ## Tree rendering and visibility
 
-Tree mode requires the external `fd` and `tree` executables. fd enumerates hidden entries and applies the shared [file
-visibility policy](../../etc/file-visibility/README.md), allowing negated rules to reveal selected dotfiles while
-ignoring project ignore files. tree renders the filtered list, preserving empty directories and symlink targets.
-
-File operations in [Oil](../../plugins/navigation/oil.lua) automatically refresh the visible sidebar tree, keeping it in
-sync after files are created, deleted, or moved. This uses the same refresh as `<leader>pp` and does not open a closed tree.
+Rendering and file navigation require the external `fd` and `tree` executables. fd enumerates hidden entries and applies
+the shared [file visibility policy](../../etc/file-visibility/README.md), allowing negated rules to reveal selected
+dotfiles while ignoring project ignore files. tree renders the filtered list, preserving empty directories and symlink
+targets.
 
 ## Width and window integration
 

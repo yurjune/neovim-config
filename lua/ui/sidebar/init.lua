@@ -4,6 +4,7 @@ M.filetype = "sidebar"
 
 local layout = require("ui.layout")
 local tree = require("ui.sidebar.tree")
+local files = require("ui.sidebar.files")
 local SIDEBAR_WIDTHS = layout.sidebar
 local DEFAULT_WIDTH = SIDEBAR_WIDTHS[2]
 local TREE_WIDTH = SIDEBAR_WIDTHS[3]
@@ -16,7 +17,7 @@ local SIDEBAR_NAME = {
   [SIDEBAR_MODE.blank] = "",
   [SIDEBAR_MODE.tree] = "Tree",
 }
-local tree_options = tree.default_options
+local tree_options = files.default_options
 
 vim.g.SidebarWidth = vim.g.SidebarWidth or DEFAULT_WIDTH
 vim.g.SidebarMode = vim.g.SidebarMode or SIDEBAR_MODE.blank
@@ -220,9 +221,29 @@ function M.close_tree()
 end
 
 function M.refresh_tree()
+  files.invalidate()
   local win = find_window()
   if win and get_mode() == SIDEBAR_MODE.tree then
     tree.refresh(win, tree_options)
+  end
+end
+
+function M.navigate_file(direction)
+  local win = find_window()
+  if win and get_mode() == SIDEBAR_MODE.tree then
+    return tree.navigate_file(win, direction)
+  end
+
+  local current_file = vim.api.nvim_buf_get_name(0)
+  if vim.bo.buftype ~= "" or current_file == "" then
+    return
+  end
+
+  local snapshot = files.get(tree_options, vim.fn.getcwd())
+  local row = snapshot.rows[vim.fs.normalize(current_file)]
+  local path = files.adjacent(snapshot, row, direction)
+  if path then
+    vim.api.nvim_cmd({ cmd = "edit", args = { path } }, {})
   end
 end
 
@@ -253,9 +274,16 @@ function M.setup()
   end
 
   vim.keymap.set("n", "<leader>pt", function()
-    M.toggle_tree(tree.default_options)
+    M.toggle_tree(files.default_options)
   end, { desc = "Toggle project tree" })
   vim.keymap.set("n", "<leader>pp", M.refresh_tree, { desc = "Refresh project tree" })
+
+  vim.keymap.set("n", "g1", function()
+    M.navigate_file(-1)
+  end, { desc = "Open previous file in sidebar tree" })
+  vim.keymap.set("n", "g2", function()
+    M.navigate_file(1)
+  end, { desc = "Open next file in sidebar tree" })
 end
 
 return M

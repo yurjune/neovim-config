@@ -1,106 +1,9 @@
 local M = {}
-local file_visibility = require("etc.file-visibility")
-
-M.default_options = {
-  compress = 2,
-  hidden = true,
-  ignore_file = file_visibility.ignore_file,
-}
+local files = require("ui.sidebar.files")
 
 local TREE_NAMESPACE = vim.api.nvim_create_namespace("sidebar")
 local CURRENT_FILE_NAMESPACE = vim.api.nvim_create_namespace("sidebar-current-file")
 local states = {}
-
-local function build_file_command(opts)
-  local command = { "fd", "--color=never", "--no-ignore", "--type", "f", "--type", "d", "--type", "l" }
-  if opts.hidden then
-    table.insert(command, "--hidden")
-  end
-  if opts.ignore_file then
-    vim.list_extend(command, { "--ignore-file", opts.ignore_file })
-  end
-  return command
-end
-
-local function build_command(opts, output_options)
-  local command = {
-    "env",
-    "LS_COLORS=di=1",
-    "tree",
-    "--fromfile",
-    "--fflinks",
-  }
-  vim.list_extend(command, output_options)
-
-  if opts.compress then
-    vim.list_extend(command, { "--compress", tostring(opts.compress) })
-  end
-  if opts.depth then
-    vim.list_extend(command, { "-L", tostring(opts.depth) })
-  end
-  if opts.hidden then
-    table.insert(command, "-a")
-  end
-  if opts.filter and #opts.filter > 0 then
-    vim.list_extend(command, { "-I", table.concat(opts.filter, "|") })
-  end
-
-  return command
-end
-
--- `tree -C -f` colours directory names and prints full paths, yielding both
--- the rendered line and the path that line points to.
-local function parse_line(line)
-  local plain = line:gsub("\27%[[%d;]*m", "")
-  local path = plain == "." and "." or plain:match("^[^.]*(%./.*)$")
-  if not path then
-    -- Blank and report lines carry no entry.
-    return plain
-  end
-
-  local prefix = plain:sub(1, #plain - #path)
-  -- Symlinks are printed as `path -> target`; only the path side is openable.
-  local link = path:match("( %-> .*)$") or ""
-  path = path:sub(1, #path - #link)
-  local name = (path == "." and "." or vim.fs.basename(path)) .. link
-  local is_directory = plain ~= line
-
-  return prefix .. name, path, is_directory and { #prefix, #prefix + #name - #link } or nil
-end
-
-local function read(opts)
-  -- fd applies only the shared rules; tree's --gitfile also reads project ignore files.
-  local entries = vim.fn.systemlist(build_file_command(opts))
-  -- tree --fromfile reports an error for empty input.
-  if #entries == 0 then
-    return { ".", "", "0 directories, 0 files" }, { "." }, { { 0, 1 } }
-  end
-  for index, path in ipairs(entries) do
-    local target = vim.uv.fs_readlink(path)
-    if target then
-      entries[index] = path .. " -> " .. target
-    end
-  end
-  local lines = vim.fn.systemlist(build_command(opts, { "-C", "-f" }), entries)
-  local output, paths, directory_ranges = {}, {}, {}
-
-  for row, line in ipairs(lines) do
-    output[row], paths[row], directory_ranges[row] = parse_line(line)
-  end
-
-  return output, paths, directory_ranges
-end
-
--- Every buffer switch looks up a row, so pay for the paths once while rendering.
-local function index_rows(paths, cwd)
-  local rows = {}
-
-  for row, path in ipairs(paths) do
-    rows[vim.fs.normalize(vim.fs.joinpath(cwd, path))] = row
-  end
-
-  return rows
-end
 
 local function highlight_directories(buf, directory_ranges)
   vim.api.nvim_set_hl(0, "SidebarDirectory", {
@@ -156,7 +59,7 @@ function M.focus_file(win, file)
   end
 
   local current_file = file ~= "" and vim.fs.normalize(file) or ""
-  local row = state.rows[current_file]
+  local row = state.snapshot.rows[current_file]
   local file_col = 0
   local leftcol = 0
 
@@ -203,12 +106,12 @@ function M.open_file(win, stay_in_tree)
   end
 
   local row = vim.api.nvim_win_get_cursor(win)[1]
-  local path = state.paths[row]
+  local path = state.snapshot.paths[row]
   if not path then
     return
   end
 
-  path = vim.fs.normalize(vim.fs.joinpath(state.cwd, path))
+  path = vim.fs.normalize(vim.fs.joinpath(state.snapshot.cwd, path))
   if vim.fn.isdirectory(path) == 1 then
     return
   end
@@ -233,20 +136,43 @@ function M.open_file(win, stay_in_tree)
   return true
 end
 
+function M.navigate_file(win, direction)
+  if not win or not vim.api.nvim_win_is_valid(win) then
+    return
+  end
+
+  local buf = vim.api.nvim_win_get_buf(win)
+  local state = states[buf]
+  if not state then
+    return
+  end
+
+  local stay_in_tree = vim.api.nvim_get_current_win() == win
+  local row
+  if stay_in_tree then
+    row = vim.api.nvim_win_get_cursor(win)[1]
+  else
+    row = state.snapshot.rows[vim.fs.normalize(vim.api.nvim_buf_get_name(0))]
+  end
+  local path, next_row = files.adjacent(state.snapshot, row, direction)
+  if path then
+    reveal_row(win, next_row)
+    return M.open_file(win, stay_in_tree)
+  end
+end
+
 function M.render(args)
-  local output, paths, directory_ranges = read(args.opts)
+  local snapshot = files.get(args.opts, args.cwd, true)
   states[args.buf] = {
-    paths = paths,
-    rows = index_rows(paths, args.cwd),
-    cwd = args.cwd,
+    snapshot = snapshot,
     target_win = args.target_win,
   }
 
   vim.bo[args.buf].modifiable = true
-  vim.api.nvim_buf_set_lines(args.buf, 0, -1, false, output)
+  vim.api.nvim_buf_set_lines(args.buf, 0, -1, false, snapshot.output)
   vim.bo[args.buf].modifiable = false
 
-  highlight_directories(args.buf, directory_ranges)
+  highlight_directories(args.buf, snapshot.directory_ranges)
   M.focus_file(args.win, args.current_file)
 end
 
