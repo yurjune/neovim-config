@@ -96,13 +96,14 @@ local function open_window()
     width = width,
   })
 
-  vim.wo[win].number = false
-  vim.wo[win].relativenumber = false
-  vim.wo[win].signcolumn = "no"
+  -- Keep sidebar styling out of the defaults used when a split opens another buffer.
+  vim.wo[win][0].number = false
+  vim.wo[win][0].relativenumber = false
+  vim.wo[win][0].signcolumn = "no"
+  vim.wo[win][0].cursorline = false
   vim.wo[win].winfixwidth = true
   vim.wo[win].winfixbuf = true
   vim.wo[win].statusline = " "
-  vim.wo[win].cursorline = false
 
   equalize_editor_windows()
 
