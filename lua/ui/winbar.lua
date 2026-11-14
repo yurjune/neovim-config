@@ -26,6 +26,10 @@ local function setup_highlights()
     fg = vim.g.colors.gold,
     bold = true,
   })
+  vim.api.nvim_set_hl(0, "WinBarFocused", {
+    fg = "#fab387", -- Catppuccin Mocha Peach (tmux active border)
+    bold = true,
+  })
 
   for _, diagnostic in ipairs({ "Error", "Warn", "Info", "Hint" }) do
     local diagnostic_hl = vim.api.nvim_get_hl(0, {
@@ -87,9 +91,17 @@ local function get_modified()
 end
 
 local function get_left(focused)
+  if vim.bo.filetype == sidebar_ft then
+    return vim.fn.expand("%:t")
+  end
+
   local diagnostic_parts, filename_highlight = get_diagnostics()
 
   return get_filename(focused, filename_highlight) .. diagnostic_parts .. get_modified()
+end
+
+local function get_right(focused)
+  return focused and highlight("[Active]", "WinBarFocused") or ""
 end
 
 vim.api.nvim_create_autocmd("ColorScheme", {
@@ -100,11 +112,9 @@ setup_highlights()
 
 -- Show the current buffer's filename and diagnostic counts in the window bar.
 _G.get_winbar = function()
-  if vim.bo.filetype == sidebar_ft then
-    return vim.fn.expand("%:t")
-  end
+  local focused = is_focused()
 
-  return get_left(is_focused())
+  return get_left(focused) .. "%=" .. get_right(focused)
 end
 
 vim.opt.winbar = "%{%v:lua.get_winbar()%}"
