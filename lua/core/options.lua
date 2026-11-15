@@ -66,6 +66,20 @@ vim.opt.undofile = true
 vim.opt.termguicolors = true -- use 24bit true color in terminal
 vim.opt.signcolumn = "yes"
 
+-- Use the local clipboard over SSH via OSC 52; configure this on the remote Neovim.
+-- Requires terminal write/read support; if reads are blocked, use the terminal's paste shortcut.
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {
+    ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+  },
+}
+
 vim.opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 
 vim.opt.swapfile = false -- 편집 중인 파일의 swap file 을 생성할지를 결정
