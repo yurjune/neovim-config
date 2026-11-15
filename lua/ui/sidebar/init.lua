@@ -108,8 +108,10 @@ local function open_window()
   equalize_editor_windows()
 
   -- Some startup events can focus the new split after this function returns.
+  -- Restore focus only from the sidebar, preserving any window opened in the meantime.
   vim.schedule(function()
-    if vim.api.nvim_win_is_valid(previous) then
+    local sidebar_is_focused = vim.api.nvim_get_current_win() == win
+    if sidebar_is_focused and vim.api.nvim_win_is_valid(previous) then
       vim.api.nvim_set_current_win(previous)
     end
   end)
