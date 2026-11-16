@@ -66,21 +66,24 @@ vim.opt.undofile = true
 vim.opt.termguicolors = true -- use 24bit true color in terminal
 vim.opt.signcolumn = "yes"
 
--- Use the local clipboard over SSH via OSC 52; configure this on the remote Neovim.
--- Requires terminal write/read support; if reads are blocked, use the terminal's paste shortcut.
-vim.g.clipboard = {
-  name = "OSC 52",
-  copy = {
-    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-  },
-  paste = {
-    ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-    ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
-  },
-}
+local is_ssh = vim.env.SSH_CONNECTION ~= nil or vim.env.SSH_TTY ~= nil
+local clipboard_group = vim.api.nvim_create_augroup("SshClipboard", { clear = true })
 
-vim.opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+if is_ssh then
+  -- Keep p local; paste external clipboard contents with the terminal's paste shortcut.
+  vim.opt.clipboard:remove({ "unnamed", "unnamedplus" })
+  vim.api.nvim_create_autocmd("TextYankPost", {
+    group = clipboard_group,
+    desc = "Copy SSH yanks to the local clipboard via OSC 52",
+    callback = function()
+      if vim.v.event.operator == "y" and vim.v.event.regname ~= "_" then
+        require("vim.ui.clipboard.osc52").copy("+")(vim.v.event.regcontents)
+      end
+    end,
+  })
+else
+  vim.opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+end
 
 vim.opt.swapfile = false -- 편집 중인 파일의 swap file 을 생성할지를 결정
 
