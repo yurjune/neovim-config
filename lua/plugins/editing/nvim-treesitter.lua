@@ -75,6 +75,14 @@ return {
       if #missing_parsers > 0 then
         treesitter_install.install(missing_parsers, { summary = true })
       end
+    else
+      vim.schedule(function()
+        vim.notify(
+          "tree-sitter CLI not found in PATH. Install tree-sitter-cli to install or update parsers.",
+          vim.log.levels.WARN,
+          { title = "nvim-treesitter" }
+        )
+      end)
     end
 
     vim.api.nvim_create_autocmd("FileType", {
