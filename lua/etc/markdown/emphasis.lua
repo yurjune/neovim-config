@@ -1,4 +1,4 @@
--- These keymaps depend on nvim-surround's default mappings: "S" for add, "ds" for delete
+-- These keymaps depend on nvim-surround's default visual mapping "S" for add
 local M = {}
 
 -- Find where the text starts after a Markdown list marker or task checkbox.
@@ -72,8 +72,7 @@ end
 -- Inside a multiline emphasis it only unwraps when the cursor is on the first line.
 local function toggle_marker(style)
   local char, count = style.char, style.count
-  local escaped = (char:gsub("%W", "%%%0"))
-  local pattern = escaped:rep(count)
+  local marker = char:rep(count)
 
   local buf = vim.api.nvim_get_current_buf()
   local cursor_pos = vim.api.nvim_win_get_cursor(0)
@@ -81,70 +80,43 @@ local function toggle_marker(style)
   local col = cursor_pos[2]
   local line = vim.api.nvim_buf_get_lines(buf, start_row, start_row + 1, false)[1]
 
-  if line:sub(col + 1, col + 1):match(escaped) then
+  if line:sub(col + 1, col + 1) == char then
     local message = ("Cursor is on %s, run inside the %s text"):format(style.char_name, style.name)
     vim.notify(message, vim.log.levels.WARN, { title = "Markdown Keymaps" })
     return
   end
 
-  -- Search for the markers to the left of the cursor position.
-  -- Scanning forward for the last match keeps this correct for markers
-  -- that would read differently in a reversed string.
-  local left_text = line:sub(1, col)
-  local marker_start, search_from = nil, 1
-  while true do
-    local found = left_text:find(pattern, search_from)
-    if not found then
-      break
+  vim.treesitter.get_parser(buf, "markdown"):parse({ start_row, start_row + 1 })
+  local node = vim.treesitter.get_node({ bufnr = buf, ignore_injections = false })
+  while node do
+    if node:type() == style.node then
+      local row, first, last_row, last = node:range()
+      if row == start_row and line:sub(first + 1, first + count) == marker then
+        local text = vim.api.nvim_buf_get_text(buf, row, first, last_row, last, {})
+        if char == "`" then
+          marker = text[1]:match("^`+")
+          count = #marker
+        end
+        if text[#text]:sub(-count) == marker then
+          text[#text] = text[#text]:sub(1, -count - 1)
+          text[1] = text[1]:sub(count + 1)
+          vim.api.nvim_buf_set_text(buf, row, first, last_row, last, text)
+          return
+        end
+      end
     end
-    marker_start, search_from = found, found + 1
+    node = node:parent()
   end
 
-  -- Search to the right of the cursor position and in the following lines
-  local right_text = line:sub(col + 1)
-  local marker_end = right_text:find(pattern)
-  local end_row = start_row
-  while not marker_end and end_row < vim.api.nvim_buf_line_count(buf) - 1 do
-    end_row = end_row + 1
-    local next_line = vim.api.nvim_buf_get_lines(buf, end_row, end_row + 1, false)[1]
-    if next_line == "" then
-      break
-    end
-    right_text = right_text .. "\n" .. next_line
-    marker_end = right_text:find(pattern)
-  end
-  if marker_end then
-    marker_end = col + marker_end
-  end
-
-  if marker_start and marker_end then
-    local text_lines = vim.api.nvim_buf_get_lines(buf, start_row, end_row + 1, false)
-    local text = table.concat(text_lines, "\n")
-    local new_text = text:sub(1, marker_start - 1)
-      .. text:sub(marker_start + count, marker_end - 1)
-      .. text:sub(marker_end + count)
-    vim.api.nvim_buf_set_lines(buf, start_row, end_row + 1, false, vim.split(new_text, "\n"))
-    return
-  end
-
-  local before = line:sub(1, col)
-  local after = line:sub(col + 1)
-  local inside_surround = before:match(pattern .. "[^" .. escaped .. "]*$")
-    and after:match("^[^" .. escaped .. "]*" .. pattern)
-  if inside_surround then
-    -- "." repeats the delete so that both halves of a two-character marker go away.
-    vim.cmd(("normal ds%s%s"):format(char, count == 2 and "." or ""))
-  else
-    vim.cmd("normal viw")
-    add_surround(char, count)
-  end
+  vim.cmd("normal viw")
+  add_surround(char, count)
 end
 
 local STYLES = {
-  { key = "b", char = "*", count = 2, name = "bold", char_name = "an asterisk" },
-  { key = "i", char = "*", count = 1, name = "italic", char_name = "an asterisk" },
-  { key = "s", char = "~", count = 2, name = "strikethrough", char_name = "a tilde" },
-  { key = "c", char = "`", count = 1, name = "inline code", char_name = "a backtick" },
+  { key = "b", node = "strong_emphasis", char = "*", count = 2, name = "bold", char_name = "an asterisk" },
+  { key = "i", node = "emphasis", char = "*", count = 1, name = "italic", char_name = "an asterisk" },
+  { key = "s", node = "strikethrough", char = "~", count = 2, name = "strikethrough", char_name = "a tilde" },
+  { key = "c", node = "code_span", char = "`", count = 1, name = "inline code", char_name = "a backtick" },
 }
 
 function M.setup(buf)
