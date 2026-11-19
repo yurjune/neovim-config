@@ -3,9 +3,15 @@ local files = require("ui.sidebar.files")
 
 local TREE_NAMESPACE = vim.api.nvim_create_namespace("sidebar")
 local CURRENT_FILE_NAMESPACE = vim.api.nvim_create_namespace("sidebar-current-file")
+local CURSOR_NAMESPACE = vim.api.nvim_create_namespace("sidebar-tree-cursor")
 local states = {}
 
-local function highlight_directories(buf, directory_ranges)
+local function set_highlights()
+  vim.api.nvim_set_hl(0, "SidebarCursorName", {
+    fg = "#1e1e2e",
+    bg = "#cba6f7",
+    bold = true,
+  })
   vim.api.nvim_set_hl(0, "SidebarDirectory", {
     fg = "#94e2d5",
     bold = true,
@@ -15,13 +21,41 @@ local function highlight_directories(buf, directory_ranges)
     bg = "#fef3c7",
     bold = true,
   })
+end
+
+local function highlight_directories(buf, names)
   vim.api.nvim_buf_clear_namespace(buf, TREE_NAMESPACE, 0, -1)
 
-  for row, columns in pairs(directory_ranges) do
-    vim.api.nvim_buf_set_extmark(buf, TREE_NAMESPACE, row - 1, columns[1], {
-      end_col = columns[2],
-      hl_group = "SidebarDirectory",
-    })
+  for row, name in pairs(names) do
+    if name.is_directory then
+      vim.api.nvim_buf_set_extmark(buf, TREE_NAMESPACE, row - 1, name.start_col, {
+        end_col = name.end_col,
+        hl_group = "SidebarDirectory",
+        priority = 100,
+      })
+    end
+  end
+end
+
+local function highlight_name(buf, row, namespace, group, priority)
+  local name = states[buf].snapshot.names[row]
+  if not name then
+    vim.api.nvim_buf_del_extmark(buf, namespace, 1)
+    return
+  end
+  vim.api.nvim_buf_set_extmark(buf, namespace, row - 1, name.start_col, {
+    id = 1,
+    end_col = name.end_col,
+    hl_group = group,
+    priority = priority,
+  })
+  return name
+end
+
+local function highlight_cursor(buf)
+  if buf == vim.api.nvim_get_current_buf() and states[buf] then
+    local row = vim.api.nvim_win_get_cursor(0)[1]
+    highlight_name(buf, row, CURSOR_NAMESPACE, "SidebarCursorName", 150)
   end
 end
 
@@ -40,6 +74,7 @@ local function reveal_row(win, row, col, leftcol)
 end
 
 function M.clear(buf)
+  vim.api.nvim_buf_clear_namespace(buf, CURSOR_NAMESPACE, 0, -1)
   vim.api.nvim_buf_clear_namespace(buf, TREE_NAMESPACE, 0, -1)
   vim.api.nvim_buf_clear_namespace(buf, CURRENT_FILE_NAMESPACE, 0, -1)
   states[buf] = nil
@@ -63,22 +98,11 @@ function M.focus_file(win, file)
   local file_col = 0
   local leftcol = 0
 
-  vim.api.nvim_buf_clear_namespace(buf, CURRENT_FILE_NAMESPACE, 0, -1)
-  if row then
-    local line = vim.api.nvim_buf_get_lines(buf, row - 1, row, false)[1]
-    local name = vim.fs.basename(current_file)
-    local start_col = line and line:find(name, 1, true)
-    if start_col then
-      start_col = start_col - 1
-      file_col = start_col
-      local filename_end = vim.fn.strdisplaywidth(line:sub(1, start_col + #name))
-      leftcol = math.max(0, filename_end - vim.api.nvim_win_get_width(win))
-      vim.api.nvim_buf_set_extmark(buf, CURRENT_FILE_NAMESPACE, row - 1, start_col, {
-        end_col = start_col + #name,
-        hl_group = "SidebarCurrentFile",
-        priority = 200,
-      })
-    end
+  local name = highlight_name(buf, row, CURRENT_FILE_NAMESPACE, "SidebarCurrentFile", 200)
+  if name then
+    file_col = name.start_col
+    local filename_end = vim.fn.strdisplaywidth(state.snapshot.output[row]:sub(1, name.end_col))
+    leftcol = math.max(0, filename_end - vim.api.nvim_win_get_width(win))
   end
   reveal_row(win, row, file_col, leftcol)
 end
@@ -172,8 +196,9 @@ function M.render(args)
   vim.api.nvim_buf_set_lines(args.buf, 0, -1, false, snapshot.output)
   vim.bo[args.buf].modifiable = false
 
-  highlight_directories(args.buf, snapshot.directory_ranges)
+  highlight_directories(args.buf, snapshot.names)
   M.focus_file(args.win, args.current_file)
+  highlight_cursor(args.buf)
 end
 
 function M.refresh(win, opts)
@@ -202,11 +227,27 @@ end
 function M.setup(opts)
   local group = vim.api.nvim_create_augroup("sidebar-tree", { clear = true })
 
+  set_highlights()
+  vim.api.nvim_create_autocmd("ColorScheme", { group = group, callback = set_highlights })
+
   vim.api.nvim_create_autocmd("FileType", {
     pattern = opts.sidebar_filetype,
-    desc = "Set sidebar tree keymaps",
+    desc = "Set up sidebar tree navigation and cursor highlighting",
     group = group,
     callback = function(args)
+      vim.api.nvim_create_autocmd({ "WinEnter", "CursorMoved", "WinLeave" }, {
+        group = group,
+        buffer = args.buf,
+        desc = "Highlight the name under the cursor in the focused tree",
+        callback = function(event)
+          if event.event == "WinLeave" then
+            vim.api.nvim_buf_clear_namespace(event.buf, CURSOR_NAMESPACE, 0, -1)
+          else
+            highlight_cursor(event.buf)
+          end
+        end,
+      })
+
       vim.keymap.set("n", "<CR>", function()
         M.open_file(vim.api.nvim_get_current_win())
       end, {

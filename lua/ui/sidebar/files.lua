@@ -61,10 +61,15 @@ local function parse_line(line)
   -- Symlinks are printed as `path -> target`; only the path side is openable.
   local link = path:match("( %-> .*)$") or ""
   path = path:sub(1, #path - #link)
-  local name = (path == "." and "." or vim.fs.basename(path)) .. link
-  local is_directory = plain ~= line
+  local name = path == "." and "." or vim.fs.basename(path)
 
-  return prefix .. name, path, is_directory and { #prefix, #prefix + #name - #link } or nil
+  return prefix .. name .. link,
+    path,
+    {
+      start_col = #prefix,
+      end_col = #prefix + #name,
+      is_directory = plain ~= line,
+    }
 end
 
 local function run(command, cwd, input)
@@ -83,7 +88,7 @@ local function read(opts, cwd)
   local entries = run(build_file_command(opts), cwd)
   -- tree --fromfile reports an error for empty input.
   if #entries == 0 then
-    return { ".", "", "0 directories, 0 files" }, { "." }, { { 0, 1 } }
+    return { ".", "", "0 directories, 0 files" }, { "." }, { { start_col = 0, end_col = 1, is_directory = true } }
   end
   for index, path in ipairs(entries) do
     local target = vim.uv.fs_readlink(vim.fs.joinpath(cwd, path))
@@ -92,13 +97,13 @@ local function read(opts, cwd)
     end
   end
   local lines = run(build_command(opts, { "-C", "-f" }), cwd, table.concat(entries, "\n") .. "\n")
-  local output, paths, directory_ranges = {}, {}, {}
+  local output, paths, names = {}, {}, {}
 
   for row, line in ipairs(lines) do
-    output[row], paths[row], directory_ranges[row] = parse_line(line)
+    output[row], paths[row], names[row] = parse_line(line)
   end
 
-  return output, paths, directory_ranges
+  return output, paths, names
 end
 
 -- Rendering and navigation share the same absolute-path index.
@@ -122,12 +127,12 @@ function M.get(opts, cwd, refresh)
     return cached
   end
 
-  local output, paths, directory_ranges = read(opts, cwd)
+  local output, paths, names = read(opts, cwd)
   cached = {
     output = output,
     paths = paths,
     rows = index_rows(paths, cwd),
-    directory_ranges = directory_ranges,
+    names = names,
     cwd = cwd,
   }
   cached_options = vim.deepcopy(opts)
