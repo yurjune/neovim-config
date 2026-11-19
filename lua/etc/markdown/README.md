@@ -12,4 +12,5 @@ as a self-contained module instead of growing inside `lua/core/`.
 - Bullets appear in `heading.lua` only as the other end of a heading conversion — list editing of its own, such as
   checkboxes or renumbering, belongs in a new module.
 - The emphasis keymaps use the Markdown and Markdown inline Tree-sitter parsers to identify existing spans and
-  nvim-surround's visual `S` mapping to wrap selections.
+  nvim-surround's visual `S` mapping to wrap selections. See the
+  [Markdown emphasis tests](../../../tests/markdown_emphasis_spec.lua).
