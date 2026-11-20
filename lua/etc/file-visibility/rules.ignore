@@ -13,6 +13,9 @@
 # Git configuration
 !.gitignore
 
+# Syncthing
+!.stignore
+
 # Formatting and linting
 !.prettier*
 !.eslintrc*
