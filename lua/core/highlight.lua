@@ -29,6 +29,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     vim.api.nvim_set_hl(0, "CursorLine", {
       bg = "NONE",
     })
+    vim.api.nvim_set_hl(0, "EditorCursor", {
+      bg = "#cba6f7",
+    })
     vim.api.nvim_set_hl(0, "CursorLineNr", {
       fg = vim.g.colors.rose_beige,
     })

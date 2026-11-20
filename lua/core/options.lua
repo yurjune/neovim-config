@@ -57,7 +57,7 @@ vim.opt.guicursor = {
   "i-ci-ve:ver25",
   "r-cr:hor20",
   "o:hor50",
-  "a:blinkwait480-blinkoff480-blinkon480",
+  "a:blinkwait480-blinkoff480-blinkon480-EditorCursor",
 }
 
 -- Persist undo history across Neovim sessions
