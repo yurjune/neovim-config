@@ -9,7 +9,7 @@ local states = {}
 local function set_highlights()
   vim.api.nvim_set_hl(0, "SidebarCursorName", {
     fg = "#1e1e2e",
-    bg = "#cba6f7",
+    bg = vim.g.colors.lavender,
     bold = true,
   })
   vim.api.nvim_set_hl(0, "SidebarDirectory", {
