@@ -24,7 +24,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "*",
   callback = function()
     vim.api.nvim_set_hl(0, "Visual", {
-      bg = vim.g.colors_transparent.cursorline,
+      bg = vim.g.colors_transparent.visual,
     })
     vim.api.nvim_set_hl(0, "CursorLine", {
       bg = "NONE",
@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       fg = vim.g.colors.rose_beige,
     })
     vim.api.nvim_set_hl(0, "Folded", {
-      bg = vim.g.colors_transparent.cursorline,
+      bg = vim.g.colors_transparent.visual,
     })
   end,
 })

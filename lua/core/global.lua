@@ -14,6 +14,7 @@ vim.g.colors = {
 
 vim.g.colors_transparent = {
   cursorline = "#1a2332",
+  visual = "#3b4b68",
 }
 
 -- check leetcode.nvim arg option
