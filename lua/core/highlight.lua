@@ -30,8 +30,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       bg = "NONE",
     })
     vim.api.nvim_set_hl(0, "EditorCursor", {
-      -- The TUI ignores the cursor highlight's foreground color.
-      bg = vim.g.colors.lavender,
+      reverse = true, -- Use the terminal's default cursor colors. The TUI ignores fg.
+      -- bg = "",
     })
     vim.api.nvim_set_hl(0, "CursorLineNr", {
       fg = vim.g.colors.rose_beige,
