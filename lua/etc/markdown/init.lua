@@ -4,5 +4,6 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function(ev)
     require("etc.markdown.heading").setup(ev.buf)
     require("etc.markdown.emphasis").setup(ev.buf)
+    require("etc.markdown.conversions").setup(ev.buf)
   end,
 })
