@@ -60,3 +60,6 @@ bin/
 
 # cache
 __pycache__
+
+# Syncthing
+syncthing-data
