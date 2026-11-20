@@ -55,7 +55,7 @@ end
 local function highlight_cursor(buf)
   if buf == vim.api.nvim_get_current_buf() and states[buf] then
     local row = vim.api.nvim_win_get_cursor(0)[1]
-    highlight_name(buf, row, CURSOR_NAMESPACE, "SidebarCursorName", 150)
+    highlight_name(buf, row, CURSOR_NAMESPACE, "SidebarCursorName", 250)
   end
 end
 
