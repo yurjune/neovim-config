@@ -1,11 +1,13 @@
 local assert = require("luassert")
+local stub = require("luassert.stub")
 
 require("etc.markdown")
 
 describe("Markdown link keymap", function()
-  local root, source, discovery, review
+  local root, source, discovery, review, open
 
   before_each(function()
+    open = stub(vim.ui, "open")
     root = vim.fn.tempname()
     vim.fn.mkdir(root .. "/discovery-step", "p")
     root = vim.uv.fs_realpath(root)
@@ -17,6 +19,7 @@ describe("Markdown link keymap", function()
   end)
 
   after_each(function()
+    open:revert()
     for _, path in ipairs({ source, discovery, review }) do
       local buf = vim.fn.bufnr(path)
       if buf ~= -1 then
@@ -26,7 +29,7 @@ describe("Markdown link keymap", function()
     vim.fn.delete(root, "rf")
   end)
 
-  local function follow(lines, cursor_text)
+  local function follow(lines, cursor_text, key)
     vim.fn.writefile(
       vim.list_extend(vim.deepcopy(lines), {
         "",
@@ -40,7 +43,7 @@ describe("Markdown link keymap", function()
     vim.bo.filetype = "markdown"
     local col = assert(lines[1]:find(cursor_text, 1, true)) - 1
     vim.api.nvim_win_set_cursor(0, { 1, col })
-    vim.cmd.normal({ args = { vim.keycode("<leader>gf") } })
+    vim.cmd.normal({ args = { key or "gf" } })
     return col
   end
 
@@ -65,9 +68,24 @@ describe("Markdown link keymap", function()
     assert.equals(review, vim.api.nvim_buf_get_name(0))
   end)
 
-  it("stays put when links appear only to the left or on the next line", function()
-    local col = follow({ "[Product discovery] first", "[Profitability review]" }, "first")
-    assert.equals(source, vim.api.nvim_buf_get_name(0))
+  it("uses native gf when Markdown links appear only to the left or on the next line", function()
+    follow({ "[Product discovery] ./review.md", "[Discovery results]" }, "./review.md")
+    assert.equals(review, vim.api.nvim_buf_get_name(0))
+  end)
+
+  it("opens an HTTP(S) reference link to the right with gx", function()
+    local url = "https://example.com/guide?a=1&b=2#part"
+    local col = follow({ "Start [Guide][web]", "", "[web]: <" .. url .. ">" }, "Start", "gx")
+    assert.stub(open).was_called_with(url)
     assert.same({ 1, col }, vim.api.nvim_win_get_cursor(0))
+  end)
+
+  it("uses native gx on a plain URL even after Markdown buffer setup runs again", function()
+    local url = "https://example.com/guide"
+    follow({ url }, url, "gx")
+    vim.bo.filetype = "markdown"
+    vim.cmd.normal({ args = { "gx" } })
+    assert.stub(open).was_called(2)
+    assert.stub(open).was_called_with(url)
   end)
 end)
