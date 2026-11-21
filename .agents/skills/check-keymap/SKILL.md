@@ -1,6 +1,8 @@
 ---
 name: check-keymap
-description: Find where a key is already bound in this Neovim config, or verify a key is free. Use before adding or changing any keymap.
+description: >-
+  Use whenever a Neovim key or key sequence is proposed for a feature, or when checking whether a key is free, already
+  bound, or conflicts, even if the user is only asking for advice. Also use before adding or changing any keymap.
 ---
 
 # Checking a keymap
