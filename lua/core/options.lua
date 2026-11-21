@@ -70,13 +70,14 @@ local is_ssh = vim.env.SSH_CONNECTION ~= nil or vim.env.SSH_TTY ~= nil
 local clipboard_group = vim.api.nvim_create_augroup("SshClipboard", { clear = true })
 
 if is_ssh then
-  -- Keep p local; paste external clipboard contents with the terminal's paste shortcut.
+  -- Query the terminal clipboard only when explicitly using a clipboard register.
+  vim.g.clipboard = "osc52"
   vim.opt.clipboard:remove({ "unnamed", "unnamedplus" })
   vim.api.nvim_create_autocmd("TextYankPost", {
     group = clipboard_group,
     desc = "Copy SSH yanks to the local clipboard via OSC 52",
     callback = function()
-      if vim.v.event.operator == "y" and vim.v.event.regname ~= "_" then
+      if vim.v.event.operator == "y" and vim.v.event.regname ~= "_" and vim.v.event.regname ~= "+" then
         require("vim.ui.clipboard.osc52").copy("+")(vim.v.event.regcontents)
       end
     end,
