@@ -10,6 +10,7 @@ vim.g.colors = {
   rose_beige = "#f5e0dc",
   gold = "#f9e2af",
   lavender = "#cba6f7",
+  orange = "#FFB86C",
 }
 
 vim.g.colors_transparent = {
