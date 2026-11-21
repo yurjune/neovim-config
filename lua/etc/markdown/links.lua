@@ -159,10 +159,27 @@ local function follow_link(buf)
   end
 end
 
+local function open_web_link(buf)
+  local url = (link_destination(buf) or ""):gsub("^<(.*)>$", "%1")
+  if not url:lower():match("^https?://") then
+    vim.notify("Select an HTTP(S) Markdown link", vim.log.levels.WARN)
+    return
+  end
+
+  local _, err = vim.ui.open(url)
+  if err then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
+end
+
 function M.setup(buf)
   vim.keymap.set("n", "<leader>gf", function()
     follow_link(buf)
   end, { buffer = buf, desc = "Follow local Markdown link" })
+
+  vim.keymap.set("n", "<leader>gx", function()
+    open_web_link(buf)
+  end, { buffer = buf, desc = "Open Markdown web link" })
 end
 
 return M
