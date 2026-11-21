@@ -62,6 +62,9 @@ end
 
 local function link_destination(buf)
   local parser = vim.treesitter.get_parser(buf, "markdown")
+  if not parser then
+    return
+  end
   local tree = parser:parse(true)[1]
   local destinations = reference_destinations(tree:root(), buf)
   local link = vim.treesitter.get_node({ bufnr = buf, ignore_injections = false })
@@ -94,7 +97,11 @@ local function link_destination(buf)
 end
 
 local function jump_to_heading(buf, anchor)
-  local tree = vim.treesitter.get_parser(buf, "markdown"):parse()[1]
+  local parser = vim.treesitter.get_parser(buf, "markdown")
+  if not parser then
+    return
+  end
+  local tree = parser:parse()[1]
   for _, heading in headings:iter_captures(tree:root(), buf) do
     local title = node_text(heading, buf)
     if heading:parent():type() == "atx_heading" then
