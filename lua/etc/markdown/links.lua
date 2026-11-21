@@ -1,6 +1,8 @@
 local M = {}
 
-local reference_children = {
+local link_children = {
+  inline_link = "link_destination",
+  link_reference_definition = "link_destination",
   shortcut_link = "link_text",
   collapsed_reference_link = "link_text",
   full_reference_link = "link_label",
@@ -46,16 +48,17 @@ end
 
 local function resolve_link(link, buf, destinations)
   local kind = link:type()
+  local child_kind = link_children[kind]
   for child in link:iter_children() do
-    if kind == "inline_link" and child:type() == "link_destination" then
-      return node_text(child, buf)
-    end
-    if child:type() == reference_children[kind] then
-      local label = node_text(child, buf)
-      if kind == "full_reference_link" then
-        label = label:sub(2, -2)
+    if child:type() == child_kind then
+      local text = node_text(child, buf)
+      if child_kind == "link_destination" then
+        return text
       end
-      return destinations[normalize_label(label)]
+      if kind == "full_reference_link" then
+        text = text:sub(2, -2)
+      end
+      return destinations[normalize_label(text)]
     end
   end
 end
@@ -68,7 +71,7 @@ local function link_destination(buf)
   local tree = parser:parse(true)[1]
   local destinations = reference_destinations(tree:root(), buf)
   local link = vim.treesitter.get_node({ bufnr = buf, ignore_injections = false })
-  while link and not reference_children[link:type()] and link:type() ~= "inline_link" do
+  while link and not link_children[link:type()] do
     link = link:parent()
   end
   local destination = link and resolve_link(link, buf, destinations)

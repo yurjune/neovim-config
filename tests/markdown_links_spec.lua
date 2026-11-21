@@ -81,6 +81,12 @@ describe("Markdown link keymap", function()
     assert.same({ 1, col }, vim.api.nvim_win_get_cursor(0))
   end)
 
+  it("follows the destination from inside the reference definition label", function()
+    follow({ "[보고서 생성]: discovery-step/README.md#discovery-results" }, "보고서 생성")
+    assert.equals(discovery, vim.api.nvim_buf_get_name(0))
+    assert.same({ 3, 0 }, vim.api.nvim_win_get_cursor(0))
+  end)
+
   it("opens an HTTP(S) reference link to the right with gf", function()
     local url = "https://example.com/guide?a=1&b=2#part"
     local col = follow({ "Start [Guide][web]", "", "[web]: <" .. url .. ">" }, "Start")
