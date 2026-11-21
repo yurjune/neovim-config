@@ -58,13 +58,6 @@ return {
       toggle_diffview_against_branch,
       desc = "Toggle Git review against branch",
     },
-    {
-      "<leader>gf",
-      function()
-        toggle_diffview("DiffviewFileHistory %")
-      end,
-      desc = "Toggle Git file history",
-    },
   },
   opts = function()
     local actions = require("diffview.actions")
