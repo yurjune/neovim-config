@@ -73,19 +73,25 @@ describe("Markdown link keymap", function()
     assert.equals(review, vim.api.nvim_buf_get_name(0))
   end)
 
-  it("opens an HTTP(S) reference link to the right with gx", function()
+  it("opens an HTTP(S) reference link under the cursor with gf", function()
     local url = "https://example.com/guide?a=1&b=2#part"
-    local col = follow({ "Start [Guide][web]", "", "[web]: <" .. url .. ">" }, "Start", "gx")
+    local col = follow({ "[Guide][web] [Product discovery]", "", "[web]: <" .. url .. ">" }, "Guide")
+    assert.stub(open).was_called_with(url)
+    assert.equals(source, vim.api.nvim_buf_get_name(0))
+    assert.same({ 1, col }, vim.api.nvim_win_get_cursor(0))
+  end)
+
+  it("opens an HTTP(S) reference link to the right with gf", function()
+    local url = "https://example.com/guide?a=1&b=2#part"
+    local col = follow({ "Start [Guide][web]", "", "[web]: <" .. url .. ">" }, "Start")
     assert.stub(open).was_called_with(url)
     assert.same({ 1, col }, vim.api.nvim_win_get_cursor(0))
   end)
 
-  it("uses native gx on a plain URL even after Markdown buffer setup runs again", function()
+  it("keeps native gx on a plain URL in Markdown", function()
     local url = "https://example.com/guide"
     follow({ url }, url, "gx")
-    vim.bo.filetype = "markdown"
-    vim.cmd.normal({ args = { "gx" } })
-    assert.stub(open).was_called(2)
+    assert.equals(0, vim.fn.maparg("gx", "n", false, true).buffer)
     assert.stub(open).was_called_with(url)
   end)
 end)

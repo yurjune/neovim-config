@@ -129,8 +129,15 @@ local function follow_link(buf)
     vim.cmd.normal({ args = { vim.v.count1 .. "gf" }, bang = true })
     return
   end
-
   destination = destination:gsub("^<(.*)>$", "%1")
+  if destination:lower():match("^https?://") then
+    local _, err = vim.ui.open(destination)
+    if err then
+      vim.notify(err, vim.log.levels.ERROR)
+    end
+    return
+  end
+
   local path, anchor = destination:match("^([^#]*)#?(.*)$")
   if path:match("^%a[%w+.-]*:") or vim.startswith(path, "//") then
     vim.notify("Place the cursor on a local Markdown file link", vim.log.levels.WARN)
@@ -159,36 +166,10 @@ local function follow_link(buf)
   end
 end
 
-local function open_web_link(destination)
-  local url = destination:gsub("^<(.*)>$", "%1")
-  if not url:lower():match("^https?://") then
-    vim.notify("Select an HTTP(S) Markdown link", vim.log.levels.WARN)
-    return
-  end
-
-  local _, err = vim.ui.open(url)
-  if err then
-    vim.notify(err, vim.log.levels.ERROR)
-  end
-end
-
 function M.setup(buf)
-  local default_gx = vim.iter(vim.api.nvim_get_keymap("n")):find(function(map)
-    return map.lhs == "gx"
-  end)
-
   vim.keymap.set("n", "gf", function()
     follow_link(buf)
-  end, { buffer = buf, desc = "Follow local Markdown link" })
-
-  vim.keymap.set("n", "gx", function()
-    local destination = link_destination(buf)
-    if destination then
-      open_web_link(destination)
-    elseif default_gx and default_gx.callback then
-      default_gx.callback()
-    end
-  end, { buffer = buf, desc = "Open Markdown web link" })
+  end, { buffer = buf, desc = "Follow Markdown link" })
 end
 
 return M
