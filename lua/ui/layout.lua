@@ -18,7 +18,7 @@ local layouts = {
     },
   },
   wide = {
-    sidebar = { 20, 40, 60, 80, 100, 120 },
+    sidebar = { 16, 32, 48, 64, 80, 96 },
     sidekick = 70,
     toggleterm = {
       width = 180,
