@@ -1,6 +1,7 @@
 -- Scroll animation plugin
 return {
   "psliwka/vim-smoothie",
+  event = "VeryLazy",
   cond = function()
     return not vim.g.neovide
   end,
