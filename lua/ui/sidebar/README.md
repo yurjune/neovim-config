@@ -3,7 +3,7 @@
 The sidebar is a fixed-width split on the left of the current tab. It has two modes:
 
 - **blank** keeps an empty contextual area at the configured sidebar width.
-- **tree** renders the current working directory with the `tree` CLI and opens at the default sidebar width.
+- **tree** renders the current working directory with the `tree` CLI in the sidebar at its current width.
 
 [`init.lua`](init.lua) owns the split and exposes operations for opening, closing, focusing, and toggling the sidebar
 and tree. [`files.lua`](files.lua) owns file discovery, tree order, and adjacent-file lookup. [`tree.lua`](tree.lua)
@@ -13,7 +13,7 @@ owns rendering, cursor navigation, and current-file tracking.
 
 Three globals preserve the intended UI state across session restoration:
 
-- `vim.g.SidebarWidth` is the preferred width for blank mode.
+- `vim.g.SidebarWidth` is the preferred width of the sidebar.
 - `vim.g.SidebarMode` records `blank` or `tree`.
 - `vim.g.SidebarOpen` records whether the split should exist.
 

@@ -192,10 +192,9 @@ function M.open_tree(opts)
   end
   local cwd = vim.fn.getcwd()
 
-  local win = open_window()
+  local win = find_window() or open_window()
   local buf = vim.api.nvim_win_get_buf(win)
   set_mode(buf, SIDEBAR_MODE.tree)
-  resize_window(win, DEFAULT_WIDTH)
 
   tree.render({
     win = win,
@@ -219,7 +218,6 @@ function M.close_tree()
   end
 
   set_mode(buf, SIDEBAR_MODE.blank)
-  resize_window(sidebar, vim.g.SidebarWidth)
 end
 
 function M.refresh_tree()
