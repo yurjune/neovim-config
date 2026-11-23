@@ -7,7 +7,6 @@ local tree = require("ui.sidebar.tree")
 local files = require("ui.sidebar.files")
 local SIDEBAR_WIDTHS = layout.sidebar
 local DEFAULT_WIDTH = SIDEBAR_WIDTHS[2]
-local TREE_WIDTH = SIDEBAR_WIDTHS[3]
 
 local SIDEBAR_MODE = {
   blank = "blank",
@@ -196,7 +195,7 @@ function M.open_tree(opts)
   local win = open_window()
   local buf = vim.api.nvim_win_get_buf(win)
   set_mode(buf, SIDEBAR_MODE.tree)
-  resize_window(win, TREE_WIDTH)
+  resize_window(win, DEFAULT_WIDTH)
 
   tree.render({
     win = win,

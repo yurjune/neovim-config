@@ -3,8 +3,7 @@
 The sidebar is a fixed-width split on the left of the current tab. It has two modes:
 
 - **blank** keeps an empty contextual area at the configured sidebar width.
-- **tree** renders the current working directory with the `tree` CLI and temporarily uses the tree width from
-  [`ui.layout`](../layout.lua).
+- **tree** renders the current working directory with the `tree` CLI and opens at the default sidebar width.
 
 [`init.lua`](init.lua) owns the split and exposes operations for opening, closing, focusing, and toggling the sidebar
 and tree. [`files.lua`](files.lua) owns file discovery, tree order, and adjacent-file lookup. [`tree.lua`](tree.lua)
