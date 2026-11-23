@@ -22,4 +22,8 @@ vim.g.colors_transparent = {
 vim.g.leetcode = vim.fn.argv(0, -1) == "leet"
 vim.g.leetcode_lsp_off = vim.g.leetcode
 
+-- Running inside Ghostty with its CLI reachable.
+-- GHOSTTY_RESOURCES_DIR survives tmux, unlike TERM_PROGRAM.
+vim.g.ghostty = vim.env.GHOSTTY_RESOURCES_DIR ~= nil and vim.fn.executable("ghostty") == 1
+
 vim.g.sidekick_buf_filetype = "sidekick_terminal"

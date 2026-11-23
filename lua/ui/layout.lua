@@ -44,8 +44,15 @@ vim.api.nvim_create_autocmd("User", {
   desc = "Show the current columns and layout",
   group = vim.api.nvim_create_augroup("layout-info", { clear = true }),
   callback = function()
-    local text = ("vim.o.columns: %d\nlayout: %s"):format(vim.o.columns, name)
-    vim.notify(text, vim.log.levels.INFO, { title = "Layout Info" })
+    local lines = { ("vim.o.columns: %d"):format(vim.o.columns) }
+    -- show-config reads the config file, so window zoom is not reflected.
+    if vim.g.ghostty then
+      local config = vim.system({ "ghostty", "+show-config" }, { text = true }):wait().stdout or ""
+      local font_size = config:match("\nfont%-size = ([^\n]+)") or config:match("^font%-size = ([^\n]+)")
+      table.insert(lines, ("font-size: %s"):format(font_size or "unknown"))
+    end
+    table.insert(lines, ("layout: %s"):format(name))
+    vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO, { title = "Layout Info" })
   end,
 })
 
