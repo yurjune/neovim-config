@@ -26,6 +26,7 @@
 !.yarnrc
 !.npmrc
 !.nvmrc
+!.luarc.json
 
 # Project tooling
 !.github
