@@ -26,6 +26,7 @@ vim.diagnostic.config({
   },
   float = {
     border = "rounded",
+    source = true,
     winhighlight = "Normal:DiagnosticFloat,FloatBorder:DiagnosticBorder",
   },
 })
