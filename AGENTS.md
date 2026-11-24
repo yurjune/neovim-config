@@ -12,7 +12,8 @@
 ## Validation
 
 - Format changed Lua files with `stylua`; the repository uses `.stylua.toml`.
-- Do not run `nvim --headless` as a routine check; the `update-plugins` skill is the exception.
+- Do not run `nvim --headless` as a routine check; the `update-plugins` skill and the test suite are the exceptions.
+- After changing code that `tests/*_spec.lua` covers, run `nvim -l tests/run.lua` from the repository root.
 
 ## Project Structure
 
