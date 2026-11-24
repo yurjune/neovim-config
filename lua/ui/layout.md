@@ -11,8 +11,8 @@
 | Layout  | Column count |
 | ------- | ------------ |
 | compact | Below `200`  |
-| medium  | `200 ~ 220`  |
-| wide    | Above `220`  |
+| medium  | `200 ~ 280`  |
+| wide    | Above `280`  |
 
 ## Conditions
 
@@ -28,4 +28,6 @@
 | MacBook Pro 14 |        13 |             188 |
 | 4K 27-inch     |        12 |             273 |
 | 4K 27-inch     |        13 |             239 |
-| 5K 27-inch     |        15 |             284 |
+| 5K 27-inch     |        14 |             300 |
+| 5K 27-inch*    |        15 |             284 |
+| 5K 27-inch     |        16 |             269 |

@@ -18,7 +18,7 @@ local layouts = {
     },
   },
   wide = {
-    sidebar = { 16, 32, 48, 64, 80, 96 },
+    sidebar = { 20, 40, 60, 80, 100, 120 },
     sidekick = 70,
     toggleterm = {
       width = 180,
@@ -33,7 +33,7 @@ local name
 
 if columns < 200 then
   name = "compact"
-elseif columns <= 220 then
+elseif columns <= 280 then
   name = "medium"
 else
   name = "wide"
