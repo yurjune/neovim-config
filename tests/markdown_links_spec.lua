@@ -8,9 +8,9 @@ describe("Markdown link keymap", function()
 
   before_each(function()
     open = stub(vim.ui, "open")
-    root = vim.fn.tempname()
-    vim.fn.mkdir(root .. "/getting-started", "p")
-    root = vim.uv.fs_realpath(root)
+    local tmp = vim.fn.tempname()
+    vim.fn.mkdir(tmp .. "/getting-started", "p")
+    root = assert(vim.uv.fs_realpath(tmp))
     source = root .. "/README.md"
     guide = root .. "/getting-started/README.md"
     changelog = root .. "/changelog.md"
