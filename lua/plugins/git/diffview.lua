@@ -35,6 +35,29 @@ local function toggle_diffview_against_branch()
   end)
 end
 
+local function toggle_commit_diffview()
+  if close_diffviews() then
+    return
+  end
+
+  vim.ui.input({ prompt = "Commits back (0 = HEAD): ", default = "0" }, function(input)
+    if not input then
+      return
+    end
+
+    local offset = vim.trim(input)
+    if offset == "" then
+      offset = "0"
+    end
+    if not offset:match("^%d+$") then
+      vim.notify("Enter a non-negative commit offset", vim.log.levels.WARN)
+      return
+    end
+
+    vim.cmd({ cmd = "DiffviewOpen", args = { "HEAD~" .. offset .. "^!" } })
+  end)
+end
+
 return {
   "sindrets/diffview.nvim",
   cmd = {
@@ -57,6 +80,11 @@ return {
       "<leader>gc",
       toggle_diffview_against_branch,
       desc = "Toggle Git review against branch",
+    },
+    {
+      "<leader>gd",
+      toggle_commit_diffview,
+      desc = "Toggle Git commit diff",
     },
   },
   opts = function()
