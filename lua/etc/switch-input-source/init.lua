@@ -1,4 +1,4 @@
--- Switch input source when leaving or entering insert mode or a specific buffer
+-- Switch input source on focus, insert mode, and specific buffer transitions
 -- Needs specific config in Hammerspoon
 
 local M = {}
@@ -40,6 +40,14 @@ local function is_sidekick_buf(buf)
 end
 
 local augroup = vim.api.nvim_create_augroup("SwitchInputSource", { clear = true })
+
+if vim.env.TMUX and vim.env.TMUX ~= "" then
+  vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {
+    group = augroup,
+    desc = "Switch to English when entering Neovim in tmux",
+    callback = M.switch_to_english,
+  })
+end
 
 vim.api.nvim_create_autocmd("InsertLeave", {
   group = augroup,
