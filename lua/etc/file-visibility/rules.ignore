@@ -50,6 +50,7 @@ build/
 out/
 coverage/
 storybook-static/
+graphify-out
 
 # Java / JVM build outputs
 target/
