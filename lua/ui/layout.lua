@@ -10,7 +10,7 @@ local layouts = {
     },
   },
   medium = {
-    sidebar = { 16, 32, 48, 64, 80, 96 },
+    sidebar = { 20, 40, 60, 80, 100, 120 },
     sidekick = 62,
     toggleterm = {
       width = 170,
