@@ -11,6 +11,7 @@ vim.g.colors = {
   gold = "#f9e2af",
   lavender = "#cba6f7",
   orange = "#FFB86C",
+  brown = "#26231c",
 }
 
 vim.g.colors_transparent = {
