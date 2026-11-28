@@ -34,6 +34,10 @@ return {
         name = "work-notes",
         path = "~/obsidian/work-notes",
       },
+      {
+        name = "seller",
+        path = "~/github/seller",
+      },
     },
     completion = {
       min_chars = 1,
