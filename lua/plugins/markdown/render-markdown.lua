@@ -40,8 +40,11 @@ return {
       },
       code = {
         enabled = true,
-        -- Determines how the top / bottom of code block are rendered.
-        border = "thick",
+        -- Keep the original opening and closing fences visible.
+        conceal_delimiters = false,
+        language = false,
+        border = "none",
+        background_inset = 0,
         width = "full", -- block | full
         -- Turn on / off inline code related rendering.
         inline = true,
